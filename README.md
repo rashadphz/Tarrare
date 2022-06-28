@@ -1,4 +1,4 @@
-# Student to Student Delivery (No Name Currently)
+# Tarrare (Student to Student Delivery) 
 
 ## Table of Contents
 1. [Overview](#Overview)
