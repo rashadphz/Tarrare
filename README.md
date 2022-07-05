@@ -13,7 +13,7 @@
 
 The application allows students to order food for delivery on campus
 and have it picked up and delivered by another student while
-minimizing inconvenience for both students.
+optimizing convenience for both students.
 
 ### App Evaluation
 
@@ -194,16 +194,16 @@ minimizing inconvenience for both students.
 
 #### Existing API Endpoints
 
-##### Edamam Nutrition Analysis API Documentation
+##### TODO
 
-- BASEURL - [https://api.edamam.com]
+- BASEURL - [TODO]
 
   | HTTP Verb | Endpoint                  | Description                |
   | --------- | ------------------------- | -------------------------- |
-  | `GET`     | /search                   | search for recipes         |
-  | `GET`     | /search?q=query           | query text for the recipes |
-  | `GET`     | /search?calories=calories | calories of the meal       |
-  | `GET`     | /search?health=health     | health type of the meal    |
+  | `GET`     | /search                   | TODO                       |
+  | `GET`     | /search?q=query           | TODO                       |
+  | `GET`     | /search?calories=calories | TODO                       |
+  | `GET`     | /search?health=health     | TODO                       |
 
 ## Sprint 1 GIFs:
 
