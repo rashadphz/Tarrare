@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int            @id @default(autoincrement())
+  firstName     String         @db.VarChar(255)
+  lastName      String         @db.VarChar(255)
+  email         String         @unique
+  emailVerified Boolean?
+  picture       String?        @db.VarChar(512)
+  dateCreated   DateTime       @default(now())
+  lastLogin     DateTime?      @db.Date
+  delivering    Boolean        @default(false)
+  profile       Profile?
+  orders        Order[]
+  deliveries    Delivery[]
+  university    University?    @relation(fields: [universityId], references: [id])
+  universityId  Int
+  Conversation  Conversation[]
+}
+
+model Profile {
+  id                     Int  @id @default(autoincrement())
+  completedDeliveryCount Int  @default(0)
+  completedOrderCount    Int  @default(0)
+  user                   User @relation(fields: [userId], references: [id])
+  userId                 Int  @unique
+}
+
+// DELIVERY/ORDER TABLES
+
+model University {
+  id           Int      @id @default(autoincrement())
+  email_ending String?
+  full_name    String?
+  location     Location @relation(fields: [locationId], references: [id])
+  locationId   Int
+  students     User[]
+}
+
+model Order {
+  order_id           Int              @id @default(autoincrement())
+  completed          Boolean          @default(false)
+  user               User             @relation(fields: [userId], references: [id])
+  userId             Int              @unique
+  resturant          Resturant        @relation(fields: [resturantId], references: [id])
+  resturantId        Int
+  deliveryBuilding   DeliveryBuilding @relation(fields: [deliveryBuildingId], references: [id])
+  deliveryBuildingId Int
+}
+
+model Delivery {
+  delivery_id        Int              @id @default(autoincrement())
+  completed          Boolean          @default(false)
+  user               User             @relation(fields: [userId], references: [id])
+  userId             Int              @unique
+  resturant          Resturant        @relation(fields: [resturantId], references: [id])
+  resturantId        Int
+  deliveryBuilding   DeliveryBuilding @relation(fields: [deliveryBuildingId], references: [id])
+  deliveryBuildingId Int
+}
+
+model Resturant {
+  id         Int        @id @default(autoincrement())
+  orders     Order[]
+  deliveries Delivery[]
+  location   Location   @relation(fields: [locationId], references: [id])
+  locationId Int
+}
+
+model DeliveryBuilding {
+  id         Int        @id @default(autoincrement())
+  orders     Order[]
+  deliveries Delivery[]
+  location   Location   @relation(fields: [locationId], references: [id])
+  locationId Int
+}
+
+model Location {
+  id               Int                @id @default(autoincrement())
+  name             String?
+  fullAddress      String             @db.VarChar(255)
+  state            String             @db.VarChar(255)
+  city             String             @db.VarChar(255)
+  zipcode          Int
+  University       University[]
+  Resturant        Resturant[]
+  DeliveryBuilding DeliveryBuilding[]
+}
+
+// CHAT/MESSAGING TABLES
+model Conversation {
+  convo_id  Int  @id @default(autoincrement())
+}
+
+model Message {
+  id Int @id @default(autoincrement())
+}
