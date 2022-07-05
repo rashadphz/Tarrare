@@ -159,11 +159,7 @@ optimizing convenience for both students.
 
 ### Models
 
-#### User
-
-| Property | Type | Description                            |
-| -------- | ---- | -------------------------------------- |
-| id       | Int  | unique id for the user (default field) |
+![](dbschemaimg.png)
 
 ### Networking
 
