@@ -25,7 +25,10 @@ model User {
   deliveries    Delivery[]
   university    University?    @relation(fields: [universityId], references: [id])
   universityId  Int
+  convoUserOnes Conversation[] @relation("convoUserOne")
+  convoUserTwos Conversation[] @relation("convoUserTwo")
   Conversation  Conversation[]
+  Message       Message[]
 }
 
 model Profile {
@@ -48,7 +51,7 @@ model University {
 }
 
 model Order {
-  order_id           Int              @id @default(autoincrement())
+  id                 Int              @id @default(autoincrement())
   completed          Boolean          @default(false)
   user               User             @relation(fields: [userId], references: [id])
   userId             Int              @unique
@@ -59,7 +62,7 @@ model Order {
 }
 
 model Delivery {
-  delivery_id        Int              @id @default(autoincrement())
+  id                 Int              @id @default(autoincrement())
   completed          Boolean          @default(false)
   user               User             @relation(fields: [userId], references: [id])
   userId             Int              @unique
@@ -99,9 +102,22 @@ model Location {
 
 // CHAT/MESSAGING TABLES
 model Conversation {
-  convo_id  Int  @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
+  convoUserOne   User?     @relation("convoUserOne", fields: [convoUserOneId], references: [id])
+  convoUserOneId Int?
+  convoUserTwo   User?     @relation("convoUserTwo", fields: [convoUserTwoId], references: [id])
+  convoUserTwoId Int?
+  User           User?     @relation(fields: [userId], references: [id])
+  userId         Int?
+  messages       Message[]
 }
 
 model Message {
-  id Int @id @default(autoincrement())
+  id       Int          @id @default(autoincrement())
+  convo    Conversation @relation(fields: [convo_id], references: [id])
+  convo_id Int
+  author   User         @relation(fields: [userId], references: [id])
+  userId   Int
+  content  String
+  sentAt   DateTime     @default(now())
 }
