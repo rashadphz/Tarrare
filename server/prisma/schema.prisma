@@ -42,12 +42,12 @@ model Profile {
 // DELIVERY/ORDER TABLES
 
 model University {
-  id           Int      @id @default(autoincrement())
-  email_ending String?
-  full_name    String?
-  location     Location @relation(fields: [locationId], references: [id])
-  locationId   Int
-  students     User[]
+  id          Int      @id @default(autoincrement())
+  emailEnding String?
+  fullName    String?
+  location    Location @relation(fields: [locationId], references: [id])
+  locationId  Int
+  students    User[]
 }
 
 model Order {
