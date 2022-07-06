@@ -17,6 +17,9 @@ app.get("/users", (req: Request, res: Response) => {
 app.post("/users", (req: Request, res: Response) => {
   db.upsertUser(req, res);
 });
+app.post("/login", (req: Request, res: Response) => {
+  db.loginUser(req, res);
+});
 
 const server = app.listen(3000, () => {
   console.log("Started server at port 3000");

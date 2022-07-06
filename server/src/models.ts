@@ -8,6 +8,7 @@ interface User {
   lastLogin: Date;
   delivering: boolean;
   profile?: any; //TODO
+  password: string;
 }
 
 interface Profile {}
