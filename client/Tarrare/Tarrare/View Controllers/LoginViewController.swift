@@ -107,7 +107,6 @@ class LoginViewController: UIViewController {
         let label = UILabel()
         label.text = "Don't have an account? Sign up"
         label.font = UIFont(name: "Inter-Regular_Bold", size: 15)
-//        label.textColor = UIColor(named: "LightGray")
         label.textColor = .systemBlue
         label.textAlignment = .center
         return label
