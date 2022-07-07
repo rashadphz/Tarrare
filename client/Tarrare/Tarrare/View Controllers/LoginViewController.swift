@@ -71,55 +71,20 @@ class LoginViewController: UIViewController {
     }()
     
     private let emailField : UITextField = {
-        let field = UITextField()
-        field.font = UIFont(name: "Inter-Regular_Bold", size: 15)
-        field.textColor = .black
-        field.backgroundColor = .white
-        field.layer.cornerRadius = 5;
-        field.layer.borderColor = UIColor(named: "LightGray")?.cgColor
-        field.layer.borderWidth = 2.0
-        field.placeholder = "EMAIL"
-        
-        let imageView = UIImageView(frame: CGRect(x: 8, y: 8, width: 30, height: 30))
-        imageView.image = UIImage(systemName: "mail")
-        imageView.tintColor = .black
-        imageView.contentMode = .scaleAspectFit
-        
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        view.addSubview(imageView)
-        
-        field.leftViewMode = UITextField.ViewMode.always
-        field.leftViewMode = .always
-        field.leftView = view
-        field.autocapitalizationType = .none
+        let field = TarrareUITextField()
         field.autocorrectionType = .no
-        
+        field.setImage(image: UIImage(systemName: "mail")!)
+        field.placeholder = "EMAIL"
         return field
-        
     }()
     
     private let passwordField : UITextField = {
-        let field = UITextField()
-        field.font = UIFont(name: "Inter-Regular_Bold", size: 15)
-        field.textColor = .black
-        field.backgroundColor = .white
-        field.layer.cornerRadius = 5;
-        field.layer.borderColor = UIColor(named: "LightGray")?.cgColor
-        field.layer.borderWidth = 2.0
+        let field = TarrareUITextField()
+        field.autocorrectionType = .no
         field.isSecureTextEntry = true
+        field.setImage(image: UIImage(systemName: "lock")!)
         field.placeholder = "PASSWORD"
         
-        let imageView = UIImageView(frame: CGRect(x: 8, y: 8, width: 30, height: 30))
-        imageView.image = UIImage(systemName: "lock")
-        imageView.tintColor = .black
-        imageView.contentMode = .scaleAspectFit
-        
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        view.addSubview(imageView)
-        
-        field.leftViewMode = UITextField.ViewMode.always
-        field.leftViewMode = .always
-        field.leftView = view
         return field
     }()
     
