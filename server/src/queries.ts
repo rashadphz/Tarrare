@@ -14,7 +14,7 @@ const getUsers = async (req: Request, res: Response) => {
 };
 
 const loginUser = async (req: Request, res: Response) => {
-  const { firstName, lastName, email, password } = req.body as User;
+  const { email, password } = req.body as User;
   const user = await prisma.user.findUnique({
     where: {
       email,
@@ -24,7 +24,26 @@ const loginUser = async (req: Request, res: Response) => {
   if (user) {
     const hashedPassword = user.password;
     const result = await bcrypt.compare(password, hashedPassword);
-    result ? res.status(200).json(user) : res.status(404).json();
+    result
+      ? res.status(200).json(user)
+      : res.status(404).send("Password Incorrect");
+  } else {
+    res.status(404).send("Email does not exist");
+  }
+};
+
+const registerUser = async (req: Request, res: Response) => {
+  const { firstName, lastName, email, password } = req.body as User;
+
+  const emailExists =
+    (await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    })) != null;
+
+  if (emailExists) {
+    res.status(404).send("Email Already exists.");
   } else {
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(password, salt);
@@ -42,38 +61,10 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-const upsertUser = async (req: Request, res: Response) => {
-  const {
-    firstName,
-    lastName,
-    email,
-    emailVerified,
-    picture,
-    dateCreated,
-    lastLogin,
-    delivering,
-    profile,
-    password,
-  } = req.body as User;
-
-  const createdUser = await prisma.user.upsert({
-    where: { email },
-    update: { emailVerified, lastLogin, delivering },
-    create: {
-      firstName,
-      lastName,
-      email,
-      dateCreated,
-      password,
-    },
-  });
-  res.status(200).json(createdUser);
-};
-
 const db = {
   getUsers,
-  upsertUser,
   loginUser,
+  registerUser,
 };
 
 export default db;

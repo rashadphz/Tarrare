@@ -14,11 +14,11 @@ app.use(express.json());
 app.get("/users", (req: Request, res: Response) => {
   db.getUsers(req, res);
 });
-app.post("/users", (req: Request, res: Response) => {
-  db.upsertUser(req, res);
-});
 app.post("/login", (req: Request, res: Response) => {
   db.loginUser(req, res);
+});
+app.post("/register", (req: Request, res: Response) => {
+  db.registerUser(req, res);
 });
 
 const server = app.listen(3000, () => {

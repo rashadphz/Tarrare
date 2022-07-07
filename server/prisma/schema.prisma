@@ -15,16 +15,17 @@ model User {
   firstName     String         @db.VarChar(255)
   lastName      String         @db.VarChar(255)
   email         String         @unique
-  emailVerified Boolean?
+  emailVerified Boolean        @default(false)
+  password      String
   picture       String?        @db.VarChar(512)
   dateCreated   DateTime       @default(now())
-  lastLogin     DateTime?      @db.Date
+  lastLogin     DateTime?      @default(now())
   delivering    Boolean        @default(false)
   profile       Profile?
   orders        Order[]
   deliveries    Delivery[]
   university    University?    @relation(fields: [universityId], references: [id])
-  universityId  Int
+  universityId  Int?
   convoUserOnes Conversation[] @relation("convoUserOne")
   convoUserTwos Conversation[] @relation("convoUserTwo")
   Conversation  Conversation[]
