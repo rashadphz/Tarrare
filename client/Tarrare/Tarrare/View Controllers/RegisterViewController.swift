@@ -26,7 +26,9 @@ class RegisterViewController: UIViewController {
         containerView.addSubview(signupButton)
         
         self.view.addSubview(footerView)
-        footerView.addSubview(noAccountLabel)
+        footerView.addSubview(hasAccountLabel)
+        
+        addHasAccountLabelGesture()
     }
     
     
@@ -51,7 +53,7 @@ class RegisterViewController: UIViewController {
         signupButton.anchor(top: passwordField.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: displayWidth, height: 40, enableInsets: false)
         
         footerView.anchor(top: nil, left: self.view.leftAnchor, bottom: self.view.bottomAnchor, right: self.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: displayWidth, height: 90, enableInsets: false)
-        noAccountLabel.anchor(top: footerView.topAnchor, left: footerView.leftAnchor, bottom: footerView.bottomAnchor, right: footerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0, enableInsets: false)
+        hasAccountLabel.anchor(top: footerView.topAnchor, left: footerView.leftAnchor, bottom: footerView.bottomAnchor, right: footerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0, enableInsets: false)
         
     }
     
@@ -127,7 +129,7 @@ class RegisterViewController: UIViewController {
         return view;
     }()
     
-    private let noAccountLabel: UILabel = {
+    private let hasAccountLabel: UILabel = {
         let label = UILabel()
         label.text = "Already have an account? Log in"
         label.font = UIFont(name: "Inter-Regular_Bold", size: 15)
@@ -135,6 +137,20 @@ class RegisterViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
+    
+    // GESTURES
+    
+    func addHasAccountLabelGesture() {
+        let labelTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapHasAccountLabel))
+        hasAccountLabel.isUserInteractionEnabled = true
+        hasAccountLabel.addGestureRecognizer(labelTapGesture)
+    }
+    
+    @objc func didTapHasAccountLabel() {
+        let loginVC = LoginViewController()
+        loginVC.modalPresentationStyle = .fullScreen
+        self.present(loginVC, animated: false)
+    }
     
     
 }

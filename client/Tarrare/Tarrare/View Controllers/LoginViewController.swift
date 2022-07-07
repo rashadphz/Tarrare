@@ -24,6 +24,8 @@ class LoginViewController: UIViewController {
         
         self.view.addSubview(footerView)
         footerView.addSubview(noAccountLabel)
+        
+        addNoAccountLabelGesture()
     }
     
     
@@ -109,8 +111,26 @@ class LoginViewController: UIViewController {
         label.font = UIFont(name: "Inter-Regular_Bold", size: 15)
         label.textColor = .systemBlue
         label.textAlignment = .center
+        
         return label
     }()
+    
+    
+    // GESTURES
+    
+    func addNoAccountLabelGesture() {
+        let labelTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapNoAccountLabel))
+        noAccountLabel.isUserInteractionEnabled = true
+        noAccountLabel.addGestureRecognizer(labelTapGesture)
+    }
+    
+    @objc func didTapNoAccountLabel() {
+        let registerVC = RegisterViewController()
+        registerVC.modalPresentationStyle = .fullScreen
+        self.present(registerVC, animated: false)
+    }
+    
+    
     
     
 }
