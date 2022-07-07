@@ -17,6 +17,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        let loginVC = LoginViewController()
+        
         let tabBarController = UITabBarController()
         let vc1 = ViewController()
         vc1.view.backgroundColor = .systemTeal
@@ -31,7 +34,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = tabBarController
+        
+        if (false) { //TODO: If user is logged in
+            window?.rootViewController = tabBarController
+        } else {
+            window?.rootViewController = loginVC
+        }
         window?.makeKeyAndVisible()
     }
 
