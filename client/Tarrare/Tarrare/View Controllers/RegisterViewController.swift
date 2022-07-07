@@ -29,6 +29,7 @@ class RegisterViewController: UIViewController {
         footerView.addSubview(hasAccountLabel)
         
         addHasAccountLabelGesture()
+        addSignupButtonGesture()
     }
     
     
@@ -138,7 +139,7 @@ class RegisterViewController: UIViewController {
         return label
     }()
     
-    // GESTURES
+    // GESTURES / ACTIONS
     
     func addHasAccountLabelGesture() {
         let labelTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapHasAccountLabel))
@@ -150,6 +151,18 @@ class RegisterViewController: UIViewController {
         let loginVC = LoginViewController()
         loginVC.modalPresentationStyle = .fullScreen
         self.present(loginVC, animated: false)
+    }
+    
+    func addSignupButtonGesture() {
+        signupButton.addTarget(self, action: #selector(didTapSignupButton), for: .touchUpInside)
+    }
+    
+    @objc func didTapSignupButton() {
+        let firstName = firstNameField.text ?? ""
+        let lastName = lastNameField.text ?? ""
+        let email = emailField.text ?? ""
+        let password = passwordField.text ?? ""
+        APIManager.shared().registerUser(firstName: firstName, lastName: lastName, email: email, password: password)
     }
     
     
