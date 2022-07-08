@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -30,16 +31,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBar2 = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
         vc2.tabBarItem = tabBar2
         tabBarController.viewControllers = [vc1, vc2]
-
-
+        
+        let initialViewController: UIViewController
+        
+        // check if user is already signed in
+        let defaults = UserDefaults.standard
+        if let _ = Auth.auth().currentUser,
+           let userData = defaults.object(forKey: Constants.UserDefaults.currentUser) as? Data,
+           let user = try? JSONDecoder().decode(User.self, from: userData) {
+            User.setCurrent(user)
+            initialViewController = tabBarController
+        } else {
+            initialViewController = loginVC
+        }
+        
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
-        if (false) { //TODO: If user is logged in
-            window?.rootViewController = tabBarController
-        } else {
-            window?.rootViewController = loginVC
-        }
+        window?.rootViewController = initialViewController
         window?.makeKeyAndVisible()
     }
 

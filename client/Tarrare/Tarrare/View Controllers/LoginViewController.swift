@@ -145,6 +145,7 @@ class LoginViewController: UIViewController {
         let password = passwordField.text ?? ""
         
         APIManager.shared().loginUser(email: email, password: password, completion: {(user) in
+            User.setCurrent(user!, writeToUserDefaults: true)
             print(user?.firstName)
         })
     }
