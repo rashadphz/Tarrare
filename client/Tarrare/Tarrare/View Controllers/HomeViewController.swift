@@ -24,6 +24,8 @@ class HomeViewController: UIViewController {
         view.addSubview(containerView)
         containerView.addSubview(locationSelectView)
         locationSelectView.addSubview(currentLocationLabel)
+        
+        addCurrentLocationLabelGesture()
     }
     
     override func viewWillLayoutSubviews() {
@@ -112,6 +114,17 @@ class HomeViewController: UIViewController {
         
         return label
     }()
+    
+    func addCurrentLocationLabelGesture() {
+        let labelTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentLocationLabel))
+            currentLocationLabel.isUserInteractionEnabled = true
+            currentLocationLabel.addGestureRecognizer(labelTapGesture)
+    }
+    
+    @objc func didTapCurrentLocationLabel() {
+        let selectLocationVC = SelectLocationViewController()
+        self.present(selectLocationVC, animated: true)
+    }
     
     
 }
