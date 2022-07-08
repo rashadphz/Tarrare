@@ -8,6 +8,8 @@
 import Foundation
 import Alamofire
 
+import FirebaseAuth
+
 class APIManager {
     
     private let sessionManager: Session
@@ -27,16 +29,16 @@ class APIManager {
         self.sessionManager = sessionManager
     }
     
-    func call<T>(type: EndPointType, params: Parameters? = nil, handler: @escaping(T?) -> ()) where T: Codable {
+    func call<T>(type: EndPointType, params: Parameters? = nil, completion: @escaping(T?) -> Void) where T: Decodable {
         
         self.sessionManager.request(type.url, method: type.httpMethod, parameters: params, encoding: type.encoding, headers: type.headers).validate().responseDecodable(of: T.self) { response in
             
             switch response.result {
-            case .success(_):
-                print(response)
+            case .success(let user):
+                completion(user)
                 break
             case .failure(_):
-                handler(nil)
+                completion(nil)
                 break
             }
             
@@ -44,29 +46,41 @@ class APIManager {
         }
     }
     
-    // backend endpoints
-    func loginUser(email: String, password: String) {
+    func loginUser(email: String, password: String, completion: @escaping (User?) -> Void) {
         let parameters: Parameters = [
             "email": email,
             "password": password
         ]
-        self.call(type: EndpointItem.login, params: parameters, handler: {
-            (success: String?) in
+        
+        Auth.auth().signIn(withEmail: email, password: password, completion: {(authResult, error) in
+            guard error == nil else {
+                print("failed to login user")
+                return
+            }
             
-        } )
+            // retrive and return user from postgres database
+            self.call(type: EndpointItem.login, params: parameters, completion: completion)
+        })
     }
     
-    func registerUser(firstName: String, lastName: String, email: String, password: String) {
+    func registerUser(firstName: String, lastName: String, email: String, password: String, completion: @escaping(User?) -> Void) {
         let parameters: Parameters = [
             "firstName": firstName,
             "lastName": lastName,
             "email": email,
             "password": password
         ]
-        self.call(type: EndpointItem.register, params: parameters, handler: {
-            (success: String?) in
+        
+        Auth.auth().createUser(withEmail: email, password: password, completion: {(authResult, error) in
+            guard error == nil else {
+                print("failed to login user")
+                return
+            }
             
-        } )
+            // store user in postgres
+            self.call(type: EndpointItem.register, params: parameters, completion: completion)
+        }
+        )
     }
     
 }

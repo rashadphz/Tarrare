@@ -162,7 +162,10 @@ class RegisterViewController: UIViewController {
         let lastName = lastNameField.text ?? ""
         let email = emailField.text ?? ""
         let password = passwordField.text ?? ""
-        APIManager.shared().registerUser(firstName: firstName, lastName: lastName, email: email, password: password)
+        APIManager.shared().registerUser(firstName: firstName, lastName: lastName, email: email, password: password, completion: {(user) in
+            
+            print(user?.firstName)
+        })
     }
     
     

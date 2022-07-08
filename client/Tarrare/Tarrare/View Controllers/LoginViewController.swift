@@ -26,6 +26,7 @@ class LoginViewController: UIViewController {
         footerView.addSubview(noAccountLabel)
         
         addNoAccountLabelGesture()
+        addLoginButtonGesture()
     }
     
     
@@ -116,7 +117,12 @@ class LoginViewController: UIViewController {
     }()
     
     
-    // GESTURES
+    func presentHomeVC() {
+        
+    }
+    
+    
+    // GESTURES/ ACTIONS
     
     func addNoAccountLabelGesture() {
         let labelTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapNoAccountLabel))
@@ -130,7 +136,17 @@ class LoginViewController: UIViewController {
         self.present(registerVC, animated: false)
     }
     
+    func addLoginButtonGesture() {
+        loginButton.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
+    }
     
-    
+    @objc func didTapLoginButton() {
+        let email = emailField.text ?? ""
+        let password = passwordField.text ?? ""
+        
+        APIManager.shared().loginUser(email: email, password: password, completion: {(user) in
+            print(user?.firstName)
+        })
+    }
     
 }
