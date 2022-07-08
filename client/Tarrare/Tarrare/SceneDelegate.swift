@@ -20,17 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let loginVC = LoginViewController()
-        
-        let tabBarController = UITabBarController()
-        let vc1 = ViewController()
-        vc1.view.backgroundColor = .systemTeal
-        let tabBar1 = UITabBarItem(tabBarSystemItem: .downloads, tag: 0)
-        vc1.tabBarItem = tabBar1
-        let vc2 = UIViewController()
-        vc2.view.backgroundColor = .systemPurple
-        let tabBar2 = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
-        vc2.tabBarItem = tabBar2
-        tabBarController.viewControllers = [vc1, vc2]
+        let mainTabBarController = MainTabBarController()
         
         let initialViewController: UIViewController
         
@@ -40,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
            let userData = defaults.object(forKey: Constants.UserDefaults.currentUser) as? Data,
            let user = try? JSONDecoder().decode(User.self, from: userData) {
             User.setCurrent(user)
-            initialViewController = tabBarController
+            initialViewController = mainTabBarController
         } else {
             initialViewController = loginVC
         }
