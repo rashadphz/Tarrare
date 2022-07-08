@@ -337,6 +337,7 @@
 /* Begin XCBuildConfiguration section */
 		1FE95A2C2874F6D300A79C77 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1FE95A5C2878F0EC00A79C77 /* Tarrare.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -397,6 +398,7 @@
 		};
 		1FE95A2D2874F6D300A79C77 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1FE95A5C2878F0EC00A79C77 /* Tarrare.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
