@@ -25,7 +25,12 @@ class User: Codable {
                 
             }
         }
-        
+    }
+    
+    static func getCurrent() -> User? {
+        let userData = UserDefaults.standard.object(forKey: Constants.UserDefaults.currentUser) as? Data
+        let user = try? JSONDecoder().decode(User.self, from:userData!)
+        return user
     }
     
 }

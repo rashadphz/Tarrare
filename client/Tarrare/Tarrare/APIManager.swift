@@ -83,5 +83,15 @@ class APIManager {
         )
     }
     
+    func logoutUser(completion: @escaping(Bool) -> Void) {
+        do {
+            try Auth.auth().signOut()
+            completion(true)
+        } catch let signOutError as NSError {
+            completion(false)
+            print("Error signing out: %@", signOutError)
+        }
+    }
+    
 }
 

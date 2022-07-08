@@ -118,7 +118,9 @@ class LoginViewController: UIViewController {
     
     
     func presentHomeVC() {
-        
+        let mainTabBarController = MainTabBarController()
+        mainTabBarController.modalPresentationStyle = .fullScreen
+        self.present(mainTabBarController, animated: true)
     }
     
     
@@ -146,6 +148,7 @@ class LoginViewController: UIViewController {
         
         APIManager.shared().loginUser(email: email, password: password, completion: {(user) in
             User.setCurrent(user!, writeToUserDefaults: true)
+            self.presentHomeVC()
             print(user?.firstName)
         })
     }
