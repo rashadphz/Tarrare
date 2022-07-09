@@ -25,8 +25,9 @@ enum EndpointItem {
 extension EndpointItem: EndPointType {
     var baseURL: String {
         switch APIManager.networkEnvironment {
-            case .dev: return "http://localhost:3000/"
-            case .prod: return ""
+        case .dev: return "http://localhost:3000/"
+        case .ngrok: return "https://cb71-50-234-16-50.ngrok.io/"
+        case .prod: return ""
         }
     }
     
@@ -47,7 +48,7 @@ extension EndpointItem: EndPointType {
         switch self {
         case .login, .register:
             return .post
-        
+            
         }
     }
     
@@ -68,4 +69,5 @@ extension EndpointItem: EndPointType {
 enum NetworkEnvironment {
     case dev
     case prod
+    case ngrok
 }

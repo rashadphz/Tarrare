@@ -61,6 +61,7 @@ class LoginViewController: UIViewController {
     private let loginLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Inter-Regular_Bold", size: 30)
+        label.textColor = .black
         label.text = "Login"
         return label
     }()
@@ -77,7 +78,9 @@ class LoginViewController: UIViewController {
         let field = TarrareUITextField()
         field.autocorrectionType = .no
         field.setImage(image: UIImage(systemName: "mail")!)
-        field.placeholder = "EMAIL"
+        field.textColor = .black
+        field.attributedPlaceholder = NSAttributedString(string: "EMAIL", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        
         return field
     }()
     
@@ -87,6 +90,8 @@ class LoginViewController: UIViewController {
         field.isSecureTextEntry = true
         field.setImage(image: UIImage(systemName: "lock")!)
         field.placeholder = "PASSWORD"
+        field.textColor = .black
+        field.attributedPlaceholder = NSAttributedString(string: "PASSWORD", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
         return field
     }()
@@ -149,7 +154,6 @@ class LoginViewController: UIViewController {
         APIManager.shared().loginUser(email: email, password: password, completion: {(user) in
             User.setCurrent(user!, writeToUserDefaults: true)
             self.presentHomeVC()
-            print(user?.firstName)
         })
     }
     

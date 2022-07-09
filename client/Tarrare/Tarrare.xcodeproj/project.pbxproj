@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1FB83FF62878FC8C00E33667 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FF52878FC8C00E33667 /* Networking.swift */; };
+		1FB83FF82878FCBD00E33667 /* MapsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FF72878FCBD00E33667 /* MapsAPI.swift */; };
+		1FB83FFA2879070400E33667 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FF92879070400E33667 /* Place.swift */; };
 		1FE95A1E2874F6D300A79C77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */; };
 		1FE95A202874F6D300A79C77 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A1F2874F6D300A79C77 /* SceneDelegate.swift */; };
 		1FE95A222874F6D300A79C77 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A212874F6D300A79C77 /* ViewController.swift */; };
@@ -19,7 +22,6 @@
 		1FE95A402877575300A79C77 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A3F2877575300A79C77 /* RegisterViewController.swift */; };
 		1FE95A42287764E700A79C77 /* TarrareTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A41287764E700A79C77 /* TarrareTextField.swift */; };
 		1FE95A452877880C00A79C77 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A442877880C00A79C77 /* APIManager.swift */; };
-		1FE95A4728778A9500A79C77 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A4628778A9500A79C77 /* Networking.swift */; };
 		1FE95A4C2878A70500A79C77 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FE95A4B2878A70500A79C77 /* GoogleService-Info.plist */; };
 		1FE95A4E2878AFC500A79C77 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A4D2878AFC500A79C77 /* Constants.swift */; };
 		1FE95A502878B4CF00A79C77 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A4F2878B4CF00A79C77 /* HomeViewController.swift */; };
@@ -31,6 +33,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1FB83FF52878FC8C00E33667 /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		1FB83FF72878FCBD00E33667 /* MapsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapsAPI.swift; path = Tarrare/API/MapsAPI.swift; sourceTree = "<group>"; };
+		1FB83FF92879070400E33667 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		1FE95A1A2874F6D300A79C77 /* Tarrare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tarrare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FE95A1F2874F6D300A79C77 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,7 +50,6 @@
 		1FE95A3F2877575300A79C77 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		1FE95A41287764E700A79C77 /* TarrareTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TarrareTextField.swift; path = Tarrare/CustomViews/TarrareTextField.swift; sourceTree = SOURCE_ROOT; };
 		1FE95A442877880C00A79C77 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = APIManager.swift; path = Tarrare/APIManager.swift; sourceTree = "<group>"; };
-		1FE95A4628778A9500A79C77 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		1FE95A4B2878A70500A79C77 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1FE95A4D2878AFC500A79C77 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1FE95A4F2878B4CF00A79C77 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				1FE95A33287640DA00A79C77 /* User.swift */,
+				1FB83FF92879070400E33667 /* Place.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -136,8 +141,9 @@
 		1FE95A43287787EE00A79C77 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				1FB83FF52878FC8C00E33667 /* Networking.swift */,
 				1FE95A442877880C00A79C77 /* APIManager.swift */,
-				1FE95A4628778A9500A79C77 /* Networking.swift */,
+				1FB83FF72878FCBD00E33667 /* MapsAPI.swift */,
 			);
 			name = API;
 			path = ..;
@@ -305,8 +311,9 @@
 				1FE95A572878B8C500A79C77 /* MessagesViewController.swift in Sources */,
 				1FE95A34287640DA00A79C77 /* User.swift in Sources */,
 				1FE95A4E2878AFC500A79C77 /* Constants.swift in Sources */,
-				1FE95A4728778A9500A79C77 /* Networking.swift in Sources */,
+				1FB83FF62878FC8C00E33667 /* Networking.swift in Sources */,
 				1FE95A222874F6D300A79C77 /* ViewController.swift in Sources */,
+				1FB83FF82878FCBD00E33667 /* MapsAPI.swift in Sources */,
 				1FE95A1E2874F6D300A79C77 /* AppDelegate.swift in Sources */,
 				1FE95A452877880C00A79C77 /* APIManager.swift in Sources */,
 				1FE95A42287764E700A79C77 /* TarrareTextField.swift in Sources */,
@@ -316,6 +323,7 @@
 				1FE95A362876418D00A79C77 /* LoginViewController.swift in Sources */,
 				1FE95A552878B6B900A79C77 /* MainTabBarController.swift in Sources */,
 				1FE95A522878B5AA00A79C77 /* ProfileViewController.swift in Sources */,
+				1FB83FFA2879070400E33667 /* Place.swift in Sources */,
 				1FE95A202874F6D300A79C77 /* SceneDelegate.swift in Sources */,
 				1FE95A502878B4CF00A79C77 /* HomeViewController.swift in Sources */,
 			);

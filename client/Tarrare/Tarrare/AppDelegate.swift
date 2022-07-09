@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let mapsApiKey = Bundle.main.infoDictionary?["GOOGLE_MAPS_API_KEY"] as? String {
             GMSPlacesClient.provideAPIKey(mapsApiKey)
+            print(mapsApiKey)
         }
         
         return true

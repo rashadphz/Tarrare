@@ -13,7 +13,11 @@ import FirebaseAuth
 class APIManager {
     
     private let sessionManager: Session
-    static let networkEnvironment: NetworkEnvironment = .dev
+    #if targetEnvironment(simulator)
+        static let networkEnvironment: NetworkEnvironment = .dev
+    #else
+        static let networkEnvironment: NetworkEnvironment = .ngrok
+    #endif
     
     
     private static var sharedAPIManager: APIManager = {
@@ -41,7 +45,6 @@ class APIManager {
                 completion(nil)
                 break
             }
-            
             
         }
     }

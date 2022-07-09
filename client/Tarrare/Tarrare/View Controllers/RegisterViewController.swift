@@ -139,6 +139,12 @@ class RegisterViewController: UIViewController {
         return label
     }()
     
+    func presentHomeVC() {
+        let mainTabBarController = MainTabBarController()
+        mainTabBarController.modalPresentationStyle = .fullScreen
+        self.present(mainTabBarController, animated: true)
+    }
+    
     // GESTURES / ACTIONS
     
     func addHasAccountLabelGesture() {
@@ -164,7 +170,7 @@ class RegisterViewController: UIViewController {
         let password = passwordField.text ?? ""
         APIManager.shared().registerUser(firstName: firstName, lastName: lastName, email: email, password: password, completion: {(user) in
             User.setCurrent(user!, writeToUserDefaults: true)
-            print(user?.firstName)
+            self.presentHomeVC()
         })
     }
     

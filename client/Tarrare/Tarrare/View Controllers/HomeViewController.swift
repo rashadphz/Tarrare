@@ -7,15 +7,26 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, CLLocationManagerDelegate {
+    
+    let locationManager = CLLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        locationManager.delegate = self
+        if CLLocationManager.authorizationStatus() == .notDetermined {
+            locationManager.requestWhenInUseAuthorization()
+        } else {
+            getUserCurrentPlace()
+        }
         
         view.backgroundColor = .white
         self.title = "Home"
         
-        self.createNavBar()
+        createNavBar()
+        
         view.addSubview(navBar)
         customNavBarView.addSubview(orderNavButton)
         customNavBarView.addSubview(deliverNavButton)
@@ -25,7 +36,12 @@ class HomeViewController: UIViewController {
         containerView.addSubview(locationSelectView)
         locationSelectView.addSubview(currentLocationLabel)
         
+        
         addCurrentLocationLabelGesture()
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager){
+        getUserCurrentPlace()
     }
     
     override func viewWillLayoutSubviews() {
@@ -101,6 +117,7 @@ class HomeViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "Inter-Regular_Medium", size: 17)
         label.textAlignment = .center
+        label.textColor = .black
         
         let attachment = NSTextAttachment()
         let image = UIImage(systemName: "chevron.down")
@@ -108,12 +125,20 @@ class HomeViewController: UIViewController {
         attachment.bounds = CGRect(x: 0, y: 0, width: image!.size.width, height: image!.size.height)
         
         let attachmentString = NSAttributedString(attachment: attachment)
-        let myString = NSMutableAttributedString(string: "Gates-Dell Complex")
+        let myString = NSMutableAttributedString(string: "")
         myString.append(attachmentString)
         label.attributedText = myString
         
         return label
     }()
+        
+    func getUserCurrentPlace() {
+        APIManager.shared().getCurrentPlace(completion: {(place) in
+            self.currentLocationLabel.text = place.name
+        })
+    }
+    
+    // GESTURES / ACTIONS
     
     func addCurrentLocationLabelGesture() {
         let labelTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentLocationLabel))

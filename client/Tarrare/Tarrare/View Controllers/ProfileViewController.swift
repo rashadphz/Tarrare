@@ -63,6 +63,7 @@ class ProfileViewController: UIViewController {
     private let nameLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Inter-Regular_Bold", size: 25)
+        label.textColor = .black
         return label
     }()
     
