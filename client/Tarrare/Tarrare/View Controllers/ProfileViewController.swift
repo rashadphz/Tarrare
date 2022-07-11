@@ -92,6 +92,7 @@ class ProfileViewController: UIViewController {
         APIManager.shared().logoutUser(completion: {successful in
             if (successful) {
                 self.presentLoginScreen()
+                UserDefaults.standard.set(nil, forKey: Constants.UserDefaults.currentUser)
             }
         })
     }
