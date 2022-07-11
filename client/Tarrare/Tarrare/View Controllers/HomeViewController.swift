@@ -113,28 +113,14 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         return view
     }()
     
-    private let currentLocationLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "Inter-Regular_Medium", size: 17)
-        label.textAlignment = .center
-        label.textColor = .black
-        
-        let attachment = NSTextAttachment()
-        let image = UIImage(systemName: "chevron.down")
-        attachment.image = image
-        attachment.bounds = CGRect(x: 0, y: 0, width: image!.size.width, height: image!.size.height)
-        
-        let attachmentString = NSAttributedString(attachment: attachment)
-        let myString = NSMutableAttributedString(string: "")
-        myString.append(attachmentString)
-        label.attributedText = myString
-        
+    private let currentLocationLabel: LocationUILabel = {
+        let label = LocationUILabel()
         return label
     }()
         
     func getUserCurrentPlace() {
         APIManager.shared().getCurrentPlace(completion: {(place) in
-            self.currentLocationLabel.text = place.name
+            self.currentLocationLabel.setText(text: place.name)
         })
     }
     
