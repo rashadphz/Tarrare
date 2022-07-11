@@ -29,11 +29,6 @@ extension APIManager {
             }
             
             completion(Place(place))
-            
-            print("THIS IS THE PLACE")
-            print(place.name!)
-            print(place.formattedAddress!)
-            
         })
     }
 }

@@ -25,6 +25,32 @@ class Place: Codable {
         self.fullAddress = gmsPlace.formattedAddress!
     }
     
+    init(_ gmsPrediction: GMSAutocompletePrediction) {
+        self.name = gmsPrediction.attributedPrimaryText.string
+        self.fullAddress = gmsPrediction.attributedSecondaryText?.string ?? ""
+    }
+    
+    init(_ name: String, fullAddress: String) {
+        self.name = name
+        self.fullAddress = fullAddress
+    }
+    
+    // To save Google Maps API Costs when doing UI changes
+    static func createDebugPlaces() -> [Place] {
+        var places : [Place] = []
+        places.append(Place("Chipotle Mexican Grill", fullAddress: "West 48th Street, New York, NY, USA"))
+        places.append(Place("Chipotle Mexican Grill", fullAddress: "Howard Street at West Campus, San Francisco, CA, USA"))
+        places.append(Place("Chipotle Mexican Grill", fullAddress: "West 48th Street, New York, NY, USA"))
+        places.append(Place("Chipotle Mexican Grill", fullAddress: "West 48th Street, New York, NY, USA"))
+        places.append(Place("Chipotle Mexican Grill", fullAddress: "West 48th Street, New York, NY, USA"))
+        places.append(Place("Chipotle Mexican Grill", fullAddress: "West 48th Street, New York, NY, USA"))
+        places.append(Place("Chipotle Mexican Grill", fullAddress: "West 48th Street, New York, NY, USA"))
+        return places
+        
+    }
+    
+    
+    
     
 }
 
