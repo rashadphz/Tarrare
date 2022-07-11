@@ -11,6 +11,7 @@
 		1FB83FF82878FCBD00E33667 /* MapsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FF72878FCBD00E33667 /* MapsAPI.swift */; };
 		1FB83FFA2879070400E33667 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FF92879070400E33667 /* Place.swift */; };
 		1FB83FFE287C89F200E33667 /* LocationUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FFD287C89F200E33667 /* LocationUILabel.swift */; };
+		1FB84002287C9BEF00E33667 /* PlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84001287C9BEF00E33667 /* PlaceCell.swift */; };
 		1FE95A1E2874F6D300A79C77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */; };
 		1FE95A202874F6D300A79C77 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A1F2874F6D300A79C77 /* SceneDelegate.swift */; };
 		1FE95A222874F6D300A79C77 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A212874F6D300A79C77 /* ViewController.swift */; };
@@ -38,6 +39,7 @@
 		1FB83FF72878FCBD00E33667 /* MapsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapsAPI.swift; path = Tarrare/API/MapsAPI.swift; sourceTree = "<group>"; };
 		1FB83FF92879070400E33667 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		1FB83FFD287C89F200E33667 /* LocationUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationUILabel.swift; path = Tarrare/CustomViews/LocationUILabel.swift; sourceTree = SOURCE_ROOT; };
+		1FB84001287C9BEF00E33667 /* PlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCell.swift; sourceTree = "<group>"; };
 		1FE95A1A2874F6D300A79C77 /* Tarrare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tarrare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FE95A1F2874F6D300A79C77 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 			children = (
 				1FE95A41287764E700A79C77 /* TarrareTextField.swift */,
 				1FB83FFD287C89F200E33667 /* LocationUILabel.swift */,
+				1FB84001287C9BEF00E33667 /* PlaceCell.swift */,
 			);
 			path = "Custom Classes";
 			sourceTree = "<group>";
@@ -107,13 +110,13 @@
 		1FE95A1C2874F6D300A79C77 /* Tarrare */ = {
 			isa = PBXGroup;
 			children = (
-				1FB83FFC287C89B700E33667 /* Custom Classes */,
 				1FE95A4D2878AFC500A79C77 /* Constants.swift */,
-				1FE95A43287787EE00A79C77 /* API */,
 				1FE95A3728773D5C00A79C77 /* Extension.swift */,
 				1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */,
-				1FE95A5C2878F0EC00A79C77 /* Tarrare.xcconfig */,
 				1FE95A1F2874F6D300A79C77 /* SceneDelegate.swift */,
+				1FE95A5C2878F0EC00A79C77 /* Tarrare.xcconfig */,
+				1FB83FFC287C89B700E33667 /* Custom Classes */,
+				1FE95A43287787EE00A79C77 /* API */,
 				1FE95A322874F8BB00A79C77 /* Models */,
 				1FE95A532878B68000A79C77 /* Tab Controllers */,
 				1FE95A312874F89C00A79C77 /* View Controllers */,
@@ -330,6 +333,7 @@
 				1FE95A452877880C00A79C77 /* APIManager.swift in Sources */,
 				1FE95A42287764E700A79C77 /* TarrareTextField.swift in Sources */,
 				1FE95A402877575300A79C77 /* RegisterViewController.swift in Sources */,
+				1FB84002287C9BEF00E33667 /* PlaceCell.swift in Sources */,
 				1FE95A5B2878E99300A79C77 /* SelectLocationViewController.swift in Sources */,
 				1FE95A3828773D5C00A79C77 /* Extension.swift in Sources */,
 				1FE95A362876418D00A79C77 /* LoginViewController.swift in Sources */,

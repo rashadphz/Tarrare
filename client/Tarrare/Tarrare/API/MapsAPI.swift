@@ -31,4 +31,21 @@ extension APIManager {
             completion(Place(place))
         })
     }
+    
+    func placeFromID(placeID: String, sessionToken: GMSAutocompleteSessionToken, completion: @escaping (Place) -> Void) {
+        let placesClient = GMSPlacesClient.shared()
+        let placeFields : GMSPlaceField = [.name, .formattedAddress]
+        
+        placesClient.fetchPlace(fromPlaceID: placeID, placeFields: placeFields, sessionToken: sessionToken, callback: {
+            (place: GMSPlace?, error: Error?) in
+            
+            if let error = error {
+                print("Place from ID Error: \(error.localizedDescription)")
+            }
+            
+            if let place = place {
+                completion(Place(place))
+            }
+        })
+    }
 }

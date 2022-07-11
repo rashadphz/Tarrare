@@ -12,6 +12,7 @@ import CoreLocation
 class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     let locationManager = CLLocationManager()
+    var currentPlace: Place?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,11 +20,10 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         if CLLocationManager.authorizationStatus() == .notDetermined {
             locationManager.requestWhenInUseAuthorization()
         } else {
-            getUserCurrentPlace()
+            requestUserCurrentPlace()
         }
         
         view.backgroundColor = .white
-        self.title = "Home"
         
         createNavBar()
         
@@ -41,7 +41,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager){
-        getUserCurrentPlace()
+        requestUserCurrentPlace()
     }
     
     override func viewWillLayoutSubviews() {
@@ -117,11 +117,18 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         let label = LocationUILabel()
         return label
     }()
+    
+    func setCurrentPlace(place: Place) {
+        self.currentPlace = place
+        self.currentLocationLabel.setText(text: place.name)
+    }
         
-    func getUserCurrentPlace() {
-        APIManager.shared().getCurrentPlace(completion: {(place) in
-            self.currentLocationLabel.setText(text: place.name)
-        })
+    func requestUserCurrentPlace() {
+        //COMMENTED OUT TO LIMIT API REQUESTS TEMPORARILY
+        
+        //        APIManager.shared().getCurrentPlace(completion: {(place) in
+//            self.setCurrentPlace(place: place)
+//        })
     }
     
     // GESTURES / ACTIONS
@@ -134,8 +141,15 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     @objc func didTapCurrentLocationLabel() {
         let selectLocationVC = SelectLocationViewController()
+        selectLocationVC.delegate = self
         self.present(selectLocationVC, animated: true)
     }
     
     
+}
+
+extension HomeViewController : SelectLocationViewDelegate {
+    func sendSelectedPlace(place: Place) {
+        setCurrentPlace(place: place)
+    }
 }

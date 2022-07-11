@@ -9,10 +9,16 @@ import Foundation
 import UIKit
 import GooglePlaces
 
+protocol SelectLocationViewDelegate {
+    func sendSelectedPlace(place: Place)
+}
+
 class SelectLocationViewController : UIViewController, UITableViewDelegate {
-    var fetcher: GMSAutocompleteFetcher?
-    var placeResults : [Place] = [Place]()
-    var placesClient : GMSPlacesClient = GMSPlacesClient.shared()
+    private var fetcher: GMSAutocompleteFetcher?
+    private var autocompleteResults : [GMSAutocompletePrediction] = [GMSAutocompletePrediction]()
+    private var placesClient : GMSPlacesClient = GMSPlacesClient.shared()
+    private var sessionToken : GMSAutocompleteSessionToken?
+    var delegate: SelectLocationViewDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,8 +26,9 @@ class SelectLocationViewController : UIViewController, UITableViewDelegate {
         
         let filter = GMSAutocompleteFilter()
         filter.type = .establishment
+        filter.country = "US"
         //        filter.locationBias = GMSPlacesAutocompleteTypeFilter.region
-        let sessionToken = GMSAutocompleteSessionToken.init()
+        sessionToken = GMSAutocompleteSessionToken.init()
         
         
         fetcher = GMSAutocompleteFetcher(filter: filter)
@@ -39,7 +46,6 @@ class SelectLocationViewController : UIViewController, UITableViewDelegate {
         containerView.addSubview(searchField)
         containerView.addSubview(resultTableView)
         
-        placeResults = Place.createDebugPlaces()
     }
     
     
@@ -65,6 +71,7 @@ class SelectLocationViewController : UIViewController, UITableViewDelegate {
     private let resultTableView : UITableView = {
         let tableView = UITableView()
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
         tableView.register(PlaceCell.self, forCellReuseIdentifier: "PlaceCell")
         tableView.backgroundColor = .white
         return tableView
@@ -87,7 +94,7 @@ class SelectLocationViewController : UIViewController, UITableViewDelegate {
 extension SelectLocationViewController: GMSAutocompleteFetcherDelegate {
     
     func didAutocomplete(with predictions: [GMSAutocompletePrediction]) {
-        self.placeResults = predictions.map { Place($0) }
+        self.autocompleteResults = predictions
         self.resultTableView.reloadData()
     }
     
@@ -99,14 +106,27 @@ extension SelectLocationViewController: GMSAutocompleteFetcherDelegate {
 
 extension SelectLocationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return placeResults.count
+        return autocompleteResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlaceCell", for: indexPath) as! PlaceCell
-        let currentPlace = placeResults[indexPath.row]
+        let currentAutocomplete  = autocompleteResults[indexPath.row]
+        let currentPlace = Place(currentAutocomplete)
         cell.place = currentPlace
         return cell
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let prediction = self.autocompleteResults[indexPath.row]
+        let placeID = prediction.placeID
+        APIManager.shared().placeFromID(placeID: placeID, sessionToken: self.sessionToken!, completion: {(place) in
+            
+            self.delegate.sendSelectedPlace(place: place)
+            self.dismiss(animated: true)
+        })
+        
         
     }
 }
