@@ -76,7 +76,7 @@ class APIManager {
         
         Auth.auth().createUser(withEmail: email, password: password, completion: {(authResult, error) in
             guard error == nil else {
-                print("failed to login user")
+                print("failed to register user")
                 return
             }
             

@@ -12,6 +12,7 @@ class RegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         
         self.view.backgroundColor = .white
         
@@ -66,6 +67,7 @@ class RegisterViewController: UIViewController {
     private let signupLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Inter-Regular_Bold", size: 30)
+        label.textColor = .black
         label.text = "Create Account"
         return label
     }()
@@ -82,7 +84,8 @@ class RegisterViewController: UIViewController {
         let field = TarrareUITextField()
         field.autocorrectionType = .no
         field.setImage(image: UIImage(systemName: "person")!)
-        field.placeholder = "FIRST NAME"
+        field.textColor = .black
+        field.attributedPlaceholder = NSAttributedString(string: "FIRST NAME", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         return field
         
     }()
@@ -91,7 +94,8 @@ class RegisterViewController: UIViewController {
         let field = TarrareUITextField()
         field.autocorrectionType = .no
         field.setImage(image: UIImage(systemName: "person")!)
-        field.placeholder = "LAST NAME"
+        field.textColor = .black
+        field.attributedPlaceholder = NSAttributedString(string: "LAST NAME", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         return field
         
     }()
@@ -100,7 +104,8 @@ class RegisterViewController: UIViewController {
         let field = TarrareUITextField()
         field.autocorrectionType = .no
         field.setImage(image: UIImage(systemName: "mail")!)
-        field.placeholder = "SCHOOL EMAIL"
+        field.textColor = .black
+        field.attributedPlaceholder = NSAttributedString(string: "SCHOOL EMAIL", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         return field
         
     }()
@@ -110,7 +115,8 @@ class RegisterViewController: UIViewController {
         field.autocorrectionType = .no
         field.isSecureTextEntry = true
         field.setImage(image: UIImage(systemName: "lock")!)
-        field.placeholder = "PASSWORD"
+        field.textColor = .black
+        field.attributedPlaceholder = NSAttributedString(string: "PASSWORD", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
         return field
     }()
