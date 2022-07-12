@@ -11,7 +11,7 @@ import UIKit
 class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        view.backgroundColor = .white
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,5 +30,7 @@ class MainTabBarController: UITabBarController {
         profileVC.tabBarItem = profileIcon
         
         self.viewControllers = [homeVC, messagesVC, profileVC]
+        self.tabBar.tintColor = .black
+        self.tabBar.unselectedItemTintColor = .darkGray
     }
 }

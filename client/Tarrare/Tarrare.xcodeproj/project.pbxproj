@@ -12,9 +12,10 @@
 		1FB83FFA2879070400E33667 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FF92879070400E33667 /* Place.swift */; };
 		1FB83FFE287C89F200E33667 /* LocationUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FFD287C89F200E33667 /* LocationUILabel.swift */; };
 		1FB84002287C9BEF00E33667 /* PlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84001287C9BEF00E33667 /* PlaceCell.swift */; };
+		1FB84008287CF6BD00E33667 /* DeliverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84007287CF6BD00E33667 /* DeliverViewController.swift */; };
+		1FB8400A287CFE8900E33667 /* OrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84009287CFE8900E33667 /* OrderViewController.swift */; };
 		1FE95A1E2874F6D300A79C77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */; };
 		1FE95A202874F6D300A79C77 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A1F2874F6D300A79C77 /* SceneDelegate.swift */; };
-		1FE95A222874F6D300A79C77 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A212874F6D300A79C77 /* ViewController.swift */; };
 		1FE95A272874F6D300A79C77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FE95A262874F6D300A79C77 /* Assets.xcassets */; };
 		1FE95A2A2874F6D300A79C77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FE95A282874F6D300A79C77 /* LaunchScreen.storyboard */; };
 		1FE95A34287640DA00A79C77 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A33287640DA00A79C77 /* User.swift */; };
@@ -40,10 +41,11 @@
 		1FB83FF92879070400E33667 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		1FB83FFD287C89F200E33667 /* LocationUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationUILabel.swift; path = Tarrare/CustomViews/LocationUILabel.swift; sourceTree = SOURCE_ROOT; };
 		1FB84001287C9BEF00E33667 /* PlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCell.swift; sourceTree = "<group>"; };
+		1FB84007287CF6BD00E33667 /* DeliverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliverViewController.swift; sourceTree = "<group>"; };
+		1FB84009287CFE8900E33667 /* OrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewController.swift; sourceTree = "<group>"; };
 		1FE95A1A2874F6D300A79C77 /* Tarrare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tarrare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FE95A1F2874F6D300A79C77 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1FE95A212874F6D300A79C77 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1FE95A262874F6D300A79C77 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1FE95A292874F6D300A79C77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1FE95A2B2874F6D300A79C77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -132,13 +134,14 @@
 		1FE95A312874F89C00A79C77 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				1FE95A212874F6D300A79C77 /* ViewController.swift */,
 				1FE95A352876418D00A79C77 /* LoginViewController.swift */,
 				1FE95A3F2877575300A79C77 /* RegisterViewController.swift */,
 				1FE95A4F2878B4CF00A79C77 /* HomeViewController.swift */,
 				1FE95A512878B5AA00A79C77 /* ProfileViewController.swift */,
 				1FE95A562878B8C500A79C77 /* MessagesViewController.swift */,
 				1FE95A5A2878E99300A79C77 /* SelectLocationViewController.swift */,
+				1FB84007287CF6BD00E33667 /* DeliverViewController.swift */,
+				1FB84009287CFE8900E33667 /* OrderViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -327,7 +330,6 @@
 				1FB83FFE287C89F200E33667 /* LocationUILabel.swift in Sources */,
 				1FE95A4E2878AFC500A79C77 /* Constants.swift in Sources */,
 				1FB83FF62878FC8C00E33667 /* Networking.swift in Sources */,
-				1FE95A222874F6D300A79C77 /* ViewController.swift in Sources */,
 				1FB83FF82878FCBD00E33667 /* MapsAPI.swift in Sources */,
 				1FE95A1E2874F6D300A79C77 /* AppDelegate.swift in Sources */,
 				1FE95A452877880C00A79C77 /* APIManager.swift in Sources */,
@@ -336,9 +338,11 @@
 				1FB84002287C9BEF00E33667 /* PlaceCell.swift in Sources */,
 				1FE95A5B2878E99300A79C77 /* SelectLocationViewController.swift in Sources */,
 				1FE95A3828773D5C00A79C77 /* Extension.swift in Sources */,
+				1FB8400A287CFE8900E33667 /* OrderViewController.swift in Sources */,
 				1FE95A362876418D00A79C77 /* LoginViewController.swift in Sources */,
 				1FE95A552878B6B900A79C77 /* MainTabBarController.swift in Sources */,
 				1FE95A522878B5AA00A79C77 /* ProfileViewController.swift in Sources */,
+				1FB84008287CF6BD00E33667 /* DeliverViewController.swift in Sources */,
 				1FB83FFA2879070400E33667 /* Place.swift in Sources */,
 				1FE95A202874F6D300A79C77 /* SceneDelegate.swift in Sources */,
 				1FE95A502878B4CF00A79C77 /* HomeViewController.swift in Sources */,

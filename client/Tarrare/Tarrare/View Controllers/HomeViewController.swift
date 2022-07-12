@@ -11,19 +11,20 @@ import CoreLocation
 
 class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
+    enum ViewType {
+        case Order
+        case Deliver
+    }
+    
     let locationManager = CLLocationManager()
     var currentPlace: Place?
+    var currentViewType: ViewType = .Order
+    var childView: UIView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.delegate = self
-        if CLLocationManager.authorizationStatus() == .notDetermined {
-            locationManager.requestWhenInUseAuthorization()
-        } else {
-            requestUserCurrentPlace()
-        }
-        
         view.backgroundColor = .white
+        childView = orderViewController.view
         
         createNavBar()
         
@@ -32,16 +33,10 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         customNavBarView.addSubview(deliverNavButton)
         customNavBarView.frame = CGRect(x: 0, y:0, width: view.frame.width, height: 200)
         
-        view.addSubview(containerView)
-        containerView.addSubview(locationSelectView)
-        locationSelectView.addSubview(currentLocationLabel)
+        view.addSubview(childView)
         
-        
-        addCurrentLocationLabelGesture()
-    }
-    
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager){
-        requestUserCurrentPlace()
+        addOrderNavButtonGesture()
+        addDeliverNavButtonGesture()
     }
     
     override func viewWillLayoutSubviews() {
@@ -51,13 +46,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         let displayWidth = self.view.frame.width
         let displayHeight = self.view.frame.height
         
-        let sidePadding = 20.0
+        childView.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: displayWidth, height: displayHeight/2, enableInsets: false)
         
-        containerView.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: sidePadding, paddingBottom: 0, paddingRight: sidePadding, width: displayWidth, height: displayHeight/2, enableInsets: false)
-        containerView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        
-        locationSelectView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: displayWidth, height: 30, enableInsets: false)
-        currentLocationLabel.anchor(top: locationSelectView.topAnchor, left: locationSelectView.leftAnchor, bottom: locationSelectView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: locationSelectView.frame.width, height: 0, enableInsets: false)
     }
     
     func createNavBar() {
@@ -103,53 +93,82 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         return button
     }()
     
-    private let containerView: UIView = {
-        let view = UIView()
-        return view
+    // Order or Deliver View
+    
+    private var orderViewController: OrderViewController = {
+        let viewController = OrderViewController()
+        return viewController
     }()
     
-    private let locationSelectView: UIView = {
-        let view = UIView()
-        return view
+    private var deliverViewController: DeliverViewController = {
+        let viewController = DeliverViewController()
+        return viewController
     }()
     
-    private let currentLocationLabel: LocationUILabel = {
-        let label = LocationUILabel()
-        return label
-    }()
     
-    func setCurrentPlace(place: Place) {
-        self.currentPlace = place
-        self.currentLocationLabel.setText(text: place.name)
-    }
+    func updateNavBarButtons() {
+        var selectedButton : UIButton?
+        var unselectedButton : UIButton?
         
-    func requestUserCurrentPlace() {
-        //COMMENTED OUT TO LIMIT API REQUESTS TEMPORARILY
+        if (self.currentViewType == .Order) {
+            selectedButton = self.orderNavButton
+            unselectedButton = self.deliverNavButton
+        } else {
+            selectedButton = self.deliverNavButton
+            unselectedButton = self.orderNavButton
+        }
+        selectedButton!.setTitleColor(.white, for: .normal)
+        selectedButton!.titleLabel?.font = UIFont(name: "Inter-Regular_Semibold", size: 17)
+        selectedButton!.backgroundColor = .black
         
-        //        APIManager.shared().getCurrentPlace(completion: {(place) in
-//            self.setCurrentPlace(place: place)
-//        })
+        unselectedButton!.setTitleColor(.black, for: .normal)
+        unselectedButton!.titleLabel?.font = UIFont(name: "Inter-Regular_Normal", size: 17)
+        unselectedButton!.backgroundColor = .white
     }
+    
+    func handleChildViewChange() {
+        switch self.currentViewType {
+        case .Order:
+            self.childView = orderViewController.view
+            break
+        case .Deliver:
+            self.childView = deliverViewController.view
+            break
+        }
+        
+        // reload view
+        self.childView.removeFromSuperview()
+        self.view.addSubview(childView)
+        
+        updateNavBarButtons()
+    }
+    
+    
     
     // GESTURES / ACTIONS
-    
-    func addCurrentLocationLabelGesture() {
-        let labelTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentLocationLabel))
-            currentLocationLabel.isUserInteractionEnabled = true
-            currentLocationLabel.addGestureRecognizer(labelTapGesture)
+    @objc func didTapOrderNavButton() {
+        if (self.currentViewType == .Order) {
+           return
+        }
+        self.currentViewType = .Order
+        handleChildViewChange()
     }
     
-    @objc func didTapCurrentLocationLabel() {
-        let selectLocationVC = SelectLocationViewController()
-        selectLocationVC.delegate = self
-        self.present(selectLocationVC, animated: true)
+    func addOrderNavButtonGesture() {
+        orderNavButton.addTarget(self, action: #selector(didTapOrderNavButton), for: .touchUpInside)
     }
     
+    @objc func didTapDeliverNavButton() {
+        if (self.currentViewType == .Deliver) {
+           return
+        }
+        self.currentViewType = .Deliver
+        handleChildViewChange()
+    }
+    
+    func addDeliverNavButtonGesture() {
+        deliverNavButton.addTarget(self, action: #selector(didTapDeliverNavButton), for: .touchUpInside)
+    }
     
 }
 
-extension HomeViewController : SelectLocationViewDelegate {
-    func sendSelectedPlace(place: Place) {
-        setCurrentPlace(place: place)
-    }
-}
