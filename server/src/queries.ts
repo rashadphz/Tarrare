@@ -1,4 +1,11 @@
-import { User, Profile, Place } from "@prisma/client";
+import {
+  User,
+  Profile,
+  Place,
+  Delivery,
+  Status,
+  Resturant,
+} from "@prisma/client";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
@@ -68,9 +75,9 @@ const registerUser = async (req: Request, res: Response) => {
  * Places
  */
 
-const addPlace = async (req: Request, res: Response) => {
+const createPlace = async (placeObj: Place) => {
   const { name, fullAddress, state, city, zipcode, googlePlaceId } =
-    req.body as Place;
+    placeObj;
 
   const place = await prisma.place.findUnique({
     where: {
@@ -80,7 +87,7 @@ const addPlace = async (req: Request, res: Response) => {
 
   // Already exists
   if (place) {
-    res.status(200).json(place);
+    return place;
   } else {
     const createdPlace = await prisma.place.create({
       data: {
@@ -92,15 +99,79 @@ const addPlace = async (req: Request, res: Response) => {
         googlePlaceId,
       },
     });
-    res.status(200).json(createdPlace);
+    return createdPlace;
   }
+};
+
+const addResturant = async (req: Request, res: Response) => {
+  const place = await createPlace(req.body as Place);
+
+  const resturant = await prisma.resturant.findUnique({
+    where: {
+      placeId: place.id,
+    },
+  });
+
+  if (!resturant) {
+    await prisma.resturant.create({
+      data: {
+        placeId: place.id,
+      },
+    });
+  }
+  res.status(200).json(place);
+};
+
+const addDeliveryBuilding = async (req: Request, res: Response) => {
+  const place = await createPlace(req.body as Place);
+
+  const deliveryBuilding = await prisma.deliveryBuilding.findUnique({
+    where: {
+      placeId: place.id,
+    },
+  });
+
+  if (!deliveryBuilding) {
+    await prisma.deliveryBuilding.create({
+      data: {
+        placeId: place.id,
+      },
+    });
+  }
+  res.status(200).json(place);
+};
+
+/**
+ * Orders/Deliveries
+ */
+
+const addDelivery = async (req: Request, res: Response) => {
+  const {
+    orderStatus,
+    userId,
+    resturantPlaceId,
+    deliveryBuildingPlaceId,
+  } = req.body as Delivery;
+
+  const createdDelivery = await prisma.delivery.create({
+    data: {
+      orderStatus,
+      userId,
+      resturantPlaceId,
+      deliveryBuildingPlaceId,
+    },
+  });
+
+  res.status(200).json(createdDelivery);
 };
 
 const db = {
   getUsers,
   loginUser,
   registerUser,
-  addPlace,
+  addResturant,
+  addDeliveryBuilding,
+  addDelivery,
 };
 
 export default db;

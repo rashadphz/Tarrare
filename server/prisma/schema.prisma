@@ -52,41 +52,39 @@ model University {
 }
 
 model Order {
-  id                 Int              @id @default(autoincrement())
-  completed          Boolean          @default(false)
-  user               User             @relation(fields: [userId], references: [id])
-  userId             Int              @unique
-  resturant          Resturant        @relation(fields: [resturantId], references: [id])
-  resturantId        Int
-  deliveryBuilding   DeliveryBuilding @relation(fields: [deliveryBuildingId], references: [id])
-  deliveryBuildingId Int
+  id                      Int              @id @default(autoincrement())
+  orderStatus             Status           @default(placed)
+  user                    User             @relation(fields: [userId], references: [id])
+  userId                  Int
+  resturant               Resturant        @relation(fields: [resturantPlaceId], references: [placeId])
+  deliveryBuilding        DeliveryBuilding @relation(fields: [deliveryBuildingPlaceId], references: [placeId])
+  resturantPlaceId        Int
+  deliveryBuildingPlaceId Int
 }
 
 model Delivery {
-  id                 Int              @id @default(autoincrement())
-  completed          Boolean          @default(false)
-  user               User             @relation(fields: [userId], references: [id])
-  userId             Int              @unique
-  resturant          Resturant        @relation(fields: [resturantId], references: [id])
-  resturantId        Int
-  deliveryBuilding   DeliveryBuilding @relation(fields: [deliveryBuildingId], references: [id])
-  deliveryBuildingId Int
+  id                      Int              @id @default(autoincrement())
+  orderStatus             Status           @default(placed)
+  user                    User             @relation(fields: [userId], references: [id])
+  userId                  Int
+  resturant               Resturant        @relation(fields: [resturantPlaceId], references: [placeId])
+  deliveryBuilding        DeliveryBuilding @relation(fields: [deliveryBuildingPlaceId], references: [placeId])
+  resturantPlaceId        Int
+  deliveryBuildingPlaceId Int
 }
 
 model Resturant {
-  id         Int        @id @default(autoincrement())
-  orders     Order[]
-  deliveries Delivery[]
-  place      Place      @relation(fields: [placeId], references: [id])
-  placeId    Int
+  place    Place      @relation(fields: [placeId], references: [id])
+  placeId  Int        @unique
+  Order    Order[]
+  Delivery Delivery[]
 }
 
 model DeliveryBuilding {
-  id         Int        @id @default(autoincrement())
   orders     Order[]
   deliveries Delivery[]
   place      Place      @relation(fields: [placeId], references: [id])
-  placeId    Int
+  placeId    Int        @unique
 }
 
 model Place {
@@ -96,7 +94,7 @@ model Place {
   state            String             @db.VarChar(255)
   city             String             @db.VarChar(255)
   zipcode          Int
-  googlePlaceId    String @unique
+  googlePlaceId    String             @unique
   University       University[]
   Resturant        Resturant[]
   DeliveryBuilding DeliveryBuilding[]
@@ -122,4 +120,11 @@ model Message {
   userId   Int
   content  String
   sentAt   DateTime     @default(now())
+}
+
+enum Status {
+  placed
+  matched
+  complete
+  cancelled
 }

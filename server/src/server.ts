@@ -24,16 +24,20 @@ app.post("/register", (req: Request, res: Response) => {
 /**
  * Places
  */
-app.post("/place", (req: Request, res: Response) => {
-  db.addPlace(req, res);
+app.post("/resturant", (req: Request, res: Response) => {
+  db.addResturant(req, res);
+});
+
+app.post("/deliveryBuilding", (req: Request, res: Response) => {
+  db.addDeliveryBuilding(req, res);
 });
 
 /**
  * Deliveries/Orders
  */
-// app.post("/place", (req: Request, res: Response) => {
-//   db.addDelivery(req, res);
-// });
+app.post("/delivery", (req: Request, res: Response) => {
+  db.addDelivery(req, res);
+});
 
 
 const server = app.listen(3000, () => {
