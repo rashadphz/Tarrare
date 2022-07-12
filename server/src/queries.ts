@@ -1,5 +1,4 @@
-import { User, Profile, Place } from "./models";
-
+import { User, Profile, Place } from "@prisma/client";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";

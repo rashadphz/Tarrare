@@ -28,6 +28,14 @@ app.post("/place", (req: Request, res: Response) => {
   db.addPlace(req, res);
 });
 
+/**
+ * Deliveries/Orders
+ */
+// app.post("/place", (req: Request, res: Response) => {
+//   db.addDelivery(req, res);
+// });
+
+
 const server = app.listen(3000, () => {
   console.log("Started server at port 3000");
 });
