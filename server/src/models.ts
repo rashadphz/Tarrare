@@ -11,6 +11,15 @@ interface User {
   password: string;
 }
 
+interface Place {
+    name: string
+    fullAddress: string
+    state: string
+    city: string
+    zipcode: number
+    googlePlaceId: string
+}
+
 interface Profile {}
 
-export { User, Profile };
+export { User, Profile, Place };

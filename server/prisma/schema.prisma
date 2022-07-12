@@ -43,11 +43,11 @@ model Profile {
 // DELIVERY/ORDER TABLES
 
 model University {
-  id          Int      @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   emailEnding String?
   fullName    String?
-  location    Location @relation(fields: [locationId], references: [id])
-  locationId  Int
+  place       Place   @relation(fields: [placeId], references: [id])
+  placeId     Int
   students    User[]
 }
 
@@ -77,25 +77,26 @@ model Resturant {
   id         Int        @id @default(autoincrement())
   orders     Order[]
   deliveries Delivery[]
-  location   Location   @relation(fields: [locationId], references: [id])
-  locationId Int
+  place      Place      @relation(fields: [placeId], references: [id])
+  placeId    Int
 }
 
 model DeliveryBuilding {
   id         Int        @id @default(autoincrement())
   orders     Order[]
   deliveries Delivery[]
-  location   Location   @relation(fields: [locationId], references: [id])
-  locationId Int
+  place      Place      @relation(fields: [placeId], references: [id])
+  placeId    Int
 }
 
-model Location {
+model Place {
   id               Int                @id @default(autoincrement())
-  name             String?
+  name             String
   fullAddress      String             @db.VarChar(255)
   state            String             @db.VarChar(255)
   city             String             @db.VarChar(255)
   zipcode          Int
+  googlePlaceId    String @unique
   University       University[]
   Resturant        Resturant[]
   DeliveryBuilding DeliveryBuilding[]

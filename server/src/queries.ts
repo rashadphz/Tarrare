@@ -1,10 +1,14 @@
-import { User, Profile } from "./models";
+import { User, Profile, Place } from "./models";
 
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
+
+/**
+ * Users
+ */
 
 const getUsers = async (req: Request, res: Response) => {
   const users = await prisma.user.findMany({
@@ -61,10 +65,43 @@ const registerUser = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * Places
+ */
+
+const addPlace = async (req: Request, res: Response) => {
+  const { name, fullAddress, state, city, zipcode, googlePlaceId } =
+    req.body as Place;
+
+  const place = await prisma.place.findUnique({
+    where: {
+      googlePlaceId,
+    },
+  });
+
+  // Already exists
+  if (place) {
+    res.status(200).json(place);
+  } else {
+    const createdPlace = await prisma.place.create({
+      data: {
+        name,
+        fullAddress,
+        state,
+        city,
+        zipcode,
+        googlePlaceId,
+      },
+    });
+    res.status(200).json(createdPlace);
+  }
+};
+
 const db = {
   getUsers,
   loginUser,
   registerUser,
+  addPlace,
 };
 
 export default db;

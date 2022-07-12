@@ -21,6 +21,13 @@ app.post("/register", (req: Request, res: Response) => {
   db.registerUser(req, res);
 });
 
+/**
+ * Places
+ */
+app.post("/place", (req: Request, res: Response) => {
+  db.addPlace(req, res);
+});
+
 const server = app.listen(3000, () => {
   console.log("Started server at port 3000");
 });
