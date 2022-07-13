@@ -24,13 +24,15 @@ enum EndpointItem {
     case userGet
     case placePost
     case placeGet
+    case deliveryPost
+    case deliveryGet
 }
 
 extension EndpointItem: EndPointType {
     var baseURL: String {
         switch APIManager.networkEnvironment {
-        case .dev: return "http://localhost:3000/"
-        case .ngrok: return "https://b29c-50-234-16-50.ngrok.io/"
+        case .dev: return "http://localhost:62528/"
+        case .ngrok: return "https://2ead-163-114-132-128.ngrok.io/"
         case .prod: return ""
         }
     }
@@ -41,14 +43,12 @@ extension EndpointItem: EndPointType {
             return "login"
         case .register:
             return "register"
-        case .userPost:
+        case .userPost, .userGet:
             return "user"
-        case .userGet:
-            return "user"
-        case .placePost:
+        case .placePost, .placeGet:
             return "place"
-        case .placeGet:
-            return "place"
+        case .deliveryPost, .deliveryGet:
+            return "delivery"
         }
     }
     
@@ -58,9 +58,9 @@ extension EndpointItem: EndPointType {
     
     var httpMethod: HTTPMethod {
         switch self {
-        case .login, .register, .userPost, .placePost:
+        case .login, .register, .userPost, .placePost, .deliveryPost:
             return .post
-        case .userGet, .placeGet:
+        case .userGet, .placeGet, .deliveryGet:
             return .get
             
         }

@@ -14,8 +14,7 @@ class APIManager {
     
     private let sessionManager: Session
     #if targetEnvironment(simulator)
-        static let networkEnvironment: NetworkEnvironment = .ngrok
-//        static let networkEnvironment: NetworkEnvironment = .dev
+        static let networkEnvironment: NetworkEnvironment = .dev
     #else
         static let networkEnvironment: NetworkEnvironment = .ngrok
     #endif
@@ -39,8 +38,8 @@ class APIManager {
         self.sessionManager.request(type.url, method: type.httpMethod, parameters: params, encoding: type.encoding, headers: type.headers).validate().responseDecodable(of: T.self) { response in
             
             switch response.result {
-            case .success(let user):
-                completion(user)
+            case .success(let object):
+                completion(object)
                 break
             case .failure(_):
                 completion(nil)
