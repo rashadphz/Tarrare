@@ -10,12 +10,14 @@ import FirebaseAuth
 import Alamofire
 
 class User: Codable {
+    let id : Int
     let firstName : String
     let lastName: String
     let email: String
     let delivering: Bool
     
     enum CodingKeys: String, CodingKey {
+        case id
         case firstName
         case lastName
         case email

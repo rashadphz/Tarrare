@@ -60,6 +60,24 @@ class Place: Codable {
         self.fullAddress = fullAddress
     }
     
+    static func setCurrent(_ place: Place, writeToUserDefaults: Bool = false) {
+        if writeToUserDefaults {
+            if let data = try? JSONEncoder().encode(place) {
+                UserDefaults.standard.set(data, forKey: Constants.UserDefaults.currentPlace)
+                
+            }
+        }
+    }
+    
+    static func getCurrent() -> Place? {
+        let placeData = UserDefaults.standard.object(forKey: Constants.UserDefaults.currentPlace) as? Data
+        if let placeData = placeData {
+            let place = try? JSONDecoder().decode(Place.self, from:placeData)
+            return place
+        }
+        return nil
+    }
+    
     // send the place to database
     func createPlace(completion: @escaping(Place?) -> Void) {
         let parameters: Parameters = [
@@ -72,25 +90,6 @@ class Place: Codable {
         ]
         APIManager.shared().call(type: EndpointItem.placePost, params: parameters, completion: completion)
     }
-    
-    
-    
-    // To save Google Maps API Costs when doing UI changes
-    static func createDebugPlaces() -> [Place] {
-        var places : [Place] = []
-        places.append(Place("Chipotle Mexican Grill", fullAddress: "West 48th Street, New York, NY, USA"))
-        places.append(Place("Chipotle Mexican Grill", fullAddress: "Howard Street at West Campus, San Francisco, CA, USA"))
-        places.append(Place("Chipotle Mexican Grill", fullAddress: "West 48th Street, New York, NY, USA"))
-        places.append(Place("Chipotle Mexican Grill", fullAddress: "West 48th Street, New York, NY, USA"))
-        places.append(Place("Chipotle Mexican Grill", fullAddress: "West 48th Street, New York, NY, USA"))
-        places.append(Place("Chipotle Mexican Grill", fullAddress: "West 48th Street, New York, NY, USA"))
-        places.append(Place("Chipotle Mexican Grill", fullAddress: "West 48th Street, New York, NY, USA"))
-        return places
-        
-    }
-    
-    
-    
     
 }
 
