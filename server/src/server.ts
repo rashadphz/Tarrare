@@ -34,23 +34,18 @@ app.post("/place", (req: Request, res: Response) => {
   db.addPlace(req, res);
 });
 
-app.post("/resturant", (req: Request, res: Response) => {
-  db.addResturant(req, res);
-});
-
-app.post("/deliveryBuilding", (req: Request, res: Response) => {
-  db.addDeliveryBuilding(req, res);
-});
-
 /**
  * Deliveries/Orders
  */
 app.post("/delivery", (req: Request, res: Response) => {
   db.addDelivery(req, res);
 });
+app.get("/delivery", (req: Request, res: Response) => {
+  db.getDeliveries(req, res);
+});
 
 
-const port = 63978
+const port = 62528
 const server = app.listen(port, () => {
   console.log(`Started server at port ${port}`);
 });

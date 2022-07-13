@@ -24,15 +24,15 @@ const getUsers = async (req: Request, res: Response) => {
 };
 
 const updateUser = async (req: Request, res: Response) => {
-  const {email, delivering } = req.body as User
+  const { email, delivering } = req.body as User;
   const user = await prisma.user.update({
     where: {
-      email
+      email,
     },
     data: {
-      delivering
-    }
-  })
+      delivering,
+    },
+  });
   res.status(200).json(user);
 };
 
@@ -121,43 +121,30 @@ const addPlace = async (req: Request, res: Response) => {
   res.status(200).json(place);
 };
 
-const addResturant = async (req: Request, res: Response) => {
-  const place = await createPlace(req.body as Place);
-
-  const resturant = await prisma.resturant.findUnique({
+const addResturant = async (placeId: number) => {
+  await prisma.resturant.upsert({
     where: {
-      placeId: place.id,
+      placeId
     },
+    create: {
+      placeId
+    },
+    update: {}
   });
-
-  if (!resturant) {
-    await prisma.resturant.create({
-      data: {
-        placeId: place.id,
-      },
-    });
-  }
-  res.status(200).json(place);
 };
 
-const addDeliveryBuilding = async (req: Request, res: Response) => {
-  const place = await createPlace(req.body as Place);
-
-  const deliveryBuilding = await prisma.deliveryBuilding.findUnique({
+const addDeliveryBuilding = async (placeId: number) => {
+  await prisma.deliveryBuilding.upsert({
     where: {
-      placeId: place.id,
+      placeId
     },
+    create: {
+      placeId
+    },
+    update: {}
   });
-
-  if (!deliveryBuilding) {
-    await prisma.deliveryBuilding.create({
-      data: {
-        placeId: place.id,
-      },
-    });
-  }
-  res.status(200).json(place);
 };
+
 
 /**
  * Orders/Deliveries
@@ -171,6 +158,9 @@ const addDelivery = async (req: Request, res: Response) => {
     deliveryBuildingPlaceId,
   } = req.body as Delivery;
 
+  await addResturant(resturantPlaceId)
+  await addDeliveryBuilding(deliveryBuildingPlaceId)
+
   const createdDelivery = await prisma.delivery.create({
     data: {
       orderStatus,
@@ -178,10 +168,45 @@ const addDelivery = async (req: Request, res: Response) => {
       resturantPlaceId,
       deliveryBuildingPlaceId,
     },
+    include: {
+      user: true,
+      resturant: true,
+      deliveryBuilding: true,
+    },
   });
 
   res.status(200).json(createdDelivery);
 };
+
+const getDeliveries = async (req: Request, res: Response) => {
+
+  const placedDeliveries = await prisma.delivery.findMany({
+    where : {
+      orderStatus: Status.placed
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          firstName: true,
+          picture: true,
+        }
+      },
+      resturant: {
+        select: {
+          place: true,
+        }
+      },
+      deliveryBuilding: {
+        select: {
+          place: true,
+        }
+      }
+    }
+  })
+
+  res.status(200).json(placedDeliveries)
+}
 
 const db = {
   getUsers,
@@ -192,6 +217,7 @@ const db = {
   addResturant,
   addDeliveryBuilding,
   addDelivery,
+  getDeliveries
 };
 
 export default db;
