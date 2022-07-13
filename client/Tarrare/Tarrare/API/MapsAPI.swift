@@ -46,7 +46,11 @@ extension APIManager {
             if let gmsPlace = gmsPlace {
                 let place = Place(gmsPlace)
                 place.createPlace(completion: {createdPlace in
-                    completion(createdPlace!)
+                    if let createdPlace = createdPlace {
+                        completion(createdPlace)
+                    } else {
+                        print("Failed to create Place")
+                    }
                 })
             }
         })

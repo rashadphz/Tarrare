@@ -50,6 +50,7 @@ app.post("/delivery", (req: Request, res: Response) => {
 });
 
 
-const server = app.listen(3000, () => {
-  console.log("Started server at port 3000");
+const port = 63978
+const server = app.listen(port, () => {
+  console.log(`Started server at port ${port}`);
 });
