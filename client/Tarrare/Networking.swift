@@ -22,6 +22,8 @@ enum EndpointItem {
     case register
     case userPost
     case userGet
+    case placePost
+    case placeGet
 }
 
 extension EndpointItem: EndPointType {
@@ -43,6 +45,10 @@ extension EndpointItem: EndPointType {
             return "user"
         case .userGet:
             return "user"
+        case .placePost:
+            return "place"
+        case .placeGet:
+            return "place"
         }
     }
     
@@ -52,9 +58,9 @@ extension EndpointItem: EndPointType {
     
     var httpMethod: HTTPMethod {
         switch self {
-        case .login, .register, .userPost:
+        case .login, .register, .userPost, .placePost:
             return .post
-        case .userGet:
+        case .userGet, .placeGet:
             return .get
             
         }

@@ -168,6 +168,12 @@ class DeliverViewController: UIViewController, CLLocationManagerDelegate {
         return label
     }()
     
+    func placeDeliverRequest() {
+        if let currentResturant = currentResturant, let deliveryLocation = deliveryLocation {
+            print(currentResturant.googlePlaceId)
+            print(deliveryLocation.googlePlaceId)
+        }
+    }
     
     func updateDeliveryStatusLabel(_ status : Bool? = nil) {
         
@@ -191,6 +197,10 @@ class DeliverViewController: UIViewController, CLLocationManagerDelegate {
                 User.setCurrent(responseUser, writeToUserDefaults: true)
 
                 self.user = responseUser
+                
+                if (self.user.delivering == true) {
+                    self.placeDeliverRequest()
+                }
             }
         })
         

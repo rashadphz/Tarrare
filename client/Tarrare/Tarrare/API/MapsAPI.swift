@@ -12,10 +12,10 @@ extension APIManager {
     
     func getCurrentPlace(completion: @escaping (Place) -> Void) {
         let placesClient = GMSPlacesClient.shared()
-        let placeFields : GMSPlaceField = [.name, .formattedAddress]
+        let placeFields : GMSPlaceField = [.name, .formattedAddress, .placeID, .addressComponents]
         placesClient.findPlaceLikelihoodsFromCurrentLocation(withPlaceFields: placeFields, callback: { [weak self] (placeLikelihoods, error) in
             
-            guard let strongSelf = self else {
+            guard self != nil else {
                 return
             }
             
@@ -34,17 +34,20 @@ extension APIManager {
     
     func placeFromID(placeID: String, sessionToken: GMSAutocompleteSessionToken, completion: @escaping (Place) -> Void) {
         let placesClient = GMSPlacesClient.shared()
-        let placeFields : GMSPlaceField = [.name, .formattedAddress]
+        let placeFields : GMSPlaceField = [.name, .formattedAddress, .placeID, .addressComponents]
         
         placesClient.fetchPlace(fromPlaceID: placeID, placeFields: placeFields, sessionToken: sessionToken, callback: {
-            (place: GMSPlace?, error: Error?) in
+            (gmsPlace: GMSPlace?, error: Error?) in
             
             if let error = error {
                 print("Place from ID Error: \(error.localizedDescription)")
             }
             
-            if let place = place {
-                completion(Place(place))
+            if let gmsPlace = gmsPlace {
+                let place = Place(gmsPlace)
+                place.createPlace(completion: {createdPlace in
+                    completion(createdPlace!)
+                })
             }
         })
     }

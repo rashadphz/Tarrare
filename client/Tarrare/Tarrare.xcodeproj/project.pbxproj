@@ -14,6 +14,7 @@
 		1FB84002287C9BEF00E33667 /* PlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84001287C9BEF00E33667 /* PlaceCell.swift */; };
 		1FB84008287CF6BD00E33667 /* DeliverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84007287CF6BD00E33667 /* DeliverViewController.swift */; };
 		1FB8400A287CFE8900E33667 /* OrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84009287CFE8900E33667 /* OrderViewController.swift */; };
+		1FB8400E287E5E6A00E33667 /* Delivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB8400D287E5E6A00E33667 /* Delivery.swift */; };
 		1FE95A1E2874F6D300A79C77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */; };
 		1FE95A202874F6D300A79C77 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A1F2874F6D300A79C77 /* SceneDelegate.swift */; };
 		1FE95A272874F6D300A79C77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FE95A262874F6D300A79C77 /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 		1FB84001287C9BEF00E33667 /* PlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCell.swift; sourceTree = "<group>"; };
 		1FB84007287CF6BD00E33667 /* DeliverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliverViewController.swift; sourceTree = "<group>"; };
 		1FB84009287CFE8900E33667 /* OrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewController.swift; sourceTree = "<group>"; };
+		1FB8400D287E5E6A00E33667 /* Delivery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delivery.swift; sourceTree = "<group>"; };
 		1FE95A1A2874F6D300A79C77 /* Tarrare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tarrare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FE95A1F2874F6D300A79C77 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 			children = (
 				1FE95A33287640DA00A79C77 /* User.swift */,
 				1FB83FF92879070400E33667 /* Place.swift */,
+				1FB8400D287E5E6A00E33667 /* Delivery.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				1FB83FFE287C89F200E33667 /* LocationUILabel.swift in Sources */,
 				1FE95A4E2878AFC500A79C77 /* Constants.swift in Sources */,
 				1FB83FF62878FC8C00E33667 /* Networking.swift in Sources */,
+				1FB8400E287E5E6A00E33667 /* Delivery.swift in Sources */,
 				1FB83FF82878FCBD00E33667 /* MapsAPI.swift in Sources */,
 				1FE95A1E2874F6D300A79C77 /* AppDelegate.swift in Sources */,
 				1FE95A452877880C00A79C77 /* APIManager.swift in Sources */,
