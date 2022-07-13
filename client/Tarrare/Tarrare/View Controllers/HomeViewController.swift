@@ -23,6 +23,13 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        locationManager.delegate = self
+        if CLLocationManager.authorizationStatus() == .notDetermined {
+            locationManager.requestWhenInUseAuthorization()
+        } else {
+            requestUserCurrentPlace()
+        }
+        
         view.backgroundColor = .white
         childView = orderViewController.view
         
@@ -48,6 +55,18 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         
         childView.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: displayWidth, height: displayHeight/2, enableInsets: false)
         
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager){
+        requestUserCurrentPlace()
+    }
+    
+    func requestUserCurrentPlace() {
+        APIManager.shared().getCurrentPlace(completion: {place in
+            place.createPlace(completion: {createdPlace in
+                Place.setCurrent(place, writeToUserDefaults: true)
+            })
+        })
     }
     
     func createNavBar() {
@@ -92,8 +111,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         button.layer.cornerRadius = 15
         return button
     }()
-    
-    // Order or Deliver View
     
     private var orderViewController: OrderViewController = {
         let viewController = OrderViewController()

@@ -11,21 +11,17 @@ import CoreLocation
 
 class DeliverViewController: UIViewController, CLLocationManagerDelegate {
     
-    let locationManager = CLLocationManager()
-    var currentResturant: Place?
-    var deliveryLocation: Place?
+    var currentResturant: Place? = Place.getCurrent()
+    var deliveryBuilding: Place?
     var tappedLocationLabel: UILabel?
     var user : User! = User.getCurrent()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.delegate = self
-        if CLLocationManager.authorizationStatus() == .notDetermined {
-            locationManager.requestWhenInUseAuthorization()
-        } else {
-            requestUserCurrentPlace()
-        }
         updateDeliveryStatusLabel()
+        if let currentResturant = currentResturant {
+            setCurrentResturant(place: currentResturant)
+        }
         
         view.backgroundColor = .white
         
@@ -49,9 +45,6 @@ class DeliverViewController: UIViewController, CLLocationManagerDelegate {
         addDeliveryStatusGesture()
     }
     
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager){
-        requestUserCurrentPlace()
-    }
     
     override func viewWillLayoutSubviews() {
         let displayWidth = self.view.frame.width
@@ -169,9 +162,12 @@ class DeliverViewController: UIViewController, CLLocationManagerDelegate {
     }()
     
     func placeDeliverRequest() {
-        if let currentResturant = currentResturant, let deliveryLocation = deliveryLocation {
-            print(currentResturant.googlePlaceId)
-            print(deliveryLocation.googlePlaceId)
+        if let currentResturant = currentResturant, let deliveryBuilding = deliveryBuilding {
+            let delivery = Delivery(user: self.user, resturant: currentResturant, deliveryBuilding: deliveryBuilding)
+            
+            delivery.createDelivery(completion: {_ in
+            })
+            
         }
     }
     
@@ -207,22 +203,16 @@ class DeliverViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func setCurrentResturant(place: Place) {
+        Place.setCurrent(place, writeToUserDefaults: true)
         self.currentResturant = place
         self.resturantLocationLabel.setText(text: place.name)
     }
     
     func setCurrentDeliveryLocation(place: Place) {
-        self.deliveryLocation = place
+        self.deliveryBuilding = place
         self.deliveryLocationLabel.setText(text: place.name)
     }
         
-    func requestUserCurrentPlace() {
-        //COMMENTED OUT TO LIMIT API REQUESTS TEMPORARILY
-        
-        //        APIManager.shared().getCurrentPlace(completion: {(place) in
-//            self.setCurrentPlace(place: place)
-//        })
-    }
     
     // GESTURES / ACTIONS
     

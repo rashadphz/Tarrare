@@ -9,19 +9,20 @@ import Foundation
 import UIKit
 import CoreLocation
 
-class OrderViewController: UIViewController, CLLocationManagerDelegate {
+class OrderViewController: UIViewController {
     
     let locationManager = CLLocationManager()
     var currentPlace: Place?
+    var arrayOfDeliveries : [Delivery] = [Delivery]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.delegate = self
-        if CLLocationManager.authorizationStatus() == .notDetermined {
-            locationManager.requestWhenInUseAuthorization()
-        } else {
-            requestUserCurrentPlace()
+        
+        if let currentPlace = Place.getCurrent() {
+            setCurrentPlace(place: currentPlace)
         }
+        
+        fetchDeliveries()
         
         view.backgroundColor = .white
         
@@ -29,10 +30,6 @@ class OrderViewController: UIViewController, CLLocationManagerDelegate {
         containerView.addSubview(locationSelectView)
         locationSelectView.addSubview(currentLocationLabel)
         addCurrentLocationLabelGesture()
-    }
-    
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager){
-        requestUserCurrentPlace()
     }
     
     override func viewWillLayoutSubviews() {
@@ -65,18 +62,19 @@ class OrderViewController: UIViewController, CLLocationManagerDelegate {
     }()
     
     func setCurrentPlace(place: Place) {
+        Place.setCurrent(place, writeToUserDefaults: true)
         self.currentPlace = place
         self.currentLocationLabel.setText(text: place.name)
     }
-        
-    func requestUserCurrentPlace() {
-        //COMMENTED OUT TO LIMIT API REQUESTS TEMPORARILY
-        
-        //        APIManager.shared().getCurrentPlace(completion: {(place) in
-//            self.setCurrentPlace(place: place)
-//        })
-    }
     
+    func fetchDeliveries() {
+        Delivery.getAllPlacedDeliveries(completion: {deliveries in
+            if let deliveries = deliveries {
+                self.arrayOfDeliveries = deliveries
+            }
+        })
+    }
+        
     // GESTURES / ACTIONS
     
     func addCurrentLocationLabelGesture() {
