@@ -15,6 +15,7 @@ class DeliverViewController: UIViewController, CLLocationManagerDelegate {
     var currentResturant: Place?
     var deliveryLocation: Place?
     var tappedLocationLabel: UILabel?
+    var user : User! = User.getCurrent()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,21 +25,28 @@ class DeliverViewController: UIViewController, CLLocationManagerDelegate {
         } else {
             requestUserCurrentPlace()
         }
+        updateDeliveryStatusLabel()
         
         view.backgroundColor = .white
         
         view.addSubview(containerView)
         containerView.addSubview(resturantSelectStackView)
-        containerView.addSubview(deliveryLocationSelectStackView)
-        
         resturantSelectStackView.addArrangedSubview(myResturantLabel)
         resturantSelectStackView.addArrangedSubview(resturantLocationLabel)
         
+        containerView.addSubview(deliveryLocationSelectStackView)
         deliveryLocationSelectStackView.addArrangedSubview(myDeliveryLocationLabel)
         deliveryLocationSelectStackView.addArrangedSubview(deliveryLocationLabel)
         
+        containerView.addSubview(tableInfoStackView)
+        tableInfoStackView.addArrangedSubview(currentOrdersLabel)
+        tableInfoStackView.addArrangedSubview(statusView)
+        statusView.addSubview(myDeliveryStatusLabel)
+        statusView.addSubview(userDeliveryStatusLabel)
+        
         addResturantLabelGesture()
         addDeliveryLocationGesture()
+        addDeliveryStatusGesture()
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager){
@@ -61,6 +69,12 @@ class DeliverViewController: UIViewController, CLLocationManagerDelegate {
         deliveryLocationSelectStackView.anchor(top: resturantSelectStackView.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: containerView.frame.width, height: 30, enableInsets: false)
         myDeliveryLocationLabel.anchor(top: deliveryLocationSelectStackView.topAnchor, left: deliveryLocationSelectStackView.leftAnchor, bottom: deliveryLocationSelectStackView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0, enableInsets: false)
         deliveryLocationLabel.anchor(top: deliveryLocationSelectStackView.topAnchor, left: myDeliveryLocationLabel.rightAnchor, bottom: deliveryLocationSelectStackView.bottomAnchor, right: deliveryLocationSelectStackView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0, enableInsets: false)
+        
+        tableInfoStackView.anchor(top: deliveryLocationSelectStackView.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 25, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: containerView.frame.width, height: 50, enableInsets: false)
+        currentOrdersLabel.anchor(top: tableInfoStackView.topAnchor, left: tableInfoStackView.leftAnchor, bottom: tableInfoStackView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0, enableInsets: false)
+        statusView.anchor(top: tableInfoStackView.topAnchor, left: currentOrdersLabel.rightAnchor, bottom: tableInfoStackView.bottomAnchor, right: tableInfoStackView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0, enableInsets: false)
+        myDeliveryStatusLabel.anchor(top: statusView.topAnchor, left: statusView.leftAnchor, bottom: nil, right: statusView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0, enableInsets: false)
+        userDeliveryStatusLabel.anchor(top: myDeliveryStatusLabel.bottomAnchor, left: statusView.leftAnchor, bottom: statusView.bottomAnchor, right: statusView.rightAnchor, paddingTop: -3, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0, enableInsets: false)
     }
     
     private let containerView: UIView = {
@@ -118,6 +132,70 @@ class DeliverViewController: UIViewController, CLLocationManagerDelegate {
         return label
     }()
     
+    private let tableInfoStackView: UIStackView = {
+        let stackview = UIStackView()
+        stackview.axis = .horizontal
+        stackview.spacing = 3
+        stackview.translatesAutoresizingMaskIntoConstraints = false
+        return stackview
+    }()
+    
+    private let currentOrdersLabel : UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Inter-Regular_SemiBold", size: 22)
+        label.textColor = .black
+        label.text = "Current Orders"
+        return label
+    }()
+    
+    private let statusView : UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    private let myDeliveryStatusLabel : UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Inter-Regular_Bold", size: 15)
+        label.textColor = .black
+        label.text = "Delivery Status: "
+        return label
+    }()
+    
+    private var userDeliveryStatusLabel : UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Inter-Regular_Medium", size: 15)
+        label.textAlignment = .right
+        return label
+    }()
+    
+    
+    func updateDeliveryStatusLabel(_ status : Bool? = nil) {
+        
+        let deliveryStatus = status == nil ? self.user.delivering : status!
+        
+        if (deliveryStatus) {
+            self.userDeliveryStatusLabel.textColor = UIColor(named: "DarkGreen")
+            self.userDeliveryStatusLabel.text = "Delivering"
+        } else {
+            self.userDeliveryStatusLabel.textColor = UIColor(named: "DarkRed")
+            self.userDeliveryStatusLabel.text = "Not Delivering"
+        }
+    }
+    
+    func toggleUserDeliveryStatus() {
+        // update UI before making request
+        self.updateDeliveryStatusLabel(!self.user.delivering)
+        
+        user.toggleDeliveryStatus(completion: {(responseUser) in
+            if let responseUser = responseUser {
+                User.setCurrent(responseUser, writeToUserDefaults: true)
+
+                self.user = responseUser
+            }
+        })
+        
+    }
+    
     func setCurrentResturant(place: Place) {
         self.currentResturant = place
         self.resturantLocationLabel.setText(text: place.name)
@@ -164,6 +242,16 @@ class DeliverViewController: UIViewController, CLLocationManagerDelegate {
         
         selectLocationVC.delegate = self
         self.present(selectLocationVC, animated: true)
+    }
+    
+    func addDeliveryStatusGesture() {
+        let viewTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapDeliveryStatusView))
+        userDeliveryStatusLabel.isUserInteractionEnabled = true
+        userDeliveryStatusLabel.addGestureRecognizer(viewTapGesture)
+    }
+    
+    @objc func didTapDeliveryStatusView() {
+        toggleUserDeliveryStatus()
     }
     
     

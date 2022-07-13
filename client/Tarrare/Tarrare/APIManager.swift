@@ -14,7 +14,8 @@ class APIManager {
     
     private let sessionManager: Session
     #if targetEnvironment(simulator)
-        static let networkEnvironment: NetworkEnvironment = .dev
+        static let networkEnvironment: NetworkEnvironment = .ngrok
+//        static let networkEnvironment: NetworkEnvironment = .dev
     #else
         static let networkEnvironment: NetworkEnvironment = .ngrok
     #endif
@@ -57,7 +58,7 @@ class APIManager {
         
         Auth.auth().signIn(withEmail: email, password: password, completion: {(authResult, error) in
             guard error == nil else {
-                print("failed to login user")
+                print("Failed to login user: \(error?.localizedDescription)")
                 return
             }
             

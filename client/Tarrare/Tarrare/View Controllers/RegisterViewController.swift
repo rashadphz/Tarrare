@@ -175,8 +175,11 @@ class RegisterViewController: UIViewController {
         let email = emailField.text ?? ""
         let password = passwordField.text ?? ""
         APIManager.shared().registerUser(firstName: firstName, lastName: lastName, email: email, password: password, completion: {(user) in
-            User.setCurrent(user!, writeToUserDefaults: true)
-            self.presentHomeVC()
+            
+            if let user = user {
+                User.setCurrent(user, writeToUserDefaults: true)
+                self.presentHomeVC()
+            }
         })
     }
     
