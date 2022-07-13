@@ -116,6 +116,11 @@ const createPlace = async (placeObj: Place) => {
   }
 };
 
+const addPlace = async (req: Request, res: Response) => {
+  const place = await createPlace(req.body as Place);
+  res.status(200).json(place);
+};
+
 const addResturant = async (req: Request, res: Response) => {
   const place = await createPlace(req.body as Place);
 
@@ -183,6 +188,7 @@ const db = {
   loginUser,
   registerUser,
   updateUser,
+  addPlace,
   addResturant,
   addDeliveryBuilding,
   addDelivery,

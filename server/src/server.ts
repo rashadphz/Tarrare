@@ -30,6 +30,10 @@ app.post("/register", (req: Request, res: Response) => {
 /**
  * Places
  */
+app.post("/place", (req: Request, res: Response) => {
+  db.addPlace(req, res);
+});
+
 app.post("/resturant", (req: Request, res: Response) => {
   db.addResturant(req, res);
 });
