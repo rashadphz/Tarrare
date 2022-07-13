@@ -11,12 +11,18 @@ app.use(express.json());
  * Users
  */
 
-app.get("/users", (req: Request, res: Response) => {
+app.get("/user", (req: Request, res: Response) => {
   db.getUsers(req, res);
 });
+
+app.post("/user", (req: Request, res: Response) => {
+  db.updateUser(req, res);
+});
+
 app.post("/login", (req: Request, res: Response) => {
   db.loginUser(req, res);
 });
+
 app.post("/register", (req: Request, res: Response) => {
   db.registerUser(req, res);
 });

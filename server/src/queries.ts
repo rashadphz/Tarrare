@@ -23,6 +23,19 @@ const getUsers = async (req: Request, res: Response) => {
   res.status(200).json(users);
 };
 
+const updateUser = async (req: Request, res: Response) => {
+  const {email, delivering } = req.body as User
+  const user = await prisma.user.update({
+    where: {
+      email
+    },
+    data: {
+      delivering
+    }
+  })
+  res.status(200).json(user);
+};
+
 const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body as User;
   const user = await prisma.user.findUnique({
@@ -169,6 +182,7 @@ const db = {
   getUsers,
   loginUser,
   registerUser,
+  updateUser,
   addResturant,
   addDeliveryBuilding,
   addDelivery,
