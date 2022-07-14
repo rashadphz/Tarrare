@@ -5,7 +5,7 @@
 1. [Overview](#Overview)
 1. [Product Spec](#Product-Spec)
 1. [Wireframes](#Wireframes)
-1. [Project Task Board](#Project Task Board)
+1. [Project Task Board](#Project-Task-Board)
 1. [Schema](#Schema)
 
 ## Overview
