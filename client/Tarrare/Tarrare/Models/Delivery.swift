@@ -52,8 +52,18 @@ class Delivery: Codable {
     func createDelivery(completion: @escaping(Delivery?) -> Void) {
         let parameters: Parameters = [
             "userId" : self.userId,
+            "orderStatus" : "placed",
             "resturantPlaceId" : self.resturantPlaceId,
             "deliveryBuildingPlaceId" : self.deliveryBuildingPlaceId,
+        ]
+        APIManager.shared().call(type: EndpointItem.deliveryPost, params: parameters, completion: completion)
+        
+    }
+    
+    static func cancelDeliveryRequestForUser(_ user: User, completion: @escaping(Delivery?) -> Void) {
+        let parameters: Parameters = [
+            "userId" : user.id,
+            "orderStatus": "cancelled"
         ]
         APIManager.shared().call(type: EndpointItem.deliveryPost, params: parameters, completion: completion)
         

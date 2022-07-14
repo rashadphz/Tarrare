@@ -47,5 +47,6 @@ class User: Codable {
         APIManager.shared().call(type: EndpointItem.userPost, params: parameters, completion: completion)
     }
     
+    
 }
 
