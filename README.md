@@ -50,12 +50,12 @@ optimizing convenience for both students.
 
 **Required Must-have Stories**
 
-- [ ] Users are able to login/sign-up/logout from the application
-- [ ] Users are able to search for nearby resturants/buildings using
-      the MapKit SDK
+- [X] Users are able to login/sign-up/logout from the application
+- [X] Users are able to search for nearby resturants/buildings using
+      the Google Places SDK
 - [ ] Ordering Students can input their location and resturants they
       would be willing to order from
-- [ ] Delivering Students can check in once they are at a resturant by
+- [X] Delivering Students can check in once they are at a resturant by
       marking themselves as "Able to deliver" and inputting their
       delivery destination
 - [ ] Ordering Students can see a list of resturants and delivery
