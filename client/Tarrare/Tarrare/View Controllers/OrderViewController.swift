@@ -20,6 +20,7 @@ class OrderViewController: UIViewController, UITableViewDelegate {
         if let currentPlace = Place.getCurrent() {
             setCurrentPlace(place: currentPlace)
         }
+        
         fetchDeliveries()
         
         view.backgroundColor = .white
@@ -30,10 +31,14 @@ class OrderViewController: UIViewController, UITableViewDelegate {
         containerView.addSubview(locationSelectView)
         containerView.addSubview(deliveryTableView)
         locationSelectView.addSubview(currentLocationLabel)
+        
+        deliveryTableView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: #selector(refreshDeliveryData(_:)), for: .valueChanged)
     
         containerView.addSubview(tableInfoStackView)
         tableInfoStackView.addArrangedSubview(currentDeliverersLabel)
         tableInfoStackView.addArrangedSubview(requestView)
+        
         
         requestView.addSubview(requestButton)
         requestView.addSubview(filterButton)
@@ -64,6 +69,8 @@ class OrderViewController: UIViewController, UITableViewDelegate {
         
         deliveryTableView.anchor(top: tableInfoStackView.bottomAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: containerView.frame.width, height: containerView.frame.height, enableInsets: false)
     }
+    
+    private let refreshControl = UIRefreshControl()
     
     private let containerView: UIView = {
         let view = UIView()
@@ -155,11 +162,19 @@ class OrderViewController: UIViewController, UITableViewDelegate {
         self.currentLocationLabel.setText(text: place.name)
     }
     
+    @objc private func refreshDeliveryData(_ sender: Any) {
+        fetchDeliveries()
+        if let currentPlace = Place.getCurrent() {
+            self.setCurrentPlace(place: currentPlace)
+        }
+    }
+    
     func fetchDeliveries() {
         Delivery.getAllPlacedDeliveries(completion: {deliveries in
             if let deliveries = deliveries {
                 self.arrayOfDeliveries = deliveries
                 self.deliveryTableView.reloadData()
+                self.refreshControl.endRefreshing()
             }
         })
     }
