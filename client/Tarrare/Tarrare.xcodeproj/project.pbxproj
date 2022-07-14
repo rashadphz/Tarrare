@@ -17,6 +17,7 @@
 		1FB8400E287E5E6A00E33667 /* Delivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB8400D287E5E6A00E33667 /* Delivery.swift */; };
 		1FB84010287F6EC700E33667 /* Resturant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB8400F287F6EC700E33667 /* Resturant.swift */; };
 		1FB84012287F6F4600E33667 /* DeliveryBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84011287F6F4600E33667 /* DeliveryBuilding.swift */; };
+		1FB84014287F718B00E33667 /* DeliveryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84013287F718B00E33667 /* DeliveryCell.swift */; };
 		1FE95A1E2874F6D300A79C77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */; };
 		1FE95A202874F6D300A79C77 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A1F2874F6D300A79C77 /* SceneDelegate.swift */; };
 		1FE95A272874F6D300A79C77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FE95A262874F6D300A79C77 /* Assets.xcassets */; };
@@ -49,6 +50,7 @@
 		1FB8400D287E5E6A00E33667 /* Delivery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delivery.swift; sourceTree = "<group>"; };
 		1FB8400F287F6EC700E33667 /* Resturant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resturant.swift; sourceTree = "<group>"; };
 		1FB84011287F6F4600E33667 /* DeliveryBuilding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryBuilding.swift; sourceTree = "<group>"; };
+		1FB84013287F718B00E33667 /* DeliveryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryCell.swift; sourceTree = "<group>"; };
 		1FE95A1A2874F6D300A79C77 /* Tarrare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tarrare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FE95A1F2874F6D300A79C77 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				1FE95A41287764E700A79C77 /* TarrareTextField.swift */,
 				1FB83FFD287C89F200E33667 /* LocationUILabel.swift */,
 				1FB84001287C9BEF00E33667 /* PlaceCell.swift */,
+				1FB84013287F718B00E33667 /* DeliveryCell.swift */,
 			);
 			path = "Custom Classes";
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				1FE95A3828773D5C00A79C77 /* Extension.swift in Sources */,
 				1FB8400A287CFE8900E33667 /* OrderViewController.swift in Sources */,
 				1FE95A362876418D00A79C77 /* LoginViewController.swift in Sources */,
+				1FB84014287F718B00E33667 /* DeliveryCell.swift in Sources */,
 				1FE95A552878B6B900A79C77 /* MainTabBarController.swift in Sources */,
 				1FE95A522878B5AA00A79C77 /* ProfileViewController.swift in Sources */,
 				1FB84012287F6F4600E33667 /* DeliveryBuilding.swift in Sources */,

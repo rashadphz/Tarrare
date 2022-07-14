@@ -53,7 +53,7 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         let displayWidth = self.view.frame.width
         let displayHeight = self.view.frame.height
         
-        childView.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: displayWidth, height: displayHeight/2, enableInsets: false)
+        childView.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: displayWidth, height: displayHeight - 200, enableInsets: false)
         
     }
     
