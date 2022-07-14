@@ -189,7 +189,9 @@ const getDeliveries = async (req: Request, res: Response) => {
         select: {
           id: true,
           firstName: true,
-          picture: true,
+          lastName: true,
+          email: true,
+          delivering: true,
         }
       },
       resturant: {
