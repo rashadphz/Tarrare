@@ -153,6 +153,10 @@ optimizing convenience for both students.
 
 [Wireframes](https://www.figma.com/file/kPGAnC0qNWWI4V0bKFuk8Q/Tarrare-Wireframing?node-id=12%3A695)
 
+## Project Task Board
+
+[Project Task Board](https://github.com/rashadphil/Tarrare/projects/1)
+
 ### [BONUS] Digital Wireframes & Mockups
 
 ## Schema
