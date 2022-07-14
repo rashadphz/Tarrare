@@ -38,7 +38,7 @@ app.post("/place", (req: Request, res: Response) => {
  * Deliveries/Orders
  */
 app.post("/delivery", (req: Request, res: Response) => {
-  db.addDelivery(req, res);
+  db.upsertDelivery(req, res);
 });
 app.get("/delivery", (req: Request, res: Response) => {
   db.getDeliveries(req, res);

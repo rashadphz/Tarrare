@@ -124,33 +124,32 @@ const addPlace = async (req: Request, res: Response) => {
 const addResturant = async (placeId: number) => {
   await prisma.resturant.upsert({
     where: {
-      placeId
+      placeId,
     },
     create: {
-      placeId
+      placeId,
     },
-    update: {}
+    update: {},
   });
 };
 
 const addDeliveryBuilding = async (placeId: number) => {
   await prisma.deliveryBuilding.upsert({
     where: {
-      placeId
+      placeId,
     },
     create: {
-      placeId
+      placeId,
     },
-    update: {}
+    update: {},
   });
 };
-
 
 /**
  * Orders/Deliveries
  */
 
-const addDelivery = async (req: Request, res: Response) => {
+const upsertDelivery = async (req: Request, res: Response) => {
   const {
     orderStatus,
     userId,
@@ -158,31 +157,61 @@ const addDelivery = async (req: Request, res: Response) => {
     deliveryBuildingPlaceId,
   } = req.body as Delivery;
 
-  await addResturant(resturantPlaceId)
-  await addDeliveryBuilding(deliveryBuildingPlaceId)
+  if (resturantPlaceId && deliveryBuildingPlaceId) {
+    await addResturant(resturantPlaceId);
+    await addDeliveryBuilding(deliveryBuildingPlaceId);
+  }
 
-  const createdDelivery = await prisma.delivery.create({
-    data: {
-      orderStatus,
+  // check if user already has an incomplete delivery request
+  const placedDeliveryRequest = await prisma.delivery.findFirst({
+    where: {
       userId,
-      resturantPlaceId,
-      deliveryBuildingPlaceId,
+      orderStatus: Status.placed,
     },
-    include: {
-      user: true,
-      resturant: true,
-      deliveryBuilding: true,
+    select: {
+      id: true,
     },
   });
 
-  res.status(200).json(createdDelivery);
+  if (placedDeliveryRequest) {
+    // if incomplete delivery exists for this user, update orderStatus
+    const updatedDelivery = await prisma.delivery.update({
+      where: {
+        id: placedDeliveryRequest.id,
+      },
+      data: {
+        orderStatus,
+      },
+      include: {
+        user: true,
+        resturant: true,
+        deliveryBuilding: true,
+      },
+    });
+    res.status(200).json(updatedDelivery);
+  } else {
+    const createdDelivery = await prisma.delivery.create({
+      data: {
+        orderStatus,
+        userId,
+        resturantPlaceId,
+        deliveryBuildingPlaceId,
+      },
+      include: {
+        user: true,
+        resturant: true,
+        deliveryBuilding: true,
+      },
+    });
+    res.status(200).json(createdDelivery);
+  }
+
 };
 
 const getDeliveries = async (req: Request, res: Response) => {
-
   const placedDeliveries = await prisma.delivery.findMany({
-    where : {
-      orderStatus: Status.placed
+    where: {
+      orderStatus: Status.placed,
     },
     include: {
       user: {
@@ -192,23 +221,23 @@ const getDeliveries = async (req: Request, res: Response) => {
           lastName: true,
           email: true,
           delivering: true,
-        }
+        },
       },
       resturant: {
         select: {
           place: true,
-        }
+        },
       },
       deliveryBuilding: {
         select: {
           place: true,
-        }
-      }
-    }
-  })
+        },
+      },
+    },
+  });
 
-  res.status(200).json(placedDeliveries)
-}
+  res.status(200).json(placedDeliveries);
+};
 
 const db = {
   getUsers,
@@ -218,8 +247,8 @@ const db = {
   addPlace,
   addResturant,
   addDeliveryBuilding,
-  addDelivery,
-  getDeliveries
+  upsertDelivery,
+  getDeliveries,
 };
 
 export default db;
