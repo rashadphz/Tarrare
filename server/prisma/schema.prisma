@@ -60,6 +60,7 @@ model Order {
   deliveryBuilding        DeliveryBuilding @relation(fields: [deliveryBuildingPlaceId], references: [placeId])
   resturantPlaceId        Int
   deliveryBuildingPlaceId Int
+  dateCreated             DateTime         @default(now())
 }
 
 model Delivery {
@@ -71,6 +72,7 @@ model Delivery {
   deliveryBuilding        DeliveryBuilding @relation(fields: [deliveryBuildingPlaceId], references: [placeId])
   resturantPlaceId        Int
   deliveryBuildingPlaceId Int
+  dateCreated             DateTime         @default(now())
 }
 
 model Resturant {

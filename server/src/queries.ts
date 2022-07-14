@@ -148,7 +148,6 @@ const addDeliveryBuilding = async (placeId: number) => {
 /**
  * Orders/Deliveries
  */
-
 const upsertDelivery = async (req: Request, res: Response) => {
   const {
     orderStatus,
@@ -156,11 +155,6 @@ const upsertDelivery = async (req: Request, res: Response) => {
     resturantPlaceId,
     deliveryBuildingPlaceId,
   } = req.body as Delivery;
-
-  if (resturantPlaceId && deliveryBuildingPlaceId) {
-    await addResturant(resturantPlaceId);
-    await addDeliveryBuilding(deliveryBuildingPlaceId);
-  }
 
   // check if user already has an incomplete delivery request
   const placedDeliveryRequest = await prisma.delivery.findFirst({
@@ -190,28 +184,37 @@ const upsertDelivery = async (req: Request, res: Response) => {
     });
     res.status(200).json(updatedDelivery);
   } else {
-    const createdDelivery = await prisma.delivery.create({
-      data: {
-        orderStatus,
-        userId,
-        resturantPlaceId,
-        deliveryBuildingPlaceId,
-      },
-      include: {
-        user: true,
-        resturant: true,
-        deliveryBuilding: true,
-      },
-    });
-    res.status(200).json(createdDelivery);
-  }
+    if (resturantPlaceId && deliveryBuildingPlaceId) {
+      await addResturant(resturantPlaceId);
+      await addDeliveryBuilding(deliveryBuildingPlaceId);
 
+      const createdDelivery = await prisma.delivery.create({
+        data: {
+          orderStatus,
+          userId,
+          resturantPlaceId,
+          deliveryBuildingPlaceId,
+        },
+        include: {
+          user: true,
+          resturant: true,
+          deliveryBuilding: true,
+        },
+      });
+      res.status(200).json(createdDelivery);
+    } else {
+      res.status(404).send("Invalid Delivery Request");
+    }
+  }
 };
 
 const getDeliveries = async (req: Request, res: Response) => {
   const placedDeliveries = await prisma.delivery.findMany({
     where: {
       orderStatus: Status.placed,
+    },
+    orderBy: {
+      dateCreated: "desc",
     },
     include: {
       user: {
