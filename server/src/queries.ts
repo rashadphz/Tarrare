@@ -5,6 +5,8 @@ import {
   Delivery,
   Status,
   Resturant,
+  Message,
+  Convo,
 } from "@prisma/client";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
@@ -242,6 +244,41 @@ const getDeliveries = async (req: Request, res: Response) => {
   res.status(200).json(placedDeliveries);
 };
 
+/**
+ * Message
+ */
+
+// when sending a message, create a convo if one does not exist
+const createConvo = async (req: Request, res: Response) => {
+  const { participantOneId, participantTwoId } = req.body as Convo;
+  const createdConvo = await prisma.convo.upsert({
+    where: {
+      participantOneId_participantTwoId: {
+        participantOneId,
+        participantTwoId,
+      },
+    },
+    update: {},
+    create: {
+      participantOneId,
+      participantTwoId,
+    },
+  });
+  res.status(200).json(createdConvo);
+};
+
+const createMessage = async (req: Request, res: Response) => {
+  const { text, createdAt, senderId, convoId } = req.body as Message;
+  const createdMessage = await prisma.message.create({
+    data: {
+      text,
+      convoId,
+      senderId,
+    },
+  });
+  res.status(200).json(createdMessage);
+};
+
 const db = {
   getUsers,
   loginUser,
@@ -252,6 +289,8 @@ const db = {
   addDeliveryBuilding,
   upsertDelivery,
   getDeliveries,
+  createConvo,
+  createMessage,
 };
 
 export default db;

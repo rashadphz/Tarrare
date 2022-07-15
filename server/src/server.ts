@@ -45,6 +45,18 @@ app.get("/delivery", (req: Request, res: Response) => {
 });
 
 
+
+/**
+ * Chats/Conversations
+ */
+app.post("/convo", (req: Request, res: Response) => {
+  db.createConvo(req, res);
+});
+app.post("/message", (req: Request, res: Response) => {
+  db.createMessage(req, res);
+});
+
+
 const port = 62528
 const server = app.listen(port, () => {
   console.log(`Started server at port ${port}`);
