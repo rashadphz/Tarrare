@@ -1,0 +1,22 @@
+fragment UserInfo on User {
+  email
+  id
+  firstName
+  lastName
+  delivering
+}
+mutation CreateMessage($text: String!, $senderId: Int!, $recieverId: Int!) {
+  createMessage(text: $text, senderId: $senderId, recieverId: $recieverId) {
+    id
+    text
+    recieverId
+    reciever {
+      ...UserInfo
+    }
+    senderId
+    sender {
+      ...UserInfo
+    }
+    createdAt
+  }
+}

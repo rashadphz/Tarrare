@@ -50,27 +50,17 @@ class Delivery: Codable {
     
     // send delivery to database
     func createDelivery(completion: @escaping(Delivery?) -> Void) {
-        let parameters: Parameters = [
-            "userId" : self.userId,
-            "orderStatus" : "placed",
-            "resturantPlaceId" : self.resturantPlaceId,
-            "deliveryBuildingPlaceId" : self.deliveryBuildingPlaceId,
-        ]
-        APIManager.shared().call(type: EndpointItem.deliveryPost, params: parameters, completion: completion)
+        APIManager.shared().call(key: "upsertDelivery", mutation: UpsertDeliveryMutation(userId: self.userId, orderStatus: "placed", resturantPlaceId: self.resturantPlaceId, deliveryBuildingPlaceId: self.deliveryBuildingPlaceId), completion: completion)
         
     }
     
     static func cancelDeliveryRequestForUser(_ user: User, completion: @escaping(Delivery?) -> Void) {
-        let parameters: Parameters = [
-            "userId" : user.id,
-            "orderStatus": "cancelled"
-        ]
-        APIManager.shared().call(type: EndpointItem.deliveryPost, params: parameters, completion: completion)
+        APIManager.shared().call(key: "upsertDelivery", mutation: UpsertDeliveryMutation(userId: user.id, orderStatus: "cancelled"), completion: completion)
         
     }
     
     static func getAllPlacedDeliveries(completion: @escaping([Delivery]?) -> Void) {
-        APIManager.shared().call(type: EndpointItem.deliveryGet, params: nil, completion: completion)
+        APIManager.shared().call(key: "allDeliveries", query: AllDeliveriesQuery(), completion: completion)
     }
     
 }

@@ -11,24 +11,23 @@ datasource db {
 }
 
 model User {
-  id             Int         @id @default(autoincrement())
-  firstName      String      @db.VarChar(255)
-  lastName       String      @db.VarChar(255)
-  email          String      @unique
-  emailVerified  Boolean     @default(false)
-  password       String
-  picture        String?     @db.VarChar(512)
-  dateCreated    DateTime    @default(now())
-  lastLogin      DateTime?   @default(now())
-  delivering     Boolean     @default(false)
-  profile        Profile?
-  orders         Order[]
-  deliveries     Delivery[]
-  university     University? @relation(fields: [universityId], references: [id])
-  universityId   Int?
-  messages       Message[]
-  openedByConvos Convo[]     @relation("participantOne")
-  openedToConvos Convo[]     @relation("participantTwo")
+  id               Int         @id @default(autoincrement())
+  firstName        String      @db.VarChar(255)
+  lastName         String      @db.VarChar(255)
+  email            String      @unique
+  emailVerified    Boolean     @default(false)
+  password         String
+  picture          String?     @db.VarChar(512)
+  dateCreated      DateTime    @default(now())
+  lastLogin        DateTime?   @default(now())
+  delivering       Boolean     @default(false)
+  profile          Profile?
+  orders           Order[]
+  deliveries       Delivery[]
+  university       University? @relation(fields: [universityId], references: [id])
+  universityId     Int?
+  recievedMessages Message[]   @relation("RecieverOfMessage")
+  sentMessages     Message[]   @relation("SenderOfMessage")
 }
 
 model Profile {
@@ -102,26 +101,14 @@ model Place {
 }
 
 // CHAT/MESSAGING TABLES
-model Convo {
-  id               Int       @id @default(autoincrement())
-  messages         Message[]
-  participantOne   User      @relation(name: "participantOne", fields: [participantOneId], references: [id])
-  participantTwo   User      @relation(name: "participantTwo", fields: [participantTwoId], references: [id])
-  participantOneId Int
-  participantTwoId Int
-
-  @@unique([participantOneId, participantTwoId])
-}
-
-
 model Message {
-  id           Int      @id @default(autoincrement())
-  text         String
-  createdAt    DateTime @default(now())
-  sender       User     @relation(fields: [senderId], references: [id])
-  conversation Convo    @relation(fields: [convoId], references: [id])
-  senderId     Int
-  convoId      Int
+  id         Int      @id @default(autoincrement())
+  recieverId Int
+  reciever   User     @relation("RecieverOfMessage", fields: [recieverId], references: [id])
+  sender     User     @relation("SenderOfMessage", fields: [senderId], references: [id])
+  senderId   Int
+  text       String
+  createdAt  DateTime @default(now())
 }
 
 enum Status {

@@ -1,0 +1,13 @@
+fragment UserInfo on User {
+  email
+  id
+  firstName
+  lastName
+  delivering
+}
+
+mutation ToggleUserDeliveryStatus($id: Int!, $delivering: Boolean!) {
+  toggleUserDeliveryStatus(id: $id, delivering: $delivering) {
+    ...UserInfo
+  }
+}

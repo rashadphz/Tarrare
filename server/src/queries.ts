@@ -1,79 +1,64 @@
-import {
-  User,
-  Profile,
-  Place,
-  Delivery,
-  Status,
-  Resturant,
-  Message,
-  Convo,
-} from "@prisma/client";
+import { Place, Status } from "@prisma/client";
 import { Prisma, PrismaClient } from "@prisma/client";
-import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
+import { context } from "./context";
 
 /**
  * Users
  */
 
-const getUsers = async (req: Request, res: Response) => {
-  const users = await prisma.user.findMany({
-    orderBy: { id: "asc" },
-  });
-  res.status(200).json(users);
-};
-
-const updateUser = async (req: Request, res: Response) => {
-  const { email, delivering } = req.body as User;
-  const user = await prisma.user.update({
+const updateUser = async (id: number, delivering: boolean) => {
+  const user = await context.prisma.user.update({
     where: {
-      email,
+      id,
     },
     data: {
       delivering,
     },
   });
-  res.status(200).json(user);
+  return user;
 };
 
-const loginUser = async (req: Request, res: Response) => {
-  const { email, password } = req.body as User;
-  const user = await prisma.user.findUnique({
+const loginUser = async (email: string, password: string) => {
+  const user = await context.prisma.user.findUnique({
     where: {
       email,
     },
   });
-
-  if (user) {
-    const hashedPassword = user.password;
-    const result = await bcrypt.compare(password, hashedPassword);
-    result
-      ? res.status(200).json(user)
-      : res.status(404).send("Password Incorrect");
-  } else {
-    res.status(404).send("Email does not exist");
+  if (!user) {
+    throw new Error(`No user found for email: ${email}`);
   }
+  const hashedPassword = user.password;
+  const passwordValid = await bcrypt.compare(
+    password,
+    hashedPassword
+  );
+  if (!passwordValid) {
+    throw new Error("Invalid Password");
+  }
+  return user;
 };
 
-const registerUser = async (req: Request, res: Response) => {
-  const { firstName, lastName, email, password } = req.body as User;
-
+const registerUser = async (
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string
+) => {
   const emailExists =
-    (await prisma.user.findUnique({
+    (await context.prisma.user.findUnique({
       where: {
         email,
       },
     })) != null;
 
   if (emailExists) {
-    res.status(404).send("Email Already exists.");
+    throw new Error("Email already exists");
   } else {
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(password, salt);
 
-    const createdUser = await prisma.user.create({
+    const createdUser = await context.prisma.user.create({
       data: {
         firstName,
         lastName,
@@ -82,7 +67,7 @@ const registerUser = async (req: Request, res: Response) => {
         password: hash,
       },
     });
-    res.status(200).json(createdUser);
+    return createdUser;
   }
 };
 
@@ -90,11 +75,11 @@ const registerUser = async (req: Request, res: Response) => {
  * Places
  */
 
-const createPlace = async (placeObj: Place) => {
+const createPlace = async (placeObj: any) => {
   const { name, fullAddress, state, city, zipcode, googlePlaceId } =
     placeObj;
 
-  const place = await prisma.place.findUnique({
+  const place = await context.prisma.place.findUnique({
     where: {
       googlePlaceId,
     },
@@ -104,7 +89,7 @@ const createPlace = async (placeObj: Place) => {
   if (place) {
     return place;
   } else {
-    const createdPlace = await prisma.place.create({
+    const createdPlace = await context.prisma.place.create({
       data: {
         name,
         fullAddress,
@@ -118,13 +103,13 @@ const createPlace = async (placeObj: Place) => {
   }
 };
 
-const addPlace = async (req: Request, res: Response) => {
-  const place = await createPlace(req.body as Place);
-  res.status(200).json(place);
+const addPlace = async (placeBody: Place) => {
+  const place = await createPlace(placeBody);
+  return place;
 };
 
 const addResturant = async (placeId: number) => {
-  await prisma.resturant.upsert({
+  await context.prisma.resturant.upsert({
     where: {
       placeId,
     },
@@ -136,7 +121,7 @@ const addResturant = async (placeId: number) => {
 };
 
 const addDeliveryBuilding = async (placeId: number) => {
-  await prisma.deliveryBuilding.upsert({
+  await context.prisma.deliveryBuilding.upsert({
     where: {
       placeId,
     },
@@ -150,33 +135,33 @@ const addDeliveryBuilding = async (placeId: number) => {
 /**
  * Orders/Deliveries
  */
-const upsertDelivery = async (req: Request, res: Response) => {
-  const {
-    orderStatus,
-    userId,
-    resturantPlaceId,
-    deliveryBuildingPlaceId,
-  } = req.body as Delivery;
-
+const upsertDelivery = async (
+  userId: number,
+  orderStatus: string,
+  resturantPlaceId?: number | null,
+  deliveryBuildingPlaceId?: number | null
+) => {
+  let status = (<any>Status)[orderStatus];
   // check if user already has an incomplete delivery request
-  const placedDeliveryRequest = await prisma.delivery.findFirst({
-    where: {
-      userId,
-      orderStatus: Status.placed,
-    },
-    select: {
-      id: true,
-    },
-  });
+  const placedDeliveryRequest =
+    await context.prisma.delivery.findFirst({
+      where: {
+        userId,
+        orderStatus: Status.placed,
+      },
+      select: {
+        id: true,
+      },
+    });
 
   if (placedDeliveryRequest) {
     // if incomplete delivery exists for this user, update orderStatus
-    const updatedDelivery = await prisma.delivery.update({
+    const updatedDelivery = await context.prisma.delivery.update({
       where: {
         id: placedDeliveryRequest.id,
       },
       data: {
-        orderStatus,
+        orderStatus: status,
       },
       include: {
         user: true,
@@ -184,15 +169,15 @@ const upsertDelivery = async (req: Request, res: Response) => {
         deliveryBuilding: true,
       },
     });
-    res.status(200).json(updatedDelivery);
+    return updatedDelivery;
   } else {
     if (resturantPlaceId && deliveryBuildingPlaceId) {
       await addResturant(resturantPlaceId);
       await addDeliveryBuilding(deliveryBuildingPlaceId);
 
-      const createdDelivery = await prisma.delivery.create({
+      const createdDelivery = await context.prisma.delivery.create({
         data: {
-          orderStatus,
+          orderStatus: status,
           userId,
           resturantPlaceId,
           deliveryBuildingPlaceId,
@@ -203,93 +188,41 @@ const upsertDelivery = async (req: Request, res: Response) => {
           deliveryBuilding: true,
         },
       });
-      res.status(200).json(createdDelivery);
+      return createdDelivery;
     } else {
-      res.status(404).send("Invalid Delivery Request");
+      throw new Error("Invalid Delivery Request");
     }
   }
-};
-
-const getDeliveries = async (req: Request, res: Response) => {
-  const placedDeliveries = await prisma.delivery.findMany({
-    where: {
-      orderStatus: Status.placed,
-    },
-    orderBy: {
-      dateCreated: "desc",
-    },
-    include: {
-      user: {
-        select: {
-          id: true,
-          firstName: true,
-          lastName: true,
-          email: true,
-          delivering: true,
-        },
-      },
-      resturant: {
-        select: {
-          place: true,
-        },
-      },
-      deliveryBuilding: {
-        select: {
-          place: true,
-        },
-      },
-    },
-  });
-
-  res.status(200).json(placedDeliveries);
 };
 
 /**
  * Message
  */
 
-// when sending a message, create a convo if one does not exist
-const createConvo = async (req: Request, res: Response) => {
-  const { participantOneId, participantTwoId } = req.body as Convo;
-  const createdConvo = await prisma.convo.upsert({
-    where: {
-      participantOneId_participantTwoId: {
-        participantOneId,
-        participantTwoId,
-      },
-    },
-    update: {},
-    create: {
-      participantOneId,
-      participantTwoId,
-    },
-  });
-  res.status(200).json(createdConvo);
-};
-
-const createMessage = async (req: Request, res: Response) => {
-  const { text, createdAt, senderId, convoId } = req.body as Message;
-  const createdMessage = await prisma.message.create({
+const createMessage = async (
+  text: string,
+  senderId: number,
+  recieverId: number
+) => {
+  const createdMessage = await context.prisma.message.create({
     data: {
       text,
-      convoId,
       senderId,
+      recieverId,
     },
   });
-  res.status(200).json(createdMessage);
+  return createdMessage;
 };
 
 const db = {
-  getUsers,
   loginUser,
   registerUser,
   updateUser,
   addPlace,
+  createPlace,
   addResturant,
   addDeliveryBuilding,
   upsertDelivery,
-  getDeliveries,
-  createConvo,
   createMessage,
 };
 
