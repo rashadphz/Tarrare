@@ -30,28 +30,39 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             requestUserCurrentPlace()
         }
         
+        orderViewController.parentNavController = self.navigationController
+        deliverViewController.parentNavController = self.navigationController
+        
         view.backgroundColor = .white
         childView = orderViewController.view
         
-        createNavBar()
-        
-        view.addSubview(navBar)
-        customNavBarView.addSubview(orderNavButton)
-        customNavBarView.addSubview(deliverNavButton)
-        customNavBarView.frame = CGRect(x: 0, y:0, width: view.frame.width, height: 200)
-        
+        setupNavbar()
         view.addSubview(childView)
         
         addOrderNavButtonGesture()
         addDeliverNavButtonGesture()
     }
     
+    func setupNavbar() {
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.backgroundColor = UIColor.white
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        
+        let stackView = UIStackView(arrangedSubviews: [orderNavButton, deliverNavButton])
+        stackView.backgroundColor = .white
+        stackView.spacing = 10
+        stackView.alignment = .center
+        navigationItem.titleView = stackView
+        
+    }
+    
     override func viewWillLayoutSubviews() {
-        orderNavButton.anchor(top: customNavBarView.topAnchor, left: customNavBarView.leftAnchor, bottom: customNavBarView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 70, height: 30, enableInsets: false)
-        deliverNavButton.anchor(top: customNavBarView.topAnchor, left: orderNavButton.rightAnchor, bottom: customNavBarView.bottomAnchor, right: customNavBarView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 70, height: 30, enableInsets: false)
+        orderNavButton.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: 10.0, bottom: 5.0, right: 10.0)
+        deliverNavButton.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: 10.0, bottom: 5.0, right: 10.0)
         
         let displayWidth = self.view.frame.width
         let displayHeight = self.view.frame.height
+        let navBar = self.navigationController!.navigationBar
         
         childView.anchor(top: navBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: displayWidth, height: displayHeight - 200, enableInsets: false)
         
@@ -68,23 +79,6 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
             })
         })
     }
-    
-    func createNavBar() {
-        let navItem = UINavigationItem(title: "")
-        navItem.titleView = self.customNavBarView
-        self.navBar.setItems([navItem], animated: false)
-    }
-    
-    private let navBar: UINavigationBar = {
-        let barHeight : CGFloat = UIApplication.shared.statusBarFrame.size.height
-        let screenSize: CGRect = UIScreen.main.bounds
-        
-        let navBar = UINavigationBar(frame: CGRect(x: 0, y: barHeight, width: screenSize.width, height: 44))
-        navBar.isTranslucent = true
-        navBar.barTintColor = .white
-        navBar.shadowImage = UIImage()
-        return navBar
-    }()
     
     private let customNavBarView : UIView = {
         let view = UIView()

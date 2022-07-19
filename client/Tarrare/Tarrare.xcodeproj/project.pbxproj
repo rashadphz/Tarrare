@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1FB83FF62878FC8C00E33667 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FF52878FC8C00E33667 /* Networking.swift */; };
+		1F993F342885C8A200DD1A54 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 1F993F332885C8A200DD1A54 /* Apollo */; };
+		1F993F362885C8A200DD1A54 /* ApolloWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = 1F993F352885C8A200DD1A54 /* ApolloWebSocket */; };
+		1F993F3A28860F4B00DD1A54 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1F993F3928860F4B00DD1A54 /* MessageKit */; };
+		1F993F3C2886195800DD1A54 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F993F3B2886195800DD1A54 /* Message.swift */; };
+		1F993F3E2886205500DD1A54 /* OpenChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F993F3D2886205500DD1A54 /* OpenChatsViewController.swift */; };
+		1F993F4328862A8100DD1A54 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F993F4228862A6600DD1A54 /* API.swift */; };
 		1FB83FF82878FCBD00E33667 /* MapsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FF72878FCBD00E33667 /* MapsAPI.swift */; };
 		1FB83FFA2879070400E33667 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FF92879070400E33667 /* Place.swift */; };
 		1FB83FFE287C89F200E33667 /* LocationUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FFD287C89F200E33667 /* LocationUILabel.swift */; };
@@ -18,6 +23,7 @@
 		1FB84010287F6EC700E33667 /* Resturant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB8400F287F6EC700E33667 /* Resturant.swift */; };
 		1FB84012287F6F4600E33667 /* DeliveryBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84011287F6F4600E33667 /* DeliveryBuilding.swift */; };
 		1FB84014287F718B00E33667 /* DeliveryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84013287F718B00E33667 /* DeliveryCell.swift */; };
+		1FB84016288096ED00E33667 /* IndividualChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84015288096ED00E33667 /* IndividualChatViewController.swift */; };
 		1FE95A1E2874F6D300A79C77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */; };
 		1FE95A202874F6D300A79C77 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A1F2874F6D300A79C77 /* SceneDelegate.swift */; };
 		1FE95A272874F6D300A79C77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FE95A262874F6D300A79C77 /* Assets.xcassets */; };
@@ -34,13 +40,18 @@
 		1FE95A502878B4CF00A79C77 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A4F2878B4CF00A79C77 /* HomeViewController.swift */; };
 		1FE95A522878B5AA00A79C77 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A512878B5AA00A79C77 /* ProfileViewController.swift */; };
 		1FE95A552878B6B900A79C77 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A542878B6B900A79C77 /* MainTabBarController.swift */; };
-		1FE95A572878B8C500A79C77 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A562878B8C500A79C77 /* MessagesViewController.swift */; };
 		1FE95A5B2878E99300A79C77 /* SelectLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A5A2878E99300A79C77 /* SelectLocationViewController.swift */; };
 		91765C5EB86B19F52D4BC34D /* Pods_Tarrare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56DEEAE22CDC04411E670E42 /* Pods_Tarrare.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1FB83FF52878FC8C00E33667 /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		1F993F372885EF6900DD1A54 /* CreateMessage.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = CreateMessage.graphql; sourceTree = "<group>"; };
+		1F993F3B2886195800DD1A54 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		1F993F3D2886205500DD1A54 /* OpenChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChatsViewController.swift; sourceTree = "<group>"; };
+		1F993F402886285100DD1A54 /* schema.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = schema.json; path = Tarrare/schema.json; sourceTree = SOURCE_ROOT; };
+		1F993F412886295A00DD1A54 /* GetConversation.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = GetConversation.graphql; sourceTree = "<group>"; };
+		1F993F4228862A6600DD1A54 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		1F993F44288650C300DD1A54 /* MessageListen.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = MessageListen.graphql; sourceTree = "<group>"; };
 		1FB83FF72878FCBD00E33667 /* MapsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapsAPI.swift; path = Tarrare/API/MapsAPI.swift; sourceTree = "<group>"; };
 		1FB83FF92879070400E33667 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		1FB83FFD287C89F200E33667 /* LocationUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationUILabel.swift; path = Tarrare/CustomViews/LocationUILabel.swift; sourceTree = SOURCE_ROOT; };
@@ -51,6 +62,13 @@
 		1FB8400F287F6EC700E33667 /* Resturant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resturant.swift; sourceTree = "<group>"; };
 		1FB84011287F6F4600E33667 /* DeliveryBuilding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryBuilding.swift; sourceTree = "<group>"; };
 		1FB84013287F718B00E33667 /* DeliveryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryCell.swift; sourceTree = "<group>"; };
+		1FB84015288096ED00E33667 /* IndividualChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualChatViewController.swift; sourceTree = "<group>"; };
+		1FB84028288212D700E33667 /* LoginUser.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = LoginUser.graphql; sourceTree = "<group>"; };
+		1FB8402D28835DE000E33667 /* RegisterUser.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = RegisterUser.graphql; sourceTree = "<group>"; };
+		1FB8402E28838ADE00E33667 /* AllDeliveries.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = AllDeliveries.graphql; sourceTree = "<group>"; };
+		1FB8402F288392ED00E33667 /* ToggleUserDeliveryStatus.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = ToggleUserDeliveryStatus.graphql; sourceTree = "<group>"; };
+		1FB8403028839A5F00E33667 /* UpsertDelivery.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = UpsertDelivery.graphql; sourceTree = "<group>"; };
+		1FB8403128839D2000E33667 /* CreatePlace.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = CreatePlace.graphql; sourceTree = "<group>"; };
 		1FE95A1A2874F6D300A79C77 /* Tarrare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tarrare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FE95A1F2874F6D300A79C77 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,7 +87,6 @@
 		1FE95A4F2878B4CF00A79C77 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		1FE95A512878B5AA00A79C77 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		1FE95A542878B6B900A79C77 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
-		1FE95A562878B8C500A79C77 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		1FE95A5A2878E99300A79C77 /* SelectLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationViewController.swift; sourceTree = "<group>"; };
 		1FE95A5C2878F0EC00A79C77 /* Tarrare.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Tarrare.xcconfig; sourceTree = "<group>"; };
 		56DEEAE22CDC04411E670E42 /* Pods_Tarrare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tarrare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +100,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				91765C5EB86B19F52D4BC34D /* Pods_Tarrare.framework in Frameworks */,
+				1F993F362885C8A200DD1A54 /* ApolloWebSocket in Frameworks */,
+				1F993F342885C8A200DD1A54 /* Apollo in Frameworks */,
+				1F993F3A28860F4B00DD1A54 /* MessageKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +118,22 @@
 				1FB84013287F718B00E33667 /* DeliveryCell.swift */,
 			);
 			path = "Custom Classes";
+			sourceTree = "<group>";
+		};
+		1FB840322883A4BD00E33667 /* GraphQL */ = {
+			isa = PBXGroup;
+			children = (
+				1FB84028288212D700E33667 /* LoginUser.graphql */,
+				1FB8402D28835DE000E33667 /* RegisterUser.graphql */,
+				1FB8402E28838ADE00E33667 /* AllDeliveries.graphql */,
+				1FB8402F288392ED00E33667 /* ToggleUserDeliveryStatus.graphql */,
+				1FB8403028839A5F00E33667 /* UpsertDelivery.graphql */,
+				1FB8403128839D2000E33667 /* CreatePlace.graphql */,
+				1F993F372885EF6900DD1A54 /* CreateMessage.graphql */,
+				1F993F412886295A00DD1A54 /* GetConversation.graphql */,
+				1F993F44288650C300DD1A54 /* MessageListen.graphql */,
+			);
+			path = GraphQL;
 			sourceTree = "<group>";
 		};
 		1FE95A112874F6D300A79C77 = {
@@ -121,6 +157,9 @@
 		1FE95A1C2874F6D300A79C77 /* Tarrare */ = {
 			isa = PBXGroup;
 			children = (
+				1F993F4228862A6600DD1A54 /* API.swift */,
+				1F993F402886285100DD1A54 /* schema.json */,
+				1FB840322883A4BD00E33667 /* GraphQL */,
 				1FE95A4D2878AFC500A79C77 /* Constants.swift */,
 				1FE95A3728773D5C00A79C77 /* Extension.swift */,
 				1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */,
@@ -147,10 +186,11 @@
 				1FE95A3F2877575300A79C77 /* RegisterViewController.swift */,
 				1FE95A4F2878B4CF00A79C77 /* HomeViewController.swift */,
 				1FE95A512878B5AA00A79C77 /* ProfileViewController.swift */,
-				1FE95A562878B8C500A79C77 /* MessagesViewController.swift */,
 				1FE95A5A2878E99300A79C77 /* SelectLocationViewController.swift */,
 				1FB84007287CF6BD00E33667 /* DeliverViewController.swift */,
 				1FB84009287CFE8900E33667 /* OrderViewController.swift */,
+				1FB84015288096ED00E33667 /* IndividualChatViewController.swift */,
+				1F993F3D2886205500DD1A54 /* OpenChatsViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -163,6 +203,7 @@
 				1FB8400D287E5E6A00E33667 /* Delivery.swift */,
 				1FB8400F287F6EC700E33667 /* Resturant.swift */,
 				1FB84011287F6F4600E33667 /* DeliveryBuilding.swift */,
+				1F993F3B2886195800DD1A54 /* Message.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -170,7 +211,6 @@
 		1FE95A43287787EE00A79C77 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				1FB83FF52878FC8C00E33667 /* Networking.swift */,
 				1FE95A442877880C00A79C77 /* APIManager.swift */,
 				1FB83FF72878FCBD00E33667 /* MapsAPI.swift */,
 			);
@@ -211,6 +251,7 @@
 			buildConfigurationList = 1FE95A2E2874F6D300A79C77 /* Build configuration list for PBXNativeTarget "Tarrare" */;
 			buildPhases = (
 				740BAAB72E743AD031DEF1E7 /* [CP] Check Pods Manifest.lock */,
+				1FB8402128820F1900E33667 /* Apollo */,
 				1FE95A162874F6D300A79C77 /* Sources */,
 				1FE95A172874F6D300A79C77 /* Frameworks */,
 				1FE95A182874F6D300A79C77 /* Resources */,
@@ -222,6 +263,11 @@
 			dependencies = (
 			);
 			name = Tarrare;
+			packageProductDependencies = (
+				1F993F332885C8A200DD1A54 /* Apollo */,
+				1F993F352885C8A200DD1A54 /* ApolloWebSocket */,
+				1F993F3928860F4B00DD1A54 /* MessageKit */,
+			);
 			productName = Tarrare;
 			productReference = 1FE95A1A2874F6D300A79C77 /* Tarrare.app */;
 			productType = "com.apple.product-type.application";
@@ -250,6 +296,10 @@
 				Base,
 			);
 			mainGroup = 1FE95A112874F6D300A79C77;
+			packageReferences = (
+				1F993F322885C8A200DD1A54 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				1F993F3828860F4B00DD1A54 /* XCRemoteSwiftPackageReference "MessageKit" */,
+			);
 			productRefGroup = 1FE95A1B2874F6D300A79C77 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -274,6 +324,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1FB8402128820F1900E33667 /* Apollo */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Apollo;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Don't run this during index builds\nif [ $ACTION = \"indexbuild\" ]; then exit 0; fi\n\n# Go to the build root and search up the chain to find the Derived Data Path where the source packages are checked out.\nDERIVED_DATA_CANDIDATE=\"${BUILD_ROOT}\"\nwhile ! [ -d \"${DERIVED_DATA_CANDIDATE}/SourcePackages\" ]; do\n  if [ \"${DERIVED_DATA_CANDIDATE}\" = / ]; then\n    echo >&2 \"error: Unable to locate SourcePackages directory from BUILD_ROOT: '${BUILD_ROOT}'\"\n    exit 1\n  fi\n\n  DERIVED_DATA_CANDIDATE=\"$(dirname \"${DERIVED_DATA_CANDIDATE}\")\"\ndone\n\n# Grab a reference to the directory where scripts are checked out\nSCRIPT_PATH=\"${DERIVED_DATA_CANDIDATE}/SourcePackages/checkouts/apollo-ios/scripts\"\n\nif [ -z \"${SCRIPT_PATH}\" ]; then\n    echo >&2 \"error: Couldn't find the CLI script in your checked out SPM packages; make sure to add the framework to your project.\"\n    exit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile=\"schema.json\" API.swift\n#\"${SCRIPT_PATH}\"/run-bundled-codegen.sh schema:download --endpoint=\"http://localhost:62528/graphql\"\n\n";
+		};
 		4D610DD772A4C22A8D08278A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -337,14 +405,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FE95A572878B8C500A79C77 /* MessagesViewController.swift in Sources */,
 				1FE95A34287640DA00A79C77 /* User.swift in Sources */,
 				1FB83FFE287C89F200E33667 /* LocationUILabel.swift in Sources */,
 				1FE95A4E2878AFC500A79C77 /* Constants.swift in Sources */,
-				1FB83FF62878FC8C00E33667 /* Networking.swift in Sources */,
 				1FB8400E287E5E6A00E33667 /* Delivery.swift in Sources */,
 				1FB83FF82878FCBD00E33667 /* MapsAPI.swift in Sources */,
+				1F993F3E2886205500DD1A54 /* OpenChatsViewController.swift in Sources */,
 				1FE95A1E2874F6D300A79C77 /* AppDelegate.swift in Sources */,
+				1F993F4328862A8100DD1A54 /* API.swift in Sources */,
 				1FE95A452877880C00A79C77 /* APIManager.swift in Sources */,
 				1FE95A42287764E700A79C77 /* TarrareTextField.swift in Sources */,
 				1FE95A402877575300A79C77 /* RegisterViewController.swift in Sources */,
@@ -354,9 +422,11 @@
 				1FE95A3828773D5C00A79C77 /* Extension.swift in Sources */,
 				1FB8400A287CFE8900E33667 /* OrderViewController.swift in Sources */,
 				1FE95A362876418D00A79C77 /* LoginViewController.swift in Sources */,
+				1FB84016288096ED00E33667 /* IndividualChatViewController.swift in Sources */,
 				1FB84014287F718B00E33667 /* DeliveryCell.swift in Sources */,
 				1FE95A552878B6B900A79C77 /* MainTabBarController.swift in Sources */,
 				1FE95A522878B5AA00A79C77 /* ProfileViewController.swift in Sources */,
+				1F993F3C2886195800DD1A54 /* Message.swift in Sources */,
 				1FB84012287F6F4600E33667 /* DeliveryBuilding.swift in Sources */,
 				1FB84008287CF6BD00E33667 /* DeliverViewController.swift in Sources */,
 				1FB83FFA2879070400E33667 /* Place.swift in Sources */,
@@ -416,6 +486,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -477,6 +548,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -488,6 +560,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -499,12 +572,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78BE217F498E1B65C89A783D /* Pods-Tarrare.debug.xcconfig */;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 454EU8SVK2;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tarrare/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -516,6 +589,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rashadp.Tarrare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -529,12 +603,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8D2ACA3C21259DAE0C17BBA0 /* Pods-Tarrare.release.xcconfig */;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 454EU8SVK2;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tarrare/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -546,7 +620,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rashadp.Tarrare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -578,6 +652,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1F993F322885C8A200DD1A54 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		1F993F3828860F4B00DD1A54 /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MessageKit/MessageKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1F993F332885C8A200DD1A54 /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1F993F322885C8A200DD1A54 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = Apollo;
+		};
+		1F993F352885C8A200DD1A54 /* ApolloWebSocket */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1F993F322885C8A200DD1A54 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = ApolloWebSocket;
+		};
+		1F993F3928860F4B00DD1A54 /* MessageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1F993F3828860F4B00DD1A54 /* XCRemoteSwiftPackageReference "MessageKit" */;
+			productName = MessageKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1FE95A122874F6D300A79C77 /* Project object */;
 }

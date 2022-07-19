@@ -7,21 +7,38 @@
 
 import Foundation
 import Alamofire
+import Apollo
+import ApolloWebSocket
 
 import FirebaseAuth
 
 class APIManager {
     
-    private let sessionManager: Session
-    #if targetEnvironment(simulator)
-        static let networkEnvironment: NetworkEnvironment = .dev
-    #else
-        static let networkEnvironment: NetworkEnvironment = .ngrok
-    #endif
+    /// A web socket transport to use for subscriptions
+    private lazy var webSocketTransport: WebSocketTransport = {
+        let url = URL(string: "https://f036-2600-387-c-6c11-00-6.ngrok.io/graphql")!
+        let webSocketClient = WebSocket(url: url, protocol: .graphql_transport_ws)
+        return WebSocketTransport(websocket: webSocketClient)
+    }()
+    
+    /// An HTTP transport to use for queries and mutations
+    private lazy var normalTransport: RequestChainNetworkTransport = {
+        let url = URL(string: "https://f036-2600-387-c-6c11-00-6.ngrok.io/graphql")!
+        return RequestChainNetworkTransport(interceptorProvider: DefaultInterceptorProvider(store: self.store), endpointURL: url)
+    }()
+    
+    private lazy var splitNetworkTransport = SplitNetworkTransport(
+        uploadingNetworkTransport: self.normalTransport,
+        webSocketNetworkTransport: self.webSocketTransport
+    )
+    
+    private(set) lazy var apollo = ApolloClient(networkTransport: self.splitNetworkTransport, store: self.store)
+    
+    private lazy var store = ApolloStore()
     
     
     private static var sharedAPIManager: APIManager = {
-        let apiManager = APIManager(sessionManager: Session())
+        let apiManager = APIManager()
         return apiManager
     }()
     
@@ -29,31 +46,99 @@ class APIManager {
         return sharedAPIManager
     }
     
-    private init(sessionManager: Session) {
-        self.sessionManager = sessionManager
+    func processGraphQLResult<T>(key: String?, json: JSONObject?) -> T? where T: Decodable {
+        guard let json = json else {
+            return nil
+        }
+        
+        let result: JSONObject = json
+        var jsonObject: Any = result
+        if let key = key, let keyedResult = result[key] {
+            guard JSONSerialization.isValidJSONObject(keyedResult) else {
+                if let keyedResult = keyedResult as? T {
+                    return keyedResult
+                }
+                return nil
+            }
+            jsonObject = keyedResult
+        }
+        
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: [])
+            
+            let decoder = JSONDecoder()
+            
+            // handle any responses with dates
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+            decoder.dateDecodingStrategy = .formatted(dateFormatter)
+            
+            let obj = try decoder.decode(T.self, from: jsonData)
+            return obj
+        } catch let error {
+            print(error)
+            return nil
+        }
+        
     }
     
-    func call<T>(type: EndPointType, params: Parameters? = nil, completion: @escaping(T?) -> Void) where T: Decodable {
+    // Query
+    func call<T: Decodable, Query: GraphQLQuery>(key: String, query: Query, cachePolicy : CachePolicy = .fetchIgnoringCacheCompletely, completion: @escaping(T?) -> Void) {
         
-        self.sessionManager.request(type.url, method: type.httpMethod, parameters: params, encoding: type.encoding, headers: type.headers).validate().responseDecodable(of: T.self) { response in
-            
-            switch response.result {
-            case .success(let object):
+        
+        apollo.fetch(query: query, cachePolicy: cachePolicy, resultHandler: {result in
+            switch result {
+            case .success(let graphQLResult):
+                guard let object : T = self.processGraphQLResult(key: key, json: graphQLResult.data?.jsonObject as? JSONObject) else {
+                    return
+                }
                 completion(object)
                 break
-            case .failure(_):
-                completion(nil)
+            case .failure(let error):
+                print(error)
                 break
             }
-            
-        }
+        })
     }
     
+    // Mutation
+    func call<T: Decodable, Mutation: GraphQLMutation>(key: String, mutation: Mutation, completion: @escaping(T?) -> Void) {
+        
+        apollo.perform(mutation: mutation, resultHandler: {result in
+            switch result {
+            case .success(let graphQLResult):
+                guard let object : T = self.processGraphQLResult(key: key, json: graphQLResult.data?.jsonObject as? JSONObject) else {
+                    return
+                }
+                completion(object)
+                break
+            case .failure(let error):
+                print(error)
+                break
+            }
+        })
+    }
+    
+    // Subscription
+    func call<T: Decodable, Subscription: GraphQLSubscription>(key: String, subscription: Subscription, completion: @escaping(T?) -> Void) {
+        apollo.subscribe(subscription: subscription , resultHandler: {result in
+            switch result {
+            case .success(let graphQLResult):
+                guard let object : T = self.processGraphQLResult(key: key, json: graphQLResult.data?.jsonObject as? JSONObject) else {
+                    return
+                }
+                completion(object)
+                break
+            case .failure(let error):
+                print(error)
+                break
+            }
+        })
+    }
+    
+    
     func loginUser(email: String, password: String, completion: @escaping (User?) -> Void) {
-        let parameters: Parameters = [
-            "email": email,
-            "password": password
-        ]
         
         Auth.auth().signIn(withEmail: email, password: password, completion: {(authResult, error) in
             guard error == nil else {
@@ -61,29 +146,20 @@ class APIManager {
                 return
             }
             
-            // retrive and return user from postgres database
-            self.call(type: EndpointItem.login, params: parameters, completion: completion)
+            self.call(key: "login", mutation: LoginUserMutation(email: email, password: password), completion: completion)
+            
         })
     }
     
     func registerUser(firstName: String, lastName: String, email: String, password: String, completion: @escaping(User?) -> Void) {
-        let parameters: Parameters = [
-            "firstName": firstName,
-            "lastName": lastName,
-            "email": email,
-            "password": password
-        ]
-        
         Auth.auth().createUser(withEmail: email, password: password, completion: {(authResult, error) in
             guard error == nil else {
-                print("failed to register user")
+                print("Failed to register user")
                 return
             }
             
-            // store user in postgres
-            self.call(type: EndpointItem.register, params: parameters, completion: completion)
-        }
-        )
+            self.call(key: "register", mutation: RegisterUserMutation(firstName: firstName, lastName: lastName, email: email, password: password), completion: completion)
+        } )
     }
     
     func logoutUser(completion: @escaping(Bool) -> Void) {

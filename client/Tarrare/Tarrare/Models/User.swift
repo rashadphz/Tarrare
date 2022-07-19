@@ -40,12 +40,9 @@ class User: Codable {
     }
     
     func toggleDeliveryStatus(completion: @escaping(User?) -> Void) {
-        let parameters: Parameters = [
-            "email": self.email,
-            "delivering": !(self.delivering)
-        ]
-        APIManager.shared().call(type: EndpointItem.userPost, params: parameters, completion: completion)
+        APIManager.shared().call(key: "toggleUserDeliveryStatus", mutation: ToggleUserDeliveryStatusMutation(id: self.id, delivering: !(self.delivering)), completion: completion)
     }
+    
     
 }
 

@@ -164,11 +164,17 @@ class DeliverViewController: UIViewController, CLLocationManagerDelegate {
     func placeDeliverRequest() {
         if let currentResturant = currentResturant, let deliveryBuilding = deliveryBuilding {
             let delivery = Delivery(user: self.user, resturant: currentResturant, deliveryBuilding: deliveryBuilding)
-            
             delivery.createDelivery(completion: {_ in
+                
             })
             
         }
+    }
+    
+    func cancelDeliverRequest() {
+        Delivery.cancelDeliveryRequestForUser(user, completion: {_ in
+            
+        })
     }
     
     func updateDeliveryStatusLabel(_ status : Bool? = nil) {
@@ -196,6 +202,8 @@ class DeliverViewController: UIViewController, CLLocationManagerDelegate {
                 
                 if (self.user.delivering == true) {
                     self.placeDeliverRequest()
+                } else {
+                    self.cancelDeliverRequest()
                 }
             }
         })

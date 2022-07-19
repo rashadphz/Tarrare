@@ -80,15 +80,7 @@ class Place: Codable {
     
     // send the place to database
     func createPlace(completion: @escaping(Place?) -> Void) {
-        let parameters: Parameters = [
-            "name" : self.name,
-            "fullAddress" : self.fullAddress,
-            "state" : self.state,
-            "city" : self.city,
-            "zipcode" : self.zipcode,
-            "googlePlaceId" : self.googlePlaceId,
-        ]
-        APIManager.shared().call(type: EndpointItem.placePost, params: parameters, completion: completion)
+        APIManager.shared().call(key: "createPlace", mutation: CreatePlaceMutation(name: self.name, fullAddress: self.fullAddress, state: self.state, city: self.city, zipcode: self.zipcode, googlePlaceId: self.googlePlaceId), completion: completion)
     }
     
 }

@@ -11,25 +11,23 @@ datasource db {
 }
 
 model User {
-  id            Int            @id @default(autoincrement())
-  firstName     String         @db.VarChar(255)
-  lastName      String         @db.VarChar(255)
-  email         String         @unique
-  emailVerified Boolean        @default(false)
-  password      String
-  picture       String?        @db.VarChar(512)
-  dateCreated   DateTime       @default(now())
-  lastLogin     DateTime?      @default(now())
-  delivering    Boolean        @default(false)
-  profile       Profile?
-  orders        Order[]
-  deliveries    Delivery[]
-  university    University?    @relation(fields: [universityId], references: [id])
-  universityId  Int?
-  convoUserOnes Conversation[] @relation("convoUserOne")
-  convoUserTwos Conversation[] @relation("convoUserTwo")
-  Conversation  Conversation[]
-  Message       Message[]
+  id               Int         @id @default(autoincrement())
+  firstName        String      @db.VarChar(255)
+  lastName         String      @db.VarChar(255)
+  email            String      @unique
+  emailVerified    Boolean     @default(false)
+  password         String
+  picture          String?     @db.VarChar(512)
+  dateCreated      DateTime    @default(now())
+  lastLogin        DateTime?   @default(now())
+  delivering       Boolean     @default(false)
+  profile          Profile?
+  orders           Order[]
+  deliveries       Delivery[]
+  university       University? @relation(fields: [universityId], references: [id])
+  universityId     Int?
+  recievedMessages Message[]   @relation("RecieverOfMessage")
+  sentMessages     Message[]   @relation("SenderOfMessage")
 }
 
 model Profile {
@@ -60,6 +58,7 @@ model Order {
   deliveryBuilding        DeliveryBuilding @relation(fields: [deliveryBuildingPlaceId], references: [placeId])
   resturantPlaceId        Int
   deliveryBuildingPlaceId Int
+  dateCreated             DateTime         @default(now())
 }
 
 model Delivery {
@@ -71,6 +70,7 @@ model Delivery {
   deliveryBuilding        DeliveryBuilding @relation(fields: [deliveryBuildingPlaceId], references: [placeId])
   resturantPlaceId        Int
   deliveryBuildingPlaceId Int
+  dateCreated             DateTime         @default(now())
 }
 
 model Resturant {
@@ -101,25 +101,14 @@ model Place {
 }
 
 // CHAT/MESSAGING TABLES
-model Conversation {
-  id             Int       @id @default(autoincrement())
-  convoUserOne   User?     @relation("convoUserOne", fields: [convoUserOneId], references: [id])
-  convoUserOneId Int?
-  convoUserTwo   User?     @relation("convoUserTwo", fields: [convoUserTwoId], references: [id])
-  convoUserTwoId Int?
-  User           User?     @relation(fields: [userId], references: [id])
-  userId         Int?
-  messages       Message[]
-}
-
 model Message {
-  id       Int          @id @default(autoincrement())
-  convo    Conversation @relation(fields: [convo_id], references: [id])
-  convo_id Int
-  author   User         @relation(fields: [userId], references: [id])
-  userId   Int
-  content  String
-  sentAt   DateTime     @default(now())
+  id         Int      @id @default(autoincrement())
+  recieverId Int
+  reciever   User     @relation("RecieverOfMessage", fields: [recieverId], references: [id])
+  sender     User     @relation("SenderOfMessage", fields: [senderId], references: [id])
+  senderId   Int
+  text       String
+  createdAt  DateTime @default(now())
 }
 
 enum Status {

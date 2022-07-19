@@ -1,51 +1,64 @@
-import express, { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
-import db from "./queries";
+import { ApolloServer } from "apollo-server-express";
+import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 
-const prisma = new PrismaClient();
+import { WebSocketServer } from "ws";
+import express from "express";
+import { createServer } from "http";
+
+import { useServer } from "graphql-ws/lib/use/ws";
+
+import { schema } from "./schema";
+import { context } from "./context";
+
+const PORT = 62528;
+
 const app = express();
+const httpServer = createServer(app);
 
-app.use(express.json());
+async function start() {
+  /** Create WS Server */
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: "/graphql",
+  });
 
-/**
- * Users
- */
+  /** hand-in created schema and have the WS Server start listening */
+  const serverCleanup = useServer(
+    {
+      schema,
+      context,
+    },
+    wsServer
+  );
 
-app.get("/user", (req: Request, res: Response) => {
-  db.getUsers(req, res);
-});
+  const server = new ApolloServer({
+    schema,
+    context,
+    plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              await serverCleanup.dispose();
+            },
+          };
+        },
+      },
+    ],
+  });
 
-app.post("/user", (req: Request, res: Response) => {
-  db.updateUser(req, res);
-});
+  await server.start();
+  server.applyMiddleware({ app });
 
-app.post("/login", (req: Request, res: Response) => {
-  db.loginUser(req, res);
-});
+  httpServer.listen(PORT, () => {
+    console.log(
+      `🚀 Server ready at http://localhost:${PORT}/graphql`
+    );
+    console.log(
+      `⏰ Subscriptions ready at http://localhost:${PORT}/graphql`
+    );
+  });
+}
 
-app.post("/register", (req: Request, res: Response) => {
-  db.registerUser(req, res);
-});
-
-/**
- * Places
- */
-app.post("/place", (req: Request, res: Response) => {
-  db.addPlace(req, res);
-});
-
-/**
- * Deliveries/Orders
- */
-app.post("/delivery", (req: Request, res: Response) => {
-  db.addDelivery(req, res);
-});
-app.get("/delivery", (req: Request, res: Response) => {
-  db.getDeliveries(req, res);
-});
-
-
-const port = 62528
-const server = app.listen(port, () => {
-  console.log(`Started server at port ${port}`);
-});
+start();
