@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+protocol DeliveryCellProtocol {
+    func didTapChatIcon(tappedUser: User)
+}
+
 class DeliveryCell : UITableViewCell {
     
     var delivery: Delivery? {
@@ -17,6 +21,7 @@ class DeliveryCell : UITableViewCell {
             deliveryLocationLabel.text = delivery?.deliveryBuilding?.place.name
         }
     }
+    var delegate : DeliveryCellProtocol!
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -25,6 +30,7 @@ class DeliveryCell : UITableViewCell {
         
         contentView.addSubview(userInfoStackView)
         userInfoStackView.addSubview(delivererNameLabel)
+        userInfoStackView.addSubview(chatIconImageView)
         
         contentView.addSubview(locationInfoStackView)
         locationInfoStackView.addSubview(resturantView)
@@ -35,10 +41,13 @@ class DeliveryCell : UITableViewCell {
         deliveryLocationView.addSubview(titleDeliveryLocationLabel)
         deliveryLocationView.addSubview(deliveryLocationLabel)
         
+        addChatIconImageViewGesture()
+        
         let paddingSize = 15.0
         
         userInfoStackView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: nil, right: contentView.rightAnchor, paddingTop: 8, paddingLeft: paddingSize, paddingBottom: 8, paddingRight: paddingSize, width: frame.width, height: 40, enableInsets: false)
         delivererNameLabel.anchor(top: userInfoStackView.topAnchor, left: userInfoStackView.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 0, height: 0, enableInsets: false)
+        chatIconImageView.anchor(top: userInfoStackView.topAnchor, left: delivererNameLabel.rightAnchor, bottom: nil, right: userInfoStackView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 30, height: 30, enableInsets: false)
         
         locationInfoStackView.anchor(top: userInfoStackView.bottomAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 8, paddingLeft: paddingSize, paddingBottom: 8, paddingRight: paddingSize, width: frame.width, height: 65, enableInsets: false)
         
@@ -64,6 +73,13 @@ class DeliveryCell : UITableViewCell {
         label.font = UIFont(name: "Inter-Regular_Bold", size: 20)
         label.textColor = .black
         return label
+    }()
+    
+    private let chatIconImageView : UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "bubble.left")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
     
     private let locationInfoStackView : UIStackView = {
@@ -115,6 +131,18 @@ class DeliveryCell : UITableViewCell {
         label.numberOfLines = 0
         return label
     }()
+    
+    @objc func didTapChatIcon(_ sender: Any) {
+        if let delivery = delivery {
+            self.delegate.didTapChatIcon(tappedUser: delivery.user)
+        }
+    }
+    
+    func addChatIconImageViewGesture() {
+        let imageViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapChatIcon(_:)))
+        chatIconImageView.isUserInteractionEnabled = true
+        chatIconImageView.addGestureRecognizer(imageViewTapGesture)
+    }
     
     
     required init?(coder aDecoder: NSCoder) {

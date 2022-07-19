@@ -13,6 +13,7 @@ class OrderViewController: UIViewController, UITableViewDelegate {
     let locationManager = CLLocationManager()
     var currentPlace: Place?
     var arrayOfDeliveries : [Delivery] = [Delivery]()
+    public var parentNavController: UINavigationController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -171,10 +172,14 @@ class OrderViewController: UIViewController, UITableViewDelegate {
     
     func fetchDeliveries() {
         Delivery.getAllPlacedDeliveries(completion: {deliveries in
+            let currentUserId = User.getCurrent()!.id
+            
             if let deliveries = deliveries {
-                self.arrayOfDeliveries = deliveries
+                // Remove current user from current deliverer view if needed
+                self.arrayOfDeliveries = deliveries.filter { $0.userId != currentUserId }
                 self.deliveryTableView.reloadData()
                 self.refreshControl.endRefreshing()
+                
             }
         })
     }
@@ -202,6 +207,17 @@ extension OrderViewController : SelectLocationViewDelegate {
     }
 }
 
+extension OrderViewController : DeliveryCellProtocol {
+    func didTapChatIcon(tappedUser: User) {
+        let individualChatVC = IndividualChatViewController()
+        
+        individualChatVC.targetUser = tappedUser
+        self.parentNavController?.pushViewController(individualChatVC, animated: true)
+        
+    }
+
+}
+
 extension OrderViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arrayOfDeliveries.count
@@ -211,6 +227,7 @@ extension OrderViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DeliveryCell", for: indexPath) as! DeliveryCell
         let currentDelivery = arrayOfDeliveries[indexPath.row]
         cell.delivery = currentDelivery
+        cell.delegate = self
         return cell
         
     }

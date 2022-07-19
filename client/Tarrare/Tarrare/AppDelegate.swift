@@ -20,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             GMSPlacesClient.provideAPIKey(mapsApiKey)
         }
         
+        UINavigationBar.appearance().barTintColor = UIColor.white
+        UINavigationBar.appearance().tintColor = UIColor.black
+        UINavigationBar.appearance().titleTextAttributes = [ NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont(name: Constants.FontDefaults.bold, size: 20)! ]
         return true
     }
 

@@ -133,7 +133,7 @@ const Message = objectType({
       resolve: (parent, _args, context: Context) => {
         return context.prisma.message
           .findUnique({
-            where: { id: parent.senderId },
+            where: { id: parent.id },
           })
           .sender();
       },
@@ -144,7 +144,7 @@ const Message = objectType({
       resolve: (parent, _args, context: Context) => {
         return context.prisma.message
           .findUnique({
-            where: { id: parent.recieverId },
+            where: { id: parent.id },
           })
           .reciever();
       },
@@ -195,6 +195,9 @@ export const Query = queryType({
               },
             ],
           },
+          orderBy: {
+            createdAt: "asc"
+          }
         });
       },
     });

@@ -10,6 +10,9 @@
 		1F993F342885C8A200DD1A54 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 1F993F332885C8A200DD1A54 /* Apollo */; };
 		1F993F362885C8A200DD1A54 /* ApolloWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = 1F993F352885C8A200DD1A54 /* ApolloWebSocket */; };
 		1F993F3A28860F4B00DD1A54 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1F993F3928860F4B00DD1A54 /* MessageKit */; };
+		1F993F3C2886195800DD1A54 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F993F3B2886195800DD1A54 /* Message.swift */; };
+		1F993F3E2886205500DD1A54 /* OpenChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F993F3D2886205500DD1A54 /* OpenChatsViewController.swift */; };
+		1F993F4328862A8100DD1A54 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F993F4228862A6600DD1A54 /* API.swift */; };
 		1FB83FF82878FCBD00E33667 /* MapsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FF72878FCBD00E33667 /* MapsAPI.swift */; };
 		1FB83FFA2879070400E33667 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FF92879070400E33667 /* Place.swift */; };
 		1FB83FFE287C89F200E33667 /* LocationUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB83FFD287C89F200E33667 /* LocationUILabel.swift */; };
@@ -21,7 +24,6 @@
 		1FB84012287F6F4600E33667 /* DeliveryBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84011287F6F4600E33667 /* DeliveryBuilding.swift */; };
 		1FB84014287F718B00E33667 /* DeliveryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84013287F718B00E33667 /* DeliveryCell.swift */; };
 		1FB84016288096ED00E33667 /* IndividualChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB84015288096ED00E33667 /* IndividualChatViewController.swift */; };
-		1FB8402A2882137400E33667 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB840292882137300E33667 /* API.swift */; };
 		1FE95A1E2874F6D300A79C77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */; };
 		1FE95A202874F6D300A79C77 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A1F2874F6D300A79C77 /* SceneDelegate.swift */; };
 		1FE95A272874F6D300A79C77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FE95A262874F6D300A79C77 /* Assets.xcassets */; };
@@ -38,13 +40,18 @@
 		1FE95A502878B4CF00A79C77 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A4F2878B4CF00A79C77 /* HomeViewController.swift */; };
 		1FE95A522878B5AA00A79C77 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A512878B5AA00A79C77 /* ProfileViewController.swift */; };
 		1FE95A552878B6B900A79C77 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A542878B6B900A79C77 /* MainTabBarController.swift */; };
-		1FE95A572878B8C500A79C77 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A562878B8C500A79C77 /* MessagesViewController.swift */; };
 		1FE95A5B2878E99300A79C77 /* SelectLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE95A5A2878E99300A79C77 /* SelectLocationViewController.swift */; };
 		91765C5EB86B19F52D4BC34D /* Pods_Tarrare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56DEEAE22CDC04411E670E42 /* Pods_Tarrare.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1F993F372885EF6900DD1A54 /* CreateMessage */ = {isa = PBXFileReference; lastKnownFileType = text; path = CreateMessage; sourceTree = "<group>"; };
+		1F993F372885EF6900DD1A54 /* CreateMessage.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = CreateMessage.graphql; sourceTree = "<group>"; };
+		1F993F3B2886195800DD1A54 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		1F993F3D2886205500DD1A54 /* OpenChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChatsViewController.swift; sourceTree = "<group>"; };
+		1F993F402886285100DD1A54 /* schema.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = schema.json; path = Tarrare/schema.json; sourceTree = SOURCE_ROOT; };
+		1F993F412886295A00DD1A54 /* GetConversation.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = GetConversation.graphql; sourceTree = "<group>"; };
+		1F993F4228862A6600DD1A54 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		1F993F44288650C300DD1A54 /* MessageListen.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = MessageListen.graphql; sourceTree = "<group>"; };
 		1FB83FF72878FCBD00E33667 /* MapsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapsAPI.swift; path = Tarrare/API/MapsAPI.swift; sourceTree = "<group>"; };
 		1FB83FF92879070400E33667 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		1FB83FFD287C89F200E33667 /* LocationUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationUILabel.swift; path = Tarrare/CustomViews/LocationUILabel.swift; sourceTree = SOURCE_ROOT; };
@@ -57,7 +64,6 @@
 		1FB84013287F718B00E33667 /* DeliveryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryCell.swift; sourceTree = "<group>"; };
 		1FB84015288096ED00E33667 /* IndividualChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualChatViewController.swift; sourceTree = "<group>"; };
 		1FB84028288212D700E33667 /* LoginUser.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = LoginUser.graphql; sourceTree = "<group>"; };
-		1FB840292882137300E33667 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		1FB8402D28835DE000E33667 /* RegisterUser.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = RegisterUser.graphql; sourceTree = "<group>"; };
 		1FB8402E28838ADE00E33667 /* AllDeliveries.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = AllDeliveries.graphql; sourceTree = "<group>"; };
 		1FB8402F288392ED00E33667 /* ToggleUserDeliveryStatus.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = ToggleUserDeliveryStatus.graphql; sourceTree = "<group>"; };
@@ -81,7 +87,6 @@
 		1FE95A4F2878B4CF00A79C77 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		1FE95A512878B5AA00A79C77 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		1FE95A542878B6B900A79C77 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
-		1FE95A562878B8C500A79C77 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		1FE95A5A2878E99300A79C77 /* SelectLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationViewController.swift; sourceTree = "<group>"; };
 		1FE95A5C2878F0EC00A79C77 /* Tarrare.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Tarrare.xcconfig; sourceTree = "<group>"; };
 		56DEEAE22CDC04411E670E42 /* Pods_Tarrare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tarrare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,7 +129,9 @@
 				1FB8402F288392ED00E33667 /* ToggleUserDeliveryStatus.graphql */,
 				1FB8403028839A5F00E33667 /* UpsertDelivery.graphql */,
 				1FB8403128839D2000E33667 /* CreatePlace.graphql */,
-				1F993F372885EF6900DD1A54 /* CreateMessage */,
+				1F993F372885EF6900DD1A54 /* CreateMessage.graphql */,
+				1F993F412886295A00DD1A54 /* GetConversation.graphql */,
+				1F993F44288650C300DD1A54 /* MessageListen.graphql */,
 			);
 			path = GraphQL;
 			sourceTree = "<group>";
@@ -150,8 +157,9 @@
 		1FE95A1C2874F6D300A79C77 /* Tarrare */ = {
 			isa = PBXGroup;
 			children = (
+				1F993F4228862A6600DD1A54 /* API.swift */,
+				1F993F402886285100DD1A54 /* schema.json */,
 				1FB840322883A4BD00E33667 /* GraphQL */,
-				1FB840292882137300E33667 /* API.swift */,
 				1FE95A4D2878AFC500A79C77 /* Constants.swift */,
 				1FE95A3728773D5C00A79C77 /* Extension.swift */,
 				1FE95A1D2874F6D300A79C77 /* AppDelegate.swift */,
@@ -178,11 +186,11 @@
 				1FE95A3F2877575300A79C77 /* RegisterViewController.swift */,
 				1FE95A4F2878B4CF00A79C77 /* HomeViewController.swift */,
 				1FE95A512878B5AA00A79C77 /* ProfileViewController.swift */,
-				1FE95A562878B8C500A79C77 /* MessagesViewController.swift */,
 				1FE95A5A2878E99300A79C77 /* SelectLocationViewController.swift */,
 				1FB84007287CF6BD00E33667 /* DeliverViewController.swift */,
 				1FB84009287CFE8900E33667 /* OrderViewController.swift */,
 				1FB84015288096ED00E33667 /* IndividualChatViewController.swift */,
+				1F993F3D2886205500DD1A54 /* OpenChatsViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -195,6 +203,7 @@
 				1FB8400D287E5E6A00E33667 /* Delivery.swift */,
 				1FB8400F287F6EC700E33667 /* Resturant.swift */,
 				1FB84011287F6F4600E33667 /* DeliveryBuilding.swift */,
+				1F993F3B2886195800DD1A54 /* Message.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -396,14 +405,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FE95A572878B8C500A79C77 /* MessagesViewController.swift in Sources */,
 				1FE95A34287640DA00A79C77 /* User.swift in Sources */,
 				1FB83FFE287C89F200E33667 /* LocationUILabel.swift in Sources */,
 				1FE95A4E2878AFC500A79C77 /* Constants.swift in Sources */,
 				1FB8400E287E5E6A00E33667 /* Delivery.swift in Sources */,
 				1FB83FF82878FCBD00E33667 /* MapsAPI.swift in Sources */,
-				1FB8402A2882137400E33667 /* API.swift in Sources */,
+				1F993F3E2886205500DD1A54 /* OpenChatsViewController.swift in Sources */,
 				1FE95A1E2874F6D300A79C77 /* AppDelegate.swift in Sources */,
+				1F993F4328862A8100DD1A54 /* API.swift in Sources */,
 				1FE95A452877880C00A79C77 /* APIManager.swift in Sources */,
 				1FE95A42287764E700A79C77 /* TarrareTextField.swift in Sources */,
 				1FE95A402877575300A79C77 /* RegisterViewController.swift in Sources */,
@@ -417,6 +426,7 @@
 				1FB84014287F718B00E33667 /* DeliveryCell.swift in Sources */,
 				1FE95A552878B6B900A79C77 /* MainTabBarController.swift in Sources */,
 				1FE95A522878B5AA00A79C77 /* ProfileViewController.swift in Sources */,
+				1F993F3C2886195800DD1A54 /* Message.swift in Sources */,
 				1FB84012287F6F4600E33667 /* DeliveryBuilding.swift in Sources */,
 				1FB84008287CF6BD00E33667 /* DeliverViewController.swift in Sources */,
 				1FB83FFA2879070400E33667 /* Place.swift in Sources */,

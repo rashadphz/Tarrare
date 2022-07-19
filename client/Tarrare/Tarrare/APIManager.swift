@@ -8,12 +8,34 @@
 import Foundation
 import Alamofire
 import Apollo
+import ApolloWebSocket
 
 import FirebaseAuth
 
 class APIManager {
     
-    private(set) lazy var apollo = ApolloClient(url: URL(string: "https://f036-2600-387-c-6c11-00-6.ngrok.io/graphql")!)
+    /// A web socket transport to use for subscriptions
+    private lazy var webSocketTransport: WebSocketTransport = {
+        let url = URL(string: "https://f036-2600-387-c-6c11-00-6.ngrok.io/graphql")!
+        let webSocketClient = WebSocket(url: url, protocol: .graphql_transport_ws)
+        return WebSocketTransport(websocket: webSocketClient)
+    }()
+    
+    /// An HTTP transport to use for queries and mutations
+    private lazy var normalTransport: RequestChainNetworkTransport = {
+        let url = URL(string: "https://f036-2600-387-c-6c11-00-6.ngrok.io/graphql")!
+        return RequestChainNetworkTransport(interceptorProvider: DefaultInterceptorProvider(store: self.store), endpointURL: url)
+    }()
+    
+    private lazy var splitNetworkTransport = SplitNetworkTransport(
+        uploadingNetworkTransport: self.normalTransport,
+        webSocketNetworkTransport: self.webSocketTransport
+    )
+    
+    private(set) lazy var apollo = ApolloClient(networkTransport: self.splitNetworkTransport, store: self.store)
+    
+    private lazy var store = ApolloStore()
+    
     
     private static var sharedAPIManager: APIManager = {
         let apiManager = APIManager()
@@ -43,7 +65,16 @@ class APIManager {
         
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: [])
-            let obj = try JSONDecoder().decode(T.self, from: jsonData)
+            
+            let decoder = JSONDecoder()
+            
+            // handle any responses with dates
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+            decoder.dateDecodingStrategy = .formatted(dateFormatter)
+            
+            let obj = try decoder.decode(T.self, from: jsonData)
             return obj
         } catch let error {
             print(error)
@@ -90,8 +121,20 @@ class APIManager {
     }
     
     // Subscription
-    func call<T: Decodable, Subscription: GraphQLSubscription>(subscription: Subscription, completion: @escaping(T?) -> Void) {
-        // TODO(rashadphil): Handle GraphQL Subscriptions
+    func call<T: Decodable, Subscription: GraphQLSubscription>(key: String, subscription: Subscription, completion: @escaping(T?) -> Void) {
+        apollo.subscribe(subscription: subscription , resultHandler: {result in
+            switch result {
+            case .success(let graphQLResult):
+                guard let object : T = self.processGraphQLResult(key: key, json: graphQLResult.data?.jsonObject as? JSONObject) else {
+                    return
+                }
+                completion(object)
+                break
+            case .failure(let error):
+                print(error)
+                break
+            }
+        })
     }
     
     

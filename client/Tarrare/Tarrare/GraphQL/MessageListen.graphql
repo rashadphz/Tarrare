@@ -1,0 +1,26 @@
+fragment UserInfo on User {
+  email
+  id
+  firstName
+  lastName
+  delivering
+}
+fragment MessageInfo on Message{
+id
+  recieverId
+  reciever {
+    ...UserInfo
+  }
+  senderId
+  sender {
+    ...UserInfo
+  }
+  text
+  createdAt
+}
+
+subscription MessageListen($recieverId: Int!) {
+  newMessage(recieverId: $recieverId) {
+    ...MessageInfo
+  }
+}

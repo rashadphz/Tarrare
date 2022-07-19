@@ -6,12 +6,19 @@
 //
 
 import Foundation
+import UIKit
 
 struct Constants {
     
     struct UserDefaults {
         static let currentUser = "currentUser"
         static let currentPlace = "currentPlace"
+    }
+    
+    struct FontDefaults {
+        static let bold = "Inter-Regular_Bold"
+        static let semibold = "Inter-Regular_Semibold"
+        static let normal = "Inter-Regular_Normal"
     }
     
 }
