@@ -17,7 +17,7 @@ class MainTabBarController: UITabBarController {
         let homeIcon = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
         homeVC.tabBarItem = homeIcon
         
-        let messagesVC = UINavigationController(rootViewController: OpenChatsViewController())
+        let messagesVC = UINavigationController(rootViewController: ConversationsViewController())
         let messageIcon = UITabBarItem(title: "Messages", image: UIImage(systemName: "bubble.left"), selectedImage: UIImage(systemName: "bubble.left.fill"))
         messagesVC.tabBarItem = messageIcon
         

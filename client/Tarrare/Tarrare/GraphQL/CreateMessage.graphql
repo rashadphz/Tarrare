@@ -5,18 +5,24 @@ fragment UserInfo on User {
   lastName
   delivering
 }
+
+fragment MessageInfo on Message{
+  id
+  recieverId
+  reciever {
+    ...UserInfo
+  }
+  senderId
+  sender {
+    ...UserInfo
+  }
+  text
+  createdAt
+  convoId
+}
+
 mutation CreateMessage($text: String!, $senderId: Int!, $recieverId: Int!) {
   createMessage(text: $text, senderId: $senderId, recieverId: $recieverId) {
-    id
-    text
-    recieverId
-    reciever {
-      ...UserInfo
-    }
-    senderId
-    sender {
-      ...UserInfo
-    }
-    createdAt
+    ...MessageInfo
   }
 }

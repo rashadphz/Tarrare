@@ -204,11 +204,29 @@ const createMessage = async (
   senderId: number,
   recieverId: number
 ) => {
+  // always make smaller id first user (satisfy unique constraint )
+  let smallerId = Math.min(senderId, recieverId);
+  let largerId = Math.max(senderId, recieverId);
+  const convo = await context.prisma.convo.upsert({
+    where: {
+      members: {
+        memberOneId: smallerId,
+        memberTwoId: largerId,
+      },
+    },
+    create: {
+      memberOneId: smallerId,
+      memberTwoId: largerId,
+    },
+    update: {},
+  });
+
   const createdMessage = await context.prisma.message.create({
     data: {
       text,
       senderId,
       recieverId,
+      convoId: convo.id,
     },
   });
   return createdMessage;

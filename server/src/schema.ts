@@ -149,6 +149,67 @@ const Message = objectType({
           .reciever();
       },
     });
+    t.nonNull.int("convoId");
+    t.field("convo", {
+      type: "Convo",
+      resolve: (parent, _args, context: Context) => {
+        return context.prisma.message
+          .findUnique({
+            where: { id: parent.id },
+          })
+          .convo();
+      },
+    });
+  },
+});
+
+const Convo = objectType({
+  name: "Convo",
+  definition(t) {
+    t.nonNull.int("id");
+    t.nonNull.int("memberOneId");
+    t.field("memberOne", {
+      type: "User",
+      resolve: (parent, _args, context: Context) => {
+        return context.prisma.convo
+          .findUnique({
+            where: { id: parent.id },
+          })
+          .memberOne();
+      },
+    });
+    t.nonNull.int("memberTwoId");
+    t.field("memberTwo", {
+      type: "User",
+      resolve: (parent, _args, context: Context) => {
+        return context.prisma.convo
+          .findUnique({
+            where: { id: parent.id },
+          })
+          .memberTwo();
+      },
+    });
+    t.nonNull.list.field("messages", {
+      type: "Message",
+      resolve: (parent, _args, context: Context) => {
+        return context.prisma.convo
+          .findFirst({
+            where: {
+              OR: [
+                {
+                  memberOneId: parent.memberOneId,
+                  memberTwoId: parent.memberTwoId,
+                },
+                {
+                  memberTwoId: parent.memberOneId,
+                  memberOneId: parent.memberTwoId,
+                },
+              ],
+            },
+          })
+          .messages();
+      },
+    });
   },
 });
 
@@ -196,8 +257,25 @@ export const Query = queryType({
             ],
           },
           orderBy: {
-            createdAt: "asc"
-          }
+            createdAt: "asc",
+          },
+        });
+      },
+    });
+
+    t.nonNull.list.field("getUserConversations", {
+      type: "Convo",
+      args: {
+        currentUserId: nonNull(intArg()),
+      },
+      resolve: (_parent, args, context: Context) => {
+        return context.prisma.convo.findMany({
+          where: {
+            OR: [
+              { memberOneId: args.currentUserId },
+              { memberTwoId: args.currentUserId },
+            ],
+          },
         });
       },
     });
@@ -340,6 +418,7 @@ export const schema = makeSchema({
     DeliveryBuilding,
     Delivery,
     Subscription,
+    Convo,
     Message,
   ],
   outputs: {

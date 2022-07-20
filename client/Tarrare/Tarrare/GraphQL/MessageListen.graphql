@@ -6,7 +6,7 @@ fragment UserInfo on User {
   delivering
 }
 fragment MessageInfo on Message{
-id
+  id
   recieverId
   reciever {
     ...UserInfo
@@ -17,6 +17,7 @@ id
   }
   text
   createdAt
+  convoId
 }
 
 subscription MessageListen($recieverId: Int!) {

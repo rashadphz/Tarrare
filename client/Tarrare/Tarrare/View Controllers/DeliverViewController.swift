@@ -15,6 +15,7 @@ class DeliverViewController: UIViewController, CLLocationManagerDelegate {
     var deliveryBuilding: Place?
     var tappedLocationLabel: UILabel?
     var user : User! = User.getCurrent()
+    var parentNavController: UINavigationController?
     
     override func viewDidLoad() {
         super.viewDidLoad()

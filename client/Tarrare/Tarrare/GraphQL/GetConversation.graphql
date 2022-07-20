@@ -1,10 +1,3 @@
-fragment MessageInfo on Message{
-  createdAt
-  id
-  recieverId
-  senderId
-  text
-}
 fragment UserInfo on User {
   email
   id
@@ -13,14 +6,23 @@ fragment UserInfo on User {
   delivering
 }
 
+fragment MessageInfo on Message{
+  id
+  recieverId
+  reciever {
+    ...UserInfo
+  }
+  senderId
+  sender {
+    ...UserInfo
+  }
+  text
+  createdAt
+  convoId
+}
+
 query GetConversation($senderId: Int!, $recieverId: Int!) {
   getConversation(senderId: $senderId, recieverId: $recieverId) {
     ...MessageInfo
-    sender {
-    ...UserInfo
-    }
-    reciever {
-    ...UserInfo
-    }
   }
 }

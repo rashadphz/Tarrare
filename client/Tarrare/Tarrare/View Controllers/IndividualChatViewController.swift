@@ -35,6 +35,7 @@ class IndividualChatViewController : MessagesViewController {
         fetchConversation()
         
     }
+    
     // MARK: - Components
     
     func setupNavbar() {
@@ -48,7 +49,6 @@ class IndividualChatViewController : MessagesViewController {
         guard let targetUser = targetUser else {
             return
         }
-        
         Message.getConversation(recieverId: currentUser.id, senderId: targetUser.id, completion: {messages in
             if let messages = messages {
                 self.messageArray = messages

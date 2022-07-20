@@ -18,7 +18,8 @@ struct Constants {
     struct FontDefaults {
         static let bold = "Inter-Regular_Bold"
         static let semibold = "Inter-Regular_Semibold"
-        static let normal = "Inter-Regular_Normal"
+        static let regular = "Inter-Regular"
+        static let medium = "Inter-Regular_Medium"
     }
     
 }

@@ -17,6 +17,7 @@ class Message: Codable {
     let senderUser : User
     let text : String
     let createdAt : Date
+    let convoId : Int
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -26,6 +27,7 @@ class Message: Codable {
         case senderUser = "sender"
         case text
         case createdAt
+        case convoId
     }
     
     static func getConversation(recieverId: Int, senderId: Int, completion: @escaping([Message]?) -> Void) {

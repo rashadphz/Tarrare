@@ -8,6 +8,4 @@ target 'Tarrare' do
   # Pods for Tarrare
   pod "Alamofire"
   pod "FirebaseAuth"
-  pod "GooglePlaces"
-
 end

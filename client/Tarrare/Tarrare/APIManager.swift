@@ -14,16 +14,19 @@ import FirebaseAuth
 
 class APIManager {
     
+    var endpointURL = "http://localhost:62528/graphql"
+//    var endpointURL = "https://f036-2600-387-c-6c11-00-6.ngrok.io/graphql"
+    
     /// A web socket transport to use for subscriptions
     private lazy var webSocketTransport: WebSocketTransport = {
-        let url = URL(string: "https://f036-2600-387-c-6c11-00-6.ngrok.io/graphql")!
+        let url = URL(string: endpointURL)!
         let webSocketClient = WebSocket(url: url, protocol: .graphql_transport_ws)
         return WebSocketTransport(websocket: webSocketClient)
     }()
     
     /// An HTTP transport to use for queries and mutations
     private lazy var normalTransport: RequestChainNetworkTransport = {
-        let url = URL(string: "https://f036-2600-387-c-6c11-00-6.ngrok.io/graphql")!
+        let url = URL(string: endpointURL)!
         return RequestChainNetworkTransport(interceptorProvider: DefaultInterceptorProvider(store: self.store), endpointURL: url)
     }()
     

@@ -75,6 +75,7 @@ class OrderViewController: UIViewController, UITableViewDelegate {
     
     private let containerView: UIView = {
         let view = UIView()
+        view.backgroundColor = .white
         return view
     }()
     
@@ -146,6 +147,7 @@ class OrderViewController: UIViewController, UITableViewDelegate {
     
     private let deliveryTableView : UITableView = {
         let tableView = UITableView()
+        tableView.backgroundColor = .white
         tableView.rowHeight = UITableView.automaticDimension
         
         tableView.layer.masksToBounds = true

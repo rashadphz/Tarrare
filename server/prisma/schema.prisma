@@ -28,6 +28,8 @@ model User {
   universityId     Int?
   recievedMessages Message[]   @relation("RecieverOfMessage")
   sentMessages     Message[]   @relation("SenderOfMessage")
+  convosOne        Convo[]     @relation("ConvoMemberOne")
+  convosTwo        Convo[]     @relation("ConvoMemberTwo")
 }
 
 model Profile {
@@ -101,6 +103,17 @@ model Place {
 }
 
 // CHAT/MESSAGING TABLES
+model Convo {
+  id          Int       @id @default(autoincrement())
+  memberOne   User      @relation("ConvoMemberOne", fields: [memberOneId], references: [id])
+  memberOneId Int
+  memberTwo   User      @relation("ConvoMemberTwo", fields: [memberTwoId], references: [id])
+  memberTwoId Int
+  messages    Message[]
+
+  @@unique([memberOneId, memberTwoId], name: "members")
+}
+
 model Message {
   id         Int      @id @default(autoincrement())
   recieverId Int
@@ -109,6 +122,8 @@ model Message {
   senderId   Int
   text       String
   createdAt  DateTime @default(now())
+  convo      Convo    @relation(fields: [convoId], references: [id])
+  convoId    Int
 }
 
 enum Status {

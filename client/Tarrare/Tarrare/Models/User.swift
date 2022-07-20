@@ -35,7 +35,10 @@ class User: Codable {
     
     static func getCurrent() -> User? {
         let userData = UserDefaults.standard.object(forKey: Constants.UserDefaults.currentUser) as? Data
-        let user = try? JSONDecoder().decode(User.self, from:userData!)
+        guard let userData = userData else {
+            return nil
+        }
+        let user = try? JSONDecoder().decode(User.self, from:userData)
         return user
     }
     
@@ -44,5 +47,13 @@ class User: Codable {
     }
     
     
+    
+    
+}
+
+extension User: Equatable {
+    static func == (lhs: User, rhs: User) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 

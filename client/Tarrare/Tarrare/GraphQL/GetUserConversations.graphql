@@ -1,0 +1,34 @@
+fragment UserInfo on User {
+  email
+  id
+  firstName
+  lastName
+  delivering
+}
+fragment MessageInfo on Message{
+  createdAt
+  id
+  recieverId
+  senderId
+  text
+  convoId
+}
+
+query GetUserConversations ($currentUserId: Int!) {
+  getUserConversations(currentUserId: $currentUserId) {
+    id
+    memberOneId
+    memberOne {
+      ...UserInfo
+    }
+    memberTwoId
+    memberTwo {
+      ...UserInfo
+    }
+    messages {
+      ...MessageInfo
+    }
+    
+    
+  }
+}
