@@ -164,7 +164,7 @@ optimizing convenience for both students.
 
 ### Models
 
-![](dbschemaimg.png)
+<img width="788" alt="image" src="https://user-images.githubusercontent.com/20783686/180578675-4b05f84e-90ba-4311-ba28-3a4243f11935.png">
 
 ### Networking
 
@@ -193,21 +193,3 @@ optimizing convenience for both students.
   - (Update/POST) Add a new message to the chat database between two
     users
 
-#### Existing API Endpoints
-
-##### TODO
-
-- BASEURL - [TODO]
-
-  | HTTP Verb | Endpoint                  | Description                |
-  | --------- | ------------------------- | -------------------------- |
-  | `GET`     | /search                   | TODO                       |
-  | `GET`     | /search?q=query           | TODO                       |
-  | `GET`     | /search?calories=calories | TODO                       |
-  | `GET`     | /search?health=health     | TODO                       |
-
-## Sprint 1 GIFs:
-
-## Sprint 2 GIFs:
-
-## Sprint 3 GIFs:
