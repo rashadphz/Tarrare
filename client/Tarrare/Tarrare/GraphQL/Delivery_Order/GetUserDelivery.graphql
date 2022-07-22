@@ -1,0 +1,46 @@
+fragment PlaceInfo on Place {
+  id
+  name
+  fullAddress
+  streetAddress
+  state
+  city
+  zipcode
+  googlePlaceId
+}
+fragment UserInfo on User {
+  email
+  id
+  firstName
+  lastName
+  delivering
+}
+
+fragment DeliveryInfo on Delivery {
+  deliveryBuilding {
+    placeId
+    place {
+      ...PlaceInfo
+    }
+ 
+  }
+  deliveryBuildingPlaceId
+  id
+  orderStatus
+  resturant {
+    placeId
+    place {
+      ...PlaceInfo
+    }
+  }
+  resturantPlaceId
+  user {
+    ...UserInfo
+  }
+  userId
+}
+query GetUserDelivery($userId: Int!) {
+  getUserDelivery(userId: $userId) {
+    ...DeliveryInfo
+  }
+}

@@ -2,6 +2,7 @@ fragment PlaceInfo on Place {
   id
   name
   fullAddress
+  streetAddress
   state
   city
   zipcode
@@ -15,8 +16,8 @@ fragment UserInfo on User {
   delivering
 }
 
-mutation UpsertDelivery($userId: Int!, $orderStatus: String!, $resturantPlaceId: Int, $deliveryBuildingPlaceId: Int) {
-  upsertDelivery(userId: $userId, orderStatus: $orderStatus, resturantPlaceId: $resturantPlaceId, deliveryBuildingPlaceId: $deliveryBuildingPlaceId) {
+mutation UpsertOrder($userId: Int!, $orderStatus: String!, $resturantPlaceId: Int!, $deliveryBuildingPlaceId: Int!) {
+  upsertOrder(userId: $userId, orderStatus: $orderStatus, resturantPlaceId: $resturantPlaceId, deliveryBuildingPlaceId: $deliveryBuildingPlaceId) {
     id
     userId
     user {
@@ -39,3 +40,4 @@ mutation UpsertDelivery($userId: Int!, $orderStatus: String!, $resturantPlaceId:
     deliveryBuildingPlaceId
   }
 }
+

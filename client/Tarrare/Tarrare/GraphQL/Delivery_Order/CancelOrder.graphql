@@ -1,0 +1,46 @@
+fragment PlaceInfo on Place {
+  id
+  name
+  fullAddress
+  streetAddress
+  state
+  city
+  zipcode
+  googlePlaceId
+}
+fragment UserInfo on User {
+  email
+  id
+  firstName
+  lastName
+  delivering
+}
+
+fragment OrderInfo on Order {
+  deliveryBuilding {
+    placeId
+    place {
+      ...PlaceInfo
+    }
+ 
+  }
+  deliveryBuildingPlaceId
+  id
+  orderStatus
+  resturant {
+    placeId
+    place {
+      ...PlaceInfo
+    }
+  }
+  resturantPlaceId
+  user {
+    ...UserInfo
+  }
+  userId
+}
+mutation CancelOrder($orderId: Int!) {
+  cancelOrder(ordererId: $orderId) {
+    ...OrderInfo
+  }
+}
