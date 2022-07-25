@@ -1,0 +1,4 @@
+  createPlace(name: $name, fullAddress: $fullAddress, streetAddress: $streetAddress, state: $state, city: $city, zipcode: $zipcode, googlePlaceId: $googlePlaceId) {
+    ...PlaceInfo
+  }
+}
