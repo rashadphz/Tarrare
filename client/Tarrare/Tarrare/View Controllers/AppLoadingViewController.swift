@@ -40,17 +40,6 @@ class AppLoadingViewController: UIViewController {
             }
         }
         
-        // Start New Offer Subscription
-        Match.newMatchListen { newMatch in
-            guard let match = newMatch else { return }
-            guard let currentDelivery = Delivery.userCurrent else { return }
-            
-            if match.delivery == currentDelivery {
-                let newOfferVC = NewOfferViewController()
-                newOfferVC.match = newMatch
-                self.present(UINavigationController(rootViewController: newOfferVC), animated: true)
-            }
-        }
         
         dispatchGroup.notify(queue: .main) {
             let mainTabBarController = MainTabBarController()
