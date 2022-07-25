@@ -9,6 +9,7 @@ fragment PlaceInfo on Place {
   id
   name
   fullAddress
+  streetAddress
   state
   city
   zipcode

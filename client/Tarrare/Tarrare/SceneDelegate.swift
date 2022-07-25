@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let loginVC = LoginViewController()
-        let mainTabBarController = MainTabBarController()
+        let appLoadingViewController = AppLoadingViewController()
         
         let initialViewController: UIViewController
         
@@ -30,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
            let userData = defaults.object(forKey: Constants.UserDefaults.currentUser) as? Data,
            let user = try? JSONDecoder().decode(User.self, from: userData) {
             User.setCurrent(user)
-            initialViewController = mainTabBarController
+            initialViewController = appLoadingViewController
         } else {
             initialViewController = loginVC
         }
