@@ -390,6 +390,19 @@ export const Query = queryType({
         });
       },
     });
+    t.nonNull.list.field("getNearbyRestaurants", {
+      type: "Place",
+      args: {
+        longitude: nonNull(stringArg()),
+        latitude: nonNull(stringArg()),
+      },
+      resolve: (_parent, args, context: Context) => {
+        return context.maps.findNearbyResturants(
+          args.longitude,
+          args.latitude
+        );
+      },
+    });
   },
 });
 

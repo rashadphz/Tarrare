@@ -74,6 +74,13 @@ const registerUser = async (
  * Places
  */
 
+const getPlaceFromGooglePlaceId = async (googlePlaceId: string) => {
+  const place = await context.prisma.place.findUnique({
+    where: { googlePlaceId },
+  });
+  return place;
+};
+
 const createPlace = async (placeObj: any) => {
   const {
     name,
@@ -85,11 +92,7 @@ const createPlace = async (placeObj: any) => {
     googlePlaceId,
   } = placeObj;
 
-  const place = await context.prisma.place.findUnique({
-    where: {
-      googlePlaceId,
-    },
-  });
+  const place = await getPlaceFromGooglePlaceId(googlePlaceId);
 
   // Already exists
   if (place) {
@@ -357,6 +360,7 @@ const db = {
   createMessage,
   checkForMatch,
   createMatch,
+  getPlaceFromGooglePlaceId,
 };
 
 export default db;

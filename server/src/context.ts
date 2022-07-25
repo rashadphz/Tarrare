@@ -1,10 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import { PubSub } from "graphql-subscriptions";
 import db from "./queries";
+import maps from "./maps";
 
 export interface Context {
   prisma: PrismaClient;
   db: typeof db;
+  maps: typeof maps;
   pubsub: PubSub;
 }
 
@@ -15,4 +17,5 @@ export const context: Context = {
   prisma: prisma,
   pubsub: pubsub,
   db: db,
+  maps: maps,
 };
