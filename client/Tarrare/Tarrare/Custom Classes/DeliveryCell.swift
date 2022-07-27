@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol DeliveryCellProtocol {
-    func didTapChatIcon(tappedUser: User)
+    func didTapChatIcon(tappedDelivery: Delivery)
 }
 
 class DeliveryCell : UITableViewCell {
