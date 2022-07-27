@@ -17,8 +17,8 @@ class DeliveryCell : UITableViewCell {
     var delivery: Delivery? {
         didSet {
             delivererNameLabel.text = delivery?.user.firstName
-            resturantLabel.text = delivery?.resturant?.place.name
-            deliveryLocationLabel.text = delivery?.deliveryBuilding?.place.name
+            resturantLabel.text = delivery?.resturant.place.name
+            deliveryLocationLabel.text = delivery?.deliveryBuilding.place.name
         }
     }
     var delegate : DeliveryCellProtocol!
