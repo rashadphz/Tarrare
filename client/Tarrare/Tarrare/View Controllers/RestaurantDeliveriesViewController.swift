@@ -20,6 +20,7 @@ class RestaurantDeliveriesViewController: UIViewController, UITableViewDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.fetchDeliveries()
         
         view.backgroundColor = .white
         deliveryTableView.dataSource = self
@@ -78,6 +79,7 @@ class RestaurantDeliveriesViewController: UIViewController, UITableViewDelegate 
     private let deliveryTableView : UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
+        tableView.estimatedRowHeight = 120
         tableView.rowHeight = UITableView.automaticDimension
         
         tableView.layer.masksToBounds = true
