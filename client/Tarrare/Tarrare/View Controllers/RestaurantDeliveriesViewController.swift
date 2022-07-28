@@ -14,13 +14,12 @@ class RestaurantDeliveriesViewController: UIViewController, UITableViewDelegate 
         didSet {
             guard let restaurant = restaurant else { return }
             deliverersAtRestaurantLabel.text = "Deliverers at \(restaurant.place.name)"
-            
+            self.fetchDeliveries()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.fetchDeliveries()
         
         view.backgroundColor = .white
         deliveryTableView.dataSource = self
@@ -96,20 +95,15 @@ class RestaurantDeliveriesViewController: UIViewController, UITableViewDelegate 
     }
     
     func fetchDeliveries() {
-        // TODO (rashadphil) : fetch deliveries for this specific restaurant from the database
-        let mockUser = User.getCurrent()!
+        guard let restaurant = self.restaurant else { return }
         
-        let mockRestaurant1 = Resturant(Place(name: "Chick-fil-A", streetAddress: "503 W Martin Luther King Jr Blvd", state: "TX", city: "Austin", zipcode: 78701, websiteURL: "chick-fil-a.com"))
-        let mockRestaurant2 = Resturant(Place(name: "Chipotle", streetAddress: "2230 Guadalupe St #32", state: "TX", city: "Austin", zipcode: 78705, websiteURL: "chipotle.com"))
-        
-        let mockDeliveryBuilding1 = DeliveryBuilding(Place(name: "Gates-Dell Complex", streetAddress: "2317 Speedway", state: "TX", city: "Austin", zipcode: 78712, websiteURL: ""))
-        let mockDeliveryBuilding2 = DeliveryBuilding(Place(name: "Perry-Castañeda Library", streetAddress: "101 E 21st St", state: "TX", city: "Austin", zipcode: 78712, websiteURL: ""))
-        
-        let mockDelivery1 = Delivery(user: mockUser, restaurant: mockRestaurant1, deliveryBuilding: mockDeliveryBuilding1)
-        let mockDelivery2 = Delivery(user: mockUser, restaurant: mockRestaurant2, deliveryBuilding: mockDeliveryBuilding2)
-        
-        self.arrayOfDeliveries = [mockDelivery1, mockDelivery2]
-        self.deliveryTableView.reloadData()
+        Delivery.getActiveDeliveriesForRestaurant(restaurant: restaurant, completion: {deliveries in
+            guard let deliveries = deliveries else { return }
+            self.arrayOfDeliveries = deliveries
+            self.refreshControl.endRefreshing()
+            self.deliveryTableView.reloadData()
+
+        })
     }
 }
 
