@@ -19,7 +19,7 @@ class Place: Codable {
     var city: String = ""
     var zipcode: Int = 0
     var googlePlaceId: String = ""
-    var websiteURL: String?
+    var websiteUrl: String?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -30,6 +30,7 @@ class Place: Codable {
         case city
         case zipcode
         case googlePlaceId
+        case websiteUrl
     }
     
     func setAddressComponents(_ addressComponents: [GMSAddressComponent]?) {
@@ -56,7 +57,7 @@ class Place: Codable {
         self.state = state
         self.city = city
         self.zipcode = zipcode
-        self.websiteURL = websiteURL
+        self.websiteUrl = websiteURL
     }
     
     init(_ gmsPlace: GMSPlace){
