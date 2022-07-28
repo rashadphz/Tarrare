@@ -20,7 +20,7 @@ class RestaurantCell : UITableViewCell {
             self.nameLabel.text = place.name
             self.addressStreetLabel.text = place.streetAddress
             self.addressLargerAreasLabel.text = "\(place.city) \(place.state), \(place.zipcode)"
-            // TODO (rashadphil) : retrieve restaurant logo from website
+            restaurant?.setLogoForImageView(imageView: self.logoImageView)
         }
     }
     
@@ -39,17 +39,15 @@ class RestaurantCell : UITableViewCell {
         
         self.setAccessoryView()
         
-        self.logoImageView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 70, height: 70, enableInsets: false)
-        self.nameLabel.anchor(top: contentView.topAnchor, left: self.logoImageView.rightAnchor, bottom: nil, right: contentView.rightAnchor, paddingTop: 8, paddingLeft: 5, paddingBottom: 8, paddingRight: 0, width: 0, height: 0, enableInsets: false)
+        self.logoImageView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 60, height: 60, enableInsets: false)
+        self.nameLabel.anchor(top: contentView.topAnchor, left: self.logoImageView.rightAnchor, bottom: nil, right: contentView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 0, height: 0, enableInsets: false)
         
-        self.addressView.anchor(top: self.nameLabel.bottomAnchor, left: self.logoImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 10, width: cellWidth, height: 0, enableInsets: false)
+        self.addressView.anchor(top: self.nameLabel.bottomAnchor, left: self.logoImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 8, paddingBottom: 0, paddingRight: 10, width: cellWidth, height: 0, enableInsets: false)
         
     }
     
     private let logoImageView : UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "takeoutbag.and.cup.and.straw")
-        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
