@@ -32,6 +32,7 @@ class DeliveryCell : UITableViewCell {
         
         self.containerStackView.addArrangedSubview(self.locationInfoStackView)
         self.containerStackView.addArrangedSubview(self.distanceInfoStackView)
+        self.containerStackView.addHorizontalSeparator(color: .black)
         
         self.locationInfoStackView.addArrangedSubview(self.titleDeliveryLocationLabel)
         self.locationInfoStackView.addArrangedSubview(self.deliveryPlaceNameLabel)
@@ -41,9 +42,9 @@ class DeliveryCell : UITableViewCell {
         
         self.distanceView.addArrangedSubview(distanceInMilesLabel)
         
-        self.containerStackView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 10, paddingRight: 0, width: 0, height: 0, enableInsets: false)
+        self.containerStackView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 10, paddingRight: 10, width: 0, height: 0, enableInsets: false)
         
-        self.requestButtonView.anchor(top: contentView.topAnchor, left: self.containerStackView.rightAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0, enableInsets: false)
+        self.requestButtonView.anchor(top: contentView.topAnchor, left: self.containerStackView.rightAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: -20, width: 0, height: 0, enableInsets: false)
         self.requestButton.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 90, height: 35, enableInsets: false)
         self.requestButton.centerXAnchor.constraint(equalTo: self.requestButtonView.centerXAnchor).isActive = true
         self.requestButton.centerYAnchor.constraint(equalTo: self.requestButtonView.centerYAnchor).isActive = true
@@ -54,7 +55,7 @@ class DeliveryCell : UITableViewCell {
         stackview.axis = .vertical
         stackview.alignment = .fill
         stackview.translatesAutoresizingMaskIntoConstraints = false
-        stackview.spacing = 15
+        stackview.spacing = 12
         return stackview
     }()
     
