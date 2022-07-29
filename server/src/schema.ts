@@ -540,11 +540,16 @@ export const Mutation = mutationType({
       type: "Order",
       args: { orderId: nonNull(intArg()) },
       resolve: async (_parent, args) => {
-        const canceledOrder = await context.prisma.order.update({
+        const cancelledOrder = await context.prisma.order.update({
           where: { id: args.orderId },
-          data: { orderStatus: "cancelled" },
+          data: {
+            orderStatus: "cancelled",
+            matches: { deleteMany: {} },
+          },
         });
-        return canceledOrder;
+
+        context.pubsub.publish("cancelledOrder", cancelledOrder);
+        return cancelledOrder;
       },
     });
 
@@ -570,7 +575,7 @@ export const Mutation = mutationType({
           city,
           zipcode,
           googlePlaceId,
-          websiteUrl
+          websiteUrl,
         }
       ) => {
         return await context.db.createPlace({
@@ -581,7 +586,7 @@ export const Mutation = mutationType({
           city,
           zipcode,
           googlePlaceId,
-          websiteUrl
+          websiteUrl,
         });
       },
     });
