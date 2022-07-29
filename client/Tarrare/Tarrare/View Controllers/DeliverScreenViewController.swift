@@ -16,6 +16,15 @@ class DeliverScreenViewController: UIViewController {
 
             restaurantComponentView.place = delivery.resturant.place
             deliveryLocationComponentView.place = delivery.deliveryBuilding.place
+            
+            if (delivery.orderStatus == "placed") {
+                toggleDeliveryStatusButton.backgroundColor = UIColor(named: "DarkGreen")
+                toggleDeliveryStatusButton.setTitle("Delivering", for: .normal)
+            } else {
+                toggleDeliveryStatusButton.backgroundColor = UIColor(named: "DarkRed")
+                toggleDeliveryStatusButton.setTitle("Not Delivering", for: .normal)
+            }
+            
         }
     }
     
@@ -38,6 +47,7 @@ class DeliverScreenViewController: UIViewController {
         self.restaurantComponentView.parentVC = self
         self.deliveryLocationComponentView.parentVC = self
         
+        self.addDeliveryButtonGesture()
     }
     
     override func viewDidLayoutSubviews() {
@@ -117,6 +127,35 @@ class DeliverScreenViewController: UIViewController {
         return button
     }()
     
+    func createDelivery() {
+        guard let currentUser = User.getCurrent() else { return }
+        guard let restaurant = restaurantComponentView.place else { return }
+        guard let deliveryBuilding = deliveryLocationComponentView.place else { return }
+        
+        Delivery.createDelivery(userId: currentUser.id, orderStatus: "placed", resturantPlaceId: restaurant.id, deliveryBuildingPlaceId: deliveryBuilding.id, completion: {createdDelivery in
+            self.delivery = createdDelivery
+        })
+    }
+    
+    func cancelDelivery() {
+        guard let delivery = delivery else { return }
+
+        Delivery.cancelDelivery(deliveryId: delivery.id, completion: {cancelledDelivery in
+            self.delivery = cancelledDelivery
+        })
+    }
+    
+    @objc func didTapToggleDeliveryButton(_ sender: Any) {
+        if self.delivery == nil || self.delivery!.orderStatus == "cancelled" {
+            self.createDelivery()
+        } else {
+            self.cancelDelivery()
+        }
+    }
+    
+    func addDeliveryButtonGesture() {
+        self.toggleDeliveryStatusButton.addTarget(self, action: #selector(didTapToggleDeliveryButton(_:)), for: .touchUpInside)
+    }
     
 }
 
