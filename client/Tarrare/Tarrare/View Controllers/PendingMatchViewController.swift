@@ -149,7 +149,7 @@ class CustomPlaceLocationView : UIView {
             guard let place = place else { return }
 
             locationNameLabel.text = place.name
-            locationAddressLabel.text = "2230 Guadalupe, Austin TX 78705"
+            locationAddressLabel.text = place.fullAddress
         }
     }
     
