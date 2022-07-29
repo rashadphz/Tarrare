@@ -698,6 +698,16 @@ export const Subscription = subscriptionType({
         return payload;
       },
     });
+
+    t.field("cancelledOrder", {
+      type: "Order",
+      subscribe(_root, args, context: Context) {
+        return context.pubsub.asyncIterator("cancelledOrder");
+      },
+      resolve(payload: Order) {
+        return payload;
+      },
+    });
   },
 });
 
