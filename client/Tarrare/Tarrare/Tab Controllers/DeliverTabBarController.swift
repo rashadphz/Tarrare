@@ -11,6 +11,8 @@ import UIKit
 class DeliverTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.startMatchListener()
+        
         view.backgroundColor = .white
         
         let deliverVC = UINavigationController(rootViewController: DeliverScreenViewController())
@@ -30,4 +32,23 @@ class DeliverTabBarController: UITabBarController {
         self.tabBar.tintColor = .black
         self.tabBar.unselectedItemTintColor = .darkGray
     }
+    
+    // MARK: - Lifetime GraphQL Subscriptions
+    
+    func startMatchListener() {
+        Match.newMatchListen { newMatch in
+            guard let match = newMatch else { return }
+            guard let currentDelivery = Delivery.userCurrent else { return }
+            
+            if match.delivery == currentDelivery {
+                let newOfferVC = NewOfferViewController()
+                newOfferVC.match = newMatch
+                
+                let navController = UINavigationController(rootViewController: newOfferVC)
+                navController.modalPresentationStyle = .fullScreen
+                self.present(navController, animated: true)
+            }
+        }
+    }
+    
 }

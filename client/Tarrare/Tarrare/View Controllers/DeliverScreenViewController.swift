@@ -12,6 +12,8 @@ class DeliverScreenViewController: UIViewController {
     public var editingLocationComponent : LocationComponentView?
     var delivery : Delivery? {
         didSet {
+            Delivery.userCurrent = delivery;
+            
             guard let delivery = delivery else { return }
 
             restaurantComponentView.place = delivery.resturant.place
