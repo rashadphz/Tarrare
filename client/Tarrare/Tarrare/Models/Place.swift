@@ -19,6 +19,8 @@ class Place: Codable {
     var city: String = ""
     var zipcode: Int = 0
     var googlePlaceId: String = ""
+    var latitude : Double = 0.0
+    var longitude : Double = 0.0
     var websiteUrl: String?
     
     enum CodingKeys: String, CodingKey {
@@ -31,6 +33,8 @@ class Place: Codable {
         case zipcode
         case googlePlaceId
         case websiteUrl
+        case latitude
+        case longitude
     }
     
     func setAddressComponents(_ addressComponents: [GMSAddressComponent]?) {
@@ -70,6 +74,8 @@ class Place: Codable {
             let domain = placeWebsite.host
             self.websiteUrl = domain
         }
+        self.longitude = gmsPlace.coordinate.longitude
+        self.latitude = gmsPlace.coordinate.latitude
     }
     
     init(_ gmsPrediction: GMSAutocompletePrediction) {
@@ -79,7 +85,7 @@ class Place: Codable {
     
     // send the place to database
     func createPlace(completion: @escaping(Place?) -> Void) {
-        APIManager.shared().call(key: "createPlace", mutation: CreatePlaceMutation(name: self.name, fullAddress: self.fullAddress, streetAddress: self.streetAddress, state: self.state, city: self.city, zipcode: self.zipcode, googlePlaceId: self.googlePlaceId, websiteUrl: self.websiteUrl), completion: completion)
+        APIManager.shared().call(key: "createPlace", mutation: CreatePlaceMutation(name: self.name, fullAddress: self.fullAddress, streetAddress: self.streetAddress, state: self.state, city: self.city, zipcode: self.zipcode, googlePlaceId: self.googlePlaceId, websiteUrl: self.websiteUrl, longitude: self.longitude, latitude: self.latitude), completion: completion)
     }
     
 }
