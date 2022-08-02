@@ -84,6 +84,8 @@ const createPlace = async (placeObj: any) => {
     zipcode,
     googlePlaceId,
     websiteUrl,
+    longitude,
+    latitude,
   } = placeObj;
 
   const place = await context.prisma.place.findUnique({
@@ -106,6 +108,8 @@ const createPlace = async (placeObj: any) => {
         zipcode,
         googlePlaceId,
         websiteUrl,
+        longitude,
+        latitude,
       },
     });
     return createdPlace;

@@ -19,6 +19,7 @@ import {
   booleanArg,
   asNexusMethod,
   nullable,
+  floatArg,
 } from "nexus";
 import { context, Context } from "./context";
 
@@ -52,6 +53,8 @@ const Place = objectType({
     t.nonNull.int("zipcode");
     t.nonNull.string("googlePlaceId");
     t.nullable.string("websiteUrl");
+    t.nonNull.float("longitude");
+    t.nonNull.float("latitude");
   },
 });
 
@@ -564,6 +567,8 @@ export const Mutation = mutationType({
         zipcode: nonNull(intArg()),
         googlePlaceId: nonNull(stringArg()),
         websiteUrl: nullable(stringArg()),
+        longitude: nonNull(floatArg()),
+        latitude: nonNull(floatArg()),
       },
       resolve: async (
         _parent,
@@ -576,6 +581,8 @@ export const Mutation = mutationType({
           zipcode,
           googlePlaceId,
           websiteUrl,
+          longitude,
+          latitude,
         }
       ) => {
         return await context.db.createPlace({
@@ -587,6 +594,8 @@ export const Mutation = mutationType({
           zipcode,
           googlePlaceId,
           websiteUrl,
+          longitude,
+          latitude,
         });
       },
     });
