@@ -59,6 +59,7 @@ type Mutation {
   acceptMatch(matchId: Int!): Match
   cancelDelivery(deliveryId: Int!): Delivery
   cancelOrder(orderId: Int!): Order
+  completeMatch(matchId: Int!): Match
   createMessage(recieverId: Int!, senderId: Int!, text: String!): Message
   createPlace(city: String!, fullAddress: String!, googlePlaceId: String!, latitude: Float!, longitude: Float!, name: String!, state: String!, streetAddress: String!, websiteUrl: String, zipcode: Int!): Place
   declineMatch(matchId: Int!): Match

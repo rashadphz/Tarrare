@@ -670,6 +670,25 @@ export const Mutation = mutationType({
         return declinedMatch;
       },
     });
+
+    t.field("completeMatch", {
+      type: "Match",
+      args: {
+        matchId: nonNull(intArg()),
+      },
+      resolve: async (_parent, args) => {
+        const completedMatch = await context.prisma.match.update({
+          where: { id: args.matchId },
+          data: {
+            completed: true,
+            delivery: { update: { orderStatus: Status.complete } },
+            order: { update: { orderStatus: Status.complete } },
+          },
+        });
+        context.pubsub.publish("matchUpdate", completedMatch);
+        return completedMatch;
+      },
+    });
   },
 });
 
