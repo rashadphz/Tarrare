@@ -153,8 +153,16 @@ class NewOfferViewController : UIViewController {
         guard let match = self.match else {
             return
         }
-        Match.acceptMatch(matchId: match.id, completion: {_ in})
-        self.dismiss(animated: true)
+        Match.acceptMatch(matchId: match.id, completion: {acceptedMatch in
+            guard let acceptedMatch = acceptedMatch else { return }
+            
+            let deliverMatchVC = DeliverMatchViewController()
+            let navController = UINavigationController(rootViewController: deliverMatchVC)
+            navController.modalPresentationStyle = .fullScreen
+            deliverMatchVC.match = acceptedMatch
+            
+            self.present(navController, animated: true)
+        })
     }
     
     @objc func didTapDecline() {
