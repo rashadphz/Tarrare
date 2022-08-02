@@ -7,6 +7,8 @@ mutation CreatePlace(
   $zipcode: Int!
   $googlePlaceId: String!
   $websiteUrl: String
+  $longitude: Float!
+  $latitude: Float!
 ) {
   createPlace(
     name: $name
@@ -17,6 +19,8 @@ mutation CreatePlace(
     zipcode: $zipcode
     googlePlaceId: $googlePlaceId
     websiteUrl: $websiteUrl
+    longitude: $longitude
+    latitude: $latitude
   ) {
     ...PlaceInfo
   }

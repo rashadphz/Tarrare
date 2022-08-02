@@ -8,6 +8,8 @@ fragment PlaceInfo on Place {
   zipcode
   googlePlaceId
   websiteUrl
+  longitude
+  latitude
 }
 
 fragment UserInfo on User {

@@ -60,7 +60,7 @@ type Mutation {
   cancelDelivery(deliveryId: Int!): Delivery
   cancelOrder(orderId: Int!): Order
   createMessage(recieverId: Int!, senderId: Int!, text: String!): Message
-  createPlace(city: String!, fullAddress: String!, googlePlaceId: String!, name: String!, state: String!, streetAddress: String!, websiteUrl: String, zipcode: Int!): Place
+  createPlace(city: String!, fullAddress: String!, googlePlaceId: String!, latitude: Float!, longitude: Float!, name: String!, state: String!, streetAddress: String!, websiteUrl: String, zipcode: Int!): Place
   declineMatch(matchId: Int!): Match
   login(email: String!, password: String!): User
   register(email: String!, firstName: String!, lastName: String!, password: String!): User
@@ -84,6 +84,8 @@ type Place {
   fullAddress: String!
   googlePlaceId: String!
   id: Int!
+  latitude: Float!
+  longitude: Float!
   name: String!
   state: String!
   streetAddress: String!
