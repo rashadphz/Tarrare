@@ -43,6 +43,7 @@ class DeliverMatchViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.fetchRoute()
+        self.addChatIconGesture()
         
         self.view.backgroundColor = .white
         self.mapView.delegate = self
@@ -206,6 +207,18 @@ class DeliverMatchViewController : UIViewController {
     }
     
     
+    //MARK: - Gestures/Actions
+    @objc func didTapChatButton(_ sender: Any) {
+        guard let ordererUser = match?.order.user else { return }
+        
+        let individualChatVC = IndividualChatViewController()
+        individualChatVC.targetUser = ordererUser
+        self.navigationController?.show(individualChatVC, sender: self)
+    }
+    
+    func addChatIconGesture() {
+        self.textButton.addTarget(self, action: #selector(didTapChatButton(_:)), for: .touchUpInside)
+    }
 }
 
 extension DeliverMatchViewController : MKMapViewDelegate {
