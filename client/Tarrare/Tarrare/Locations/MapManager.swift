@@ -50,5 +50,20 @@ class MapManager {
             completion(route)
         })
     }
+    
+    static func openDirectionsInMaps(source : Place, destination : Place) {
+
+        let sourceLocation = locationCoordFromPlace(place: source)
+        let destinationLocation = locationCoordFromPlace(place: destination)
+        
+        let sourceMapItem = MKMapItem(placemark: MKPlacemark(coordinate: sourceLocation))
+        let destinationMapItem = MKMapItem(placemark: MKPlacemark(coordinate: destinationLocation))
+        
+        sourceMapItem.name = source.name
+        destinationMapItem.name = destination.name
+        
+        MKMapItem.openMaps(with: [sourceMapItem, destinationMapItem], launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeWalking])
+        
+    }
 }
 
