@@ -44,6 +44,7 @@ class DeliverMatchViewController : UIViewController {
         super.viewDidLoad()
         self.fetchRoute()
         self.addChatIconGesture()
+        self.addDirectionsButtonGesture()
         
         self.view.backgroundColor = .white
         self.mapView.delegate = self
@@ -218,6 +219,16 @@ class DeliverMatchViewController : UIViewController {
     
     func addChatIconGesture() {
         self.textButton.addTarget(self, action: #selector(didTapChatButton(_:)), for: .touchUpInside)
+    }
+    
+    @objc func didTapDirectionsButton(_ sender: Any) {
+        guard let delivery = match?.delivery else { return }
+        
+        MapManager.openDirectionsInMaps(source: delivery.resturant.place, destination: delivery.deliveryBuilding.place)
+    }
+    
+    func addDirectionsButtonGesture() {
+        self.directionsButton.addTarget(self, action: #selector(didTapDirectionsButton(_:)), for: .touchUpInside)
     }
 }
 
