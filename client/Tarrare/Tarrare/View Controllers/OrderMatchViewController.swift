@@ -27,12 +27,26 @@ class OrderMatchViewController : UIViewController {
         }
     }
     
+    var route : MKRoute? {
+        didSet {
+            guard let route = route else { return }
+            
+            mapView.addOverlay((route.polyline), level: MKOverlayLevel.aboveLabels)
+            let rect = route.polyline.boundingMapRect
+            let region = MKCoordinateRegion(rect)
+            mapView.setRegion(region, animated: true)
+        }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addChatIconGesture()
+        self.fetchRoute()
         
         self.view.backgroundColor = .white
         title = "Order Matched!"
+        self.mapView.delegate = self
         
         view.addSubview(mapView)
         view.addSubview(containerView)
@@ -100,6 +114,18 @@ class OrderMatchViewController : UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    func fetchRoute() {
+        guard let delivery = match?.delivery else { return }
+        let restaurantPlace = delivery.resturant.place
+        let deliveryBuildingPlace = delivery.deliveryBuilding.place
+        
+        MapManager.markMapFromPlaces(map: self.mapView, source: restaurantPlace, destination: deliveryBuildingPlace)
+        
+        MapManager.routeFromPlaces(source: restaurantPlace, destination: deliveryBuildingPlace, completion: {route in
+            self.route = route
+        })
+    }
     
     
     //MARK: - Gestures/Actions
@@ -217,5 +243,14 @@ class DelivererUserView : UIView {
         button.layer.cornerRadius = 35/2
         return button
     }()
+}
+extension OrderMatchViewController : MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = .black
+        renderer.lineWidth = 4.0
+        
+        return renderer
+    }
 }
 
