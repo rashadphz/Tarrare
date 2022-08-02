@@ -21,13 +21,28 @@ class NewOfferViewController : UIViewController {
         }
     }
     
+    var route : MKRoute? {
+        didSet {
+            guard let route = route else { return }
+            
+            mapView.addOverlay((route.polyline), level: MKOverlayLevel.aboveLabels)
+            let rect = route.polyline.boundingMapRect
+            let region = MKCoordinateRegion(rect)
+            mapView.setRegion(region, animated: true)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.fetchRoute()
+        
         self.view.backgroundColor = .white
         title = "New Offer"
+        self.mapView.delegate = self
         
         acceptButton.addTarget(self, action: #selector(didTapAccept), for: .touchUpInside)
         declineButton.addTarget(self, action: #selector(didTapDecline), for: .touchUpInside)
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -121,6 +136,18 @@ class NewOfferViewController : UIViewController {
         return button
     }()
     
+    func fetchRoute() {
+        guard let delivery = match?.delivery else { return }
+        let restaurantPlace = delivery.resturant.place
+        let deliveryBuildingPlace = delivery.deliveryBuilding.place
+        
+        MapManager.markMapFromPlaces(map: self.mapView, source: restaurantPlace, destination: deliveryBuildingPlace)
+        
+        MapManager.routeFromPlaces(source: restaurantPlace, destination: deliveryBuildingPlace, completion: {route in
+            self.route = route
+        })
+    }
+    
     // MARK: - Gestures/Actions
     @objc func didTapAccept() {
         guard let match = self.match else {
@@ -210,9 +237,13 @@ class LocationInfoView : UIView {
     
 }
 
-private extension MKMapView {
-    func centerToLocation( _ location: CLLocation, regionRadius: CLLocationDistance = 1000 ) {
-        let coordinateRegion = MKCoordinateRegion( center: location.coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
-        setRegion(coordinateRegion, animated: true)
+extension NewOfferViewController : MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = .black
+        renderer.lineWidth = 4.0
+        
+        return renderer
     }
 }
+
