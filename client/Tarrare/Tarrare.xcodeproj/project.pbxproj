@@ -74,6 +74,7 @@
 		1F634E1D28989F8600D027AD /* ChatNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F634E1C28989F8600D027AD /* ChatNotification.swift */; };
 		1F634E222898C75200D027AD /* MapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F634E212898C75200D027AD /* MapManager.swift */; };
 		1F634E242899A81A00D027AD /* DeliverMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F634E232899A81900D027AD /* DeliverMatchViewController.swift */; };
+		1F634E262899DEC800D027AD /* CompleteMatch.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 1F634E252899DEC800D027AD /* CompleteMatch.graphql */; };
 		1F993F342885C8A200DD1A54 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 1F993F332885C8A200DD1A54 /* Apollo */; };
 		1F993F362885C8A200DD1A54 /* ApolloWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = 1F993F352885C8A200DD1A54 /* ApolloWebSocket */; };
 		1F993F3A28860F4B00DD1A54 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1F993F3928860F4B00DD1A54 /* MessageKit */; };
@@ -173,6 +174,7 @@
 		1F634E1C28989F8600D027AD /* ChatNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNotification.swift; sourceTree = "<group>"; };
 		1F634E212898C75200D027AD /* MapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManager.swift; sourceTree = "<group>"; };
 		1F634E232899A81900D027AD /* DeliverMatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliverMatchViewController.swift; sourceTree = "<group>"; };
+		1F634E252899DEC800D027AD /* CompleteMatch.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = CompleteMatch.graphql; sourceTree = "<group>"; };
 		1F993F3B2886195800DD1A54 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		1F993F3D2886205500DD1A54 /* OpenChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChatsViewController.swift; sourceTree = "<group>"; };
 		1F993F402886285100DD1A54 /* schema.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 				1F634DF9289301E300D027AD /* GetAllActiveRestaurants.graphql */,
 				1F634DFD28934B2300D027AD /* GetActiveDeliveries.graphql */,
 				1F634E1528987CDE00D027AD /* UpdateMatchListen.graphql */,
+				1F634E252899DEC800D027AD /* CompleteMatch.graphql */,
 			);
 			path = Delivery_Order;
 			sourceTree = "<group>";
@@ -559,6 +562,7 @@
 				1FE95A272874F6D300A79C77 /* Assets.xcassets in Resources */,
 				1F2F45F52892FF8D00036D40 /* LoginUser.graphql in Resources */,
 				1F2F45FD2892FF8D00036D40 /* UpsertDelivery.graphql in Resources */,
+				1F634E262899DEC800D027AD /* CompleteMatch.graphql in Resources */,
 				1F2F45FF2892FF8D00036D40 /* UpsertOrder.graphql in Resources */,
 				1FE95A3C2877495000A79C77 /* InterFont.ttf in Resources */,
 				1F2F45D72892069400036D40 /* GooglePlaces.bundle in Resources */,
