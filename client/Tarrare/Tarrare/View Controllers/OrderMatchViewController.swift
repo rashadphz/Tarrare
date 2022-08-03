@@ -43,6 +43,7 @@ class OrderMatchViewController : UIViewController {
         super.viewDidLoad()
         self.addChatIconGesture()
         self.fetchRoute()
+        self.startOrderCompleteListener()
         
         self.view.backgroundColor = .white
         title = "Order Matched!"
@@ -125,6 +126,19 @@ class OrderMatchViewController : UIViewController {
         MapManager.routeFromPlaces(source: restaurantPlace, destination: deliveryBuildingPlace, completion: {route in
             self.route = route
         })
+    }
+    
+    // MARK: - GraphQL Subcriptions
+    
+    func startOrderCompleteListener() {
+        Match.updateMatchListen { updatedMatch in
+            guard let match = updatedMatch else { return }
+            guard let currentOrder = Order.userCurrent else { return }
+            
+            if match.order == currentOrder && match.completed {
+                self.dismiss(animated: true)
+            }
+        }
     }
     
     
@@ -243,7 +257,9 @@ class DelivererUserView : UIView {
         button.layer.cornerRadius = 35/2
         return button
     }()
+    
 }
+
 extension OrderMatchViewController : MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
