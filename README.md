@@ -157,7 +157,7 @@ optimizing convenience for both students.
     
 ## Wireframes
 
-[Wireframes](https://www.figma.com/file/kPGAnC0qNWWI4V0bKFuk8Q/Tarrare-Wireframing?node-id=12%3A695)
+[Wireframes](https://www.figma.com/file/kPGAnC0qNWWI4V0bKFuk8Q/Tarrare-Wireframing)
 
 ## Project Task Board
 
