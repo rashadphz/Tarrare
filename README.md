@@ -58,21 +58,21 @@ optimizing convenience for both students.
 - [X] Users are able to login/sign-up/logout from the application
 - [X] Users are able to search for nearby resturants/buildings using
       the Google Places SDK
-- [ ] Ordering Students can input their location and resturants they
-      would be willing to order from
 - [X] Delivering Students can check in once they are at a resturant by
       marking themselves as "Able to deliver" and inputting their
       delivery destination
-- [ ] Ordering Students can see a list of resturants and delivery
+- [X] Ordering Students can see a list of resturants and delivery
       locations and request a match
-- [ ] Delivering Students can accept and Ordering Students match
+- [X] Delivering Students can accept and Ordering Students match
       request and communicate with them through chat
-- [ ] Users who have been matched can communicate through chat
+- [X] Users who have been matched can communicate through chat
 
 **Optional Nice-to-have Stories**
 
 - [ ] Users are separated by college campus (determined by
       registration email)
+- [ ] Ordering Students can input their location and resturants they would be willing to order from
+- [X] Orderers and Deliverers can see a map with corresponding restaurant/delivery building locations     
 - [ ] Matching process between orderers and deliverers is all done on
       the backend with minimal user input. Matching is determined by
       delivery locations and resturants
@@ -80,42 +80,11 @@ optimizing convenience for both students.
 
 ### 2. Screen Archetypes
 
+#### Any User Screens
 - Login Screen
   - Users are able to login/sign-up from the application
-  - Users from different colleges will be presented with screens
-    specific to their college
-  - Colleges will be determined by the email address (@utexas, @umich)
 - Sign Up Screen
   - Users are able to login/sign-up from the application
-- Orderer Screen
-  - Orderer can see a table view of delivering students
-  - This view will be a simple table with cells containing resturants
-    and deliver delivery destinations
-  - Orders can check if their preferences and location match with any
-    current deliverers, if not orderer can press the request button to
-    add a new order request
-- Deliverer Screen
-  - Deliverers can see a table view of students who have placed order
-    requests
-  - This view will be a simple table with cells containing orders
-    interested resturants and pickup locations
-- New Request Screen (Orders)
-  - Order can input a list of resturants that they are interested in
-    ordering from
-  - Orderer's location will be determined by MapKit, but can be
-    manually overriden by the orderer
-  - Once resturants and pickup location are selected, orderer can add
-    their orderer to the table view list of current orders
-  - Orderer can be notified whenever they are a match with a
-    deliverer, or a deliverer can reach out if they see the match in
-    the table view of orders
-- Locations Screen
-  - Users can search for nearby resturants/buildings using the Apple
-    MapKit SDK for results
-  - Users can either search by name or address, and see a list of
-    results that they can select.
-  - Filter results to only include the city that the college is in
-    (more precise stretch filter could limit results to smaller area)
 - All Chats Screen
   - Users can see their message history and open chats with any users
     they have matched with
@@ -126,34 +95,65 @@ optimizing convenience for both students.
     matched with and the order has not been completed
   - The screen has messages and a chat box for sending messages
   - The screen also contains buttons for marking the order as complete
+- Locations Screen
+  - Users can search for nearby resturants/buildings using the Apple
+    MapKit SDK for results
+  - Users can either search by name or address, and see a list of
+    results that they can select.
+- Profile Screen
+  - Button for the user to switch between Ordering and Delivering
+
+#### Order Flow Screens
+- Main Orderer Screen
+  - Orderer can see a table view of restaurants to choose from
+  - The list of restaurants shown are restaurants that currently have deliverers
+- Restaurant Specific Screen
+  - Once a restaurant cell is selected, a new screen with all deliverers at this restaurant is presented
+  - This screen is a table view of cells containing: deliver location, distance from
+  current user, and a request button
+- Pending Match Response
+  - Once a request is sent, a pending match view controller is presented
+  - This screen has the order information, and a loading visual
+  - The screen also has a cancel request button 
+- Order Matched Screen
+  - The screen has a map marked with the order's restaurant and delivery building
+  - The screen has the deliverer's name and an button that opens a chat with them
+
+#### Deliver Flow Screens
+- Main Deliverer Screen
+  - Deliverers can input their current restaurant, delivery building, and then mark themselves as able to deliver
+- New Offer Screen
+  - A screen shows a map with a new offer for the deliverer
+  - The deliverer can either accept or decline the match offer
+- Deliver Matched Screen
+- The screen has a map marked with the order's restaurant and delivery building
+- The screen has the orderer's name, a button that opens a chat with them, and a directions button that opens in Apple Maps
+- The screen has a complete delivery button
 
 ### 3. Navigation
 
 **Tab Navigation** (Tab to Screen)
 
 - Home Screen (Order)
-- Home Screen (Deliver)
 - Messages
 - Account/Profile
 
 **Flow Navigation** (Screen to Screen)
 
 - Home Screen (Order)
-  - Tap "Deliver" to switch to Home Screen (Deliver)
-  - Tap current location to navigate to locations screen
-  - Tap "Request" to switch to new requests screen
-  - In table view, tap a cell's chat box to open a chat with a user
-
+  - Tap Restaurant Cell to view deliverers at that restaurant
+  - Tap Delivery Cell's request button to present pending match screen
+- Pendng Match Screen (Order)
+  - Tap "Cancel Request" button to dismiss screen
+  - Present New Match Screen automatically when a deliverer accepts the order
 - Home Screen (Deliver)
-  - Tap "Order" to switch to Home Screen (Order)
-  - Tap "My Resturant" to navigate to locations screen
-  - Tap "Delivery Location" to navigate to locations screen
-  - Tap "Delivery Status" to toggle delivery status
-
+  - Tap "Edit" button on restaurant or delivery building to present Locations Screen
+- New Offer Screen (Deliver)
+  - Presented automatically when a matching order is found
+  - The Accept Button presents the Deliver Matched Screen
 - Messages
   - Select cell to navigate to "Individual Chat Screen" for a specific
     user
-
 ## Wireframes
 
 [Wireframes](https://www.figma.com/file/kPGAnC0qNWWI4V0bKFuk8Q/Tarrare-Wireframing?node-id=12%3A695)
