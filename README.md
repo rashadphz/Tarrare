@@ -154,6 +154,7 @@ optimizing convenience for both students.
 - Messages
   - Select cell to navigate to "Individual Chat Screen" for a specific
     user
+    
 ## Wireframes
 
 [Wireframes](https://www.figma.com/file/kPGAnC0qNWWI4V0bKFuk8Q/Tarrare-Wireframing?node-id=12%3A695)
@@ -173,27 +174,33 @@ optimizing convenience for both students.
 ### Networking
 
 - Login Screen
-  - (Read/GET) Get user information based on login information
+  - (Mutation) Check for user, update login information if needed
 - Sign Up Screen
-  - (Create/POST) Create a new user object
-- Orderer Screen
-  - (Read/GET) List current deliverers and their information
-  - (Read/GET) Get currently logged in user's location/building
-- Deliver Screen
-  - (Read/GET) List current orders and their information
-  - (Read/GET) Get currently logged in user's resturant/building
-  - (Update/POST) Mark logged in user as able to deliver
-  - (Update/POST) Add deliverer to the current deliveries database table
-- New Request Screen (Orderer)
-  - (Update/POST) Create a new order given a user's location and resturants and add it to the order table
+  - (Mutation) Create a new user object
+- All Chats Screen
+  - (Query) Get a list of all of the logged in user's open chats
+- Individual Chat Screen
+  - (Query) Query all messages between two users
+  - (Mutation) Add a new message to the chat database between two
+    users
+  - (Subscription) Listen for new messages
 - Location Screen
   - (Read/GET) Query locations that begin with current search term
   - (Read/GET) Query logged in user's current location
-  - (Update/POST) Set current user's resturant/delivery location
-- All Chats Screen
-  - (Read/GET) Get a list of all of the logged in user's open chats
-- Individual Chat Screen
-  - (Read/GET) Query all messages between two users
-  - (Update/POST) Add a new message to the chat database between two
-    users
+  - (Mutation) Send the selected place to the database
+- Main Orderer Screen
+  - (Query) Query the list of restaurants that currently have deliverers
+- Restaurant Specific Screen
+  - (Query) Query the list of deliverers at a given restaurant
+- Pending Match Response Screen
+  - (Subscription) Listen for accepted match request
+- Order Matched Screen
+- Main Deliver Screen
+  - (Subscription) Listen for any matching orders
+- New Offer Screen
+  - (Mutation) Accept the delivery
+  - (Mutation) Decline the delivery
+- Deliver Matched Screen
+  - (Mutation) Mark the order as complete
+
 
