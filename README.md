@@ -155,9 +155,23 @@ optimizing convenience for both students.
   - Select cell to navigate to "Individual Chat Screen" for a specific
     user
     
-## Wireframes
+### 4. Wireframes
 
 [Wireframes](https://www.figma.com/file/kPGAnC0qNWWI4V0bKFuk8Q/Tarrare-Wireframing)
+
+### 5. Matching System Technical Details
+
+- **Client Side**: Whenever an order or delivery is placed, the information is sent to the server with : the restaurant, the delivery building, and the placing user
+- **Server Side**: When the server receives and order/delivery it checks the delivery/orders table for matching restaurants and delivery buildings. If a match is found, the server publishes a "newMatch" message.
+- **Client Side (Deliver)**: 
+  - Any deliverer marked as able to deliver, starts a GraphQL subscription and listens specifically for a "newMatch" message.
+  - If the subscriber hears a "newMatch" message, it checks that the match corresponds to the current user. If so, it presents the New Match Screen for the deliverer
+  - If the deliverer accepts, a match mutation is sent to the server saying that the deliverer has accepted
+- **Server Side**: When the server receives a match mutation, it publishes the updated match as a "matchUpdate" message
+- **Client Side (Orderer)**:
+  - Once an order is placed and the orderer sees the Pending Match Screen, they start a GraphQL subscription listening for an "matchUpdate" message
+  - If a "matchUpdate" message is heard, it first verifies that the match corresponds to the current user. If so, it checks if the message says the deliverer accepted the match or declined. On acceptance, it presents the order matched screen.
+
 
 ## Project Task Board
 
