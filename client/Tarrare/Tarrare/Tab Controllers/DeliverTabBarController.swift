@@ -14,10 +14,6 @@ class DeliverTabBarController: UITabBarController {
         self.startMatchListener()
         self.startMessageListener()
         
-        APIManager.shared().getCurrentPlace(completion: {place in
-            Place.userCurrent = place
-        })
-        
         view.backgroundColor = .white
         
         let deliverVC = UINavigationController(rootViewController: DeliverScreenViewController())
