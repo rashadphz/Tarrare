@@ -73,7 +73,7 @@ optimizing convenience for both students.
       registration email)
 - [ ] Ordering Students can input their location and resturants they would be willing to order from
 - [X] Orderers and Deliverers can see a map with corresponding restaurant/delivery building locations     
-- [ ] Matching process between orderers and deliverers is all done on
+- [X] Matching process between orderers and deliverers is all done on
       the backend with minimal user input. Matching is determined by
       delivery locations and resturants
 - [ ] Orders can track their food on a map using a Apple's MapKit
