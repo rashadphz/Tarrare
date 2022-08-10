@@ -43,6 +43,10 @@ class OrderScreenRestaurantsViewController: UIViewController, UITableViewDelegat
     }
     
     func setupNavbar() {
+        APIManager.shared().getCurrentPlace(completion: {place in
+            self.currentPlace = place
+        })
+
        self.navigationController?.navigationBar.isTranslucent = true
        self.navigationController?.navigationBar.backgroundColor = UIColor.white
        self.navigationController?.navigationBar.shadowImage = UIImage()
