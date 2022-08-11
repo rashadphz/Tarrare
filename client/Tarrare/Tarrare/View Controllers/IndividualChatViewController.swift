@@ -14,6 +14,7 @@ class IndividualChatViewController : MessagesViewController {
     var messageArray: [Message] = [Message]()
     var currentUser: User = User.getCurrent()!
     public var targetUser: User?
+    public var deliveryInfo : Delivery?
     
     private let formatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -110,6 +111,17 @@ class IndividualChatViewController : MessagesViewController {
             for: .highlighted
         )
     }
+    
+    // MARK: - Gestures/Actions
+    @objc func didTapRequestButton() {
+        guard let deliveryInfo = deliveryInfo else { return }
+        guard let currentUser = User.getCurrent() else { return }
+        
+        Order.createOrder(userId: currentUser.id, resturantPlaceId: deliveryInfo.resturantPlaceId, deliveryBuildingPlaceId: deliveryInfo.deliveryBuildingPlaceId, completion: { createdOrder in
+
+            Order.userCurrent = createdOrder
+        })
+    }
 }
 
 // MARK: - Data Source
@@ -142,10 +154,7 @@ extension IndividualChatViewController: MessagesLayoutDelegate {
     func heightForLocation(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return 0
     }
-    
-    
 }
-
 
 // MARK: - DisplayDelegate
 extension IndividualChatViewController: MessagesDisplayDelegate {

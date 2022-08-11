@@ -7,7 +7,11 @@ fragment PlaceInfo on Place {
   city
   zipcode
   googlePlaceId
+  websiteUrl
+  longitude
+  latitude
 }
+
 fragment UserInfo on User {
   email
   id
@@ -61,6 +65,7 @@ fragment DeliveryInfo on Delivery {
   }
   userId
 }
+
 fragment MatchInfo on Match {
   completed
   delivererAccepted
@@ -74,4 +79,19 @@ fragment MatchInfo on Match {
   }
   ordererAccepted
   orderId
+}
+
+fragment MessageInfo on Message {
+  id
+  recieverId
+  reciever {
+    ...UserInfo
+  }
+  senderId
+  sender {
+    ...UserInfo
+  }
+  text
+  createdAt
+  convoId
 }

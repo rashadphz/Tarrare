@@ -14,19 +14,35 @@ class Place: Codable {
     var id : Int = 0
     var name : String = ""
     var fullAddress: String = ""
+    var streetAddress: String = ""
     var state: String = ""
     var city: String = ""
     var zipcode: Int = 0
     var googlePlaceId: String = ""
+    var latitude : Double = 0.0
+    var longitude : Double = 0.0
+    var websiteUrl: String?
     
     enum CodingKeys: String, CodingKey {
         case id
         case name
         case fullAddress
+        case streetAddress
         case state
         case city
         case zipcode
         case googlePlaceId
+        case websiteUrl
+        case latitude
+        case longitude
+    }
+    
+    private static var _userCurrent: Place?
+    static var userCurrent: Place? {
+        get {return _userCurrent}
+        set (place) {
+            _userCurrent = place
+        }
     }
     
     func setAddressComponents(_ addressComponents: [GMSAddressComponent]?) {
@@ -34,6 +50,10 @@ class Place: Codable {
             let type = component.type
             if type == "locality" {
                 self.city = component.name
+            } else if type == "street_number" {
+                self.streetAddress += "\(component.name) "
+            } else if type == "route" {
+                self.streetAddress += component.name
             } else if type == "administrative_area_level_1" {
                 self.state = component.name
             } else if type == "postal_code" {
@@ -43,11 +63,27 @@ class Place: Codable {
         
     }
     
+    init(name: String, streetAddress: String, state: String, city: String, zipcode: Int, websiteURL: String) {
+        self.name = name
+        self.streetAddress = streetAddress
+        self.state = state
+        self.city = city
+        self.zipcode = zipcode
+        self.websiteUrl = websiteURL
+    }
+    
     init(_ gmsPlace: GMSPlace){
         self.name = gmsPlace.name!
         self.fullAddress = gmsPlace.formattedAddress!
         setAddressComponents(gmsPlace.addressComponents)
         self.googlePlaceId = gmsPlace.placeID!
+        
+        if let placeWebsite = gmsPlace.website {
+            let domain = placeWebsite.host
+            self.websiteUrl = domain
+        }
+        self.longitude = gmsPlace.coordinate.longitude
+        self.latitude = gmsPlace.coordinate.latitude
     }
     
     init(_ gmsPrediction: GMSAutocompletePrediction) {
@@ -55,34 +91,18 @@ class Place: Codable {
         self.fullAddress = gmsPrediction.attributedSecondaryText?.string ?? ""
     }
     
-    init(_ name: String, fullAddress: String) {
-        self.name = name
-        self.fullAddress = fullAddress
-    }
-    
-    static func setCurrent(_ place: Place, writeToUserDefaults: Bool = false) {
-        if writeToUserDefaults {
-            if let data = try? JSONEncoder().encode(place) {
-                UserDefaults.standard.set(data, forKey: Constants.UserDefaults.currentPlace)
-                
-            }
-        }
-    }
-    
-    static func getCurrent() -> Place? {
-        let placeData = UserDefaults.standard.object(forKey: Constants.UserDefaults.currentPlace) as? Data
-        if let placeData = placeData {
-            let place = try? JSONDecoder().decode(Place.self, from:placeData)
-            return place
-        }
-        return nil
-    }
-    
     // send the place to database
     func createPlace(completion: @escaping(Place?) -> Void) {
-        APIManager.shared().call(key: "createPlace", mutation: CreatePlaceMutation(name: self.name, fullAddress: self.fullAddress, state: self.state, city: self.city, zipcode: self.zipcode, googlePlaceId: self.googlePlaceId), completion: completion)
+        APIManager.shared().call(key: "createPlace", mutation: CreatePlaceMutation(name: self.name, fullAddress: self.fullAddress, streetAddress: self.streetAddress, state: self.state, city: self.city, zipcode: self.zipcode, googlePlaceId: self.googlePlaceId, websiteUrl: self.websiteUrl, longitude: self.longitude, latitude: self.latitude), completion: completion)
     }
     
 }
+
+extension Place : Equatable {
+    static func == (lhs: Place, rhs: Place) -> Bool {
+        return lhs.googlePlaceId == rhs.googlePlaceId
+    }
+}
+
 
 

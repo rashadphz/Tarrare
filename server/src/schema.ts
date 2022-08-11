@@ -1,4 +1,10 @@
-import { Message, Status } from "@prisma/client";
+import {
+  Delivery,
+  Match,
+  Message,
+  Order,
+  Status,
+} from "@prisma/client";
 import {
   makeSchema,
   mutationType,
@@ -12,6 +18,8 @@ import {
   inputObjectType,
   booleanArg,
   asNexusMethod,
+  nullable,
+  floatArg,
 } from "nexus";
 import { context, Context } from "./context";
 
@@ -39,10 +47,14 @@ const Place = objectType({
     t.nonNull.int("id");
     t.nonNull.string("name");
     t.nonNull.string("fullAddress");
+    t.nonNull.string("streetAddress");
     t.nonNull.string("state");
     t.nonNull.string("city");
     t.nonNull.int("zipcode");
     t.nonNull.string("googlePlaceId");
+    t.nullable.string("websiteUrl");
+    t.nonNull.float("longitude");
+    t.nonNull.float("latitude");
   },
 });
 
@@ -102,7 +114,7 @@ const Delivery = objectType({
         resolve: (parent, _args, context: Context) => {
           return context.prisma.delivery
             .findUnique({
-              where: { id: parent.resturantPlaceId },
+              where: { id: parent.id },
             })
             .resturant();
         },
@@ -113,11 +125,84 @@ const Delivery = objectType({
         resolve: (parent, _args, context: Context) => {
           return context.prisma.delivery
             .findUnique({
-              where: { id: parent.deliveryBuildingPlaceId },
+              where: { id: parent.id },
             })
             .deliveryBuilding();
         },
       });
+  },
+});
+
+const Order = objectType({
+  name: "Order",
+  definition(t) {
+    t.nonNull.int("id");
+    t.nonNull.string("orderStatus");
+    t.nonNull.int("userId"),
+      t.field("user", {
+        type: "User",
+        resolve: (parent, _, context: Context) => {
+          return context.prisma.order
+            .findUnique({
+              where: { id: parent.id },
+            })
+            .user();
+        },
+      });
+    t.nonNull.int("resturantPlaceId"),
+      t.field("resturant", {
+        type: "Resturant",
+        resolve: (parent, _args, context: Context) => {
+          return context.prisma.order
+            .findUnique({
+              where: { id: parent.id },
+            })
+            .resturant();
+        },
+      });
+    t.nonNull.int("deliveryBuildingPlaceId"),
+      t.field("deliveryBuilding", {
+        type: "DeliveryBuilding",
+        resolve: (parent, _args, context: Context) => {
+          return context.prisma.order
+            .findUnique({
+              where: { id: parent.id },
+            })
+            .deliveryBuilding();
+        },
+      });
+  },
+});
+
+const Match = objectType({
+  name: "Match",
+  definition(t) {
+    t.nonNull.int("id");
+    t.nonNull.int("deliveryId"),
+      t.field("delivery", {
+        type: "Delivery",
+        resolve: (parent, _, context: Context) => {
+          return context.prisma.match
+            .findUnique({
+              where: { id: parent.id },
+            })
+            .delivery();
+        },
+      });
+    t.nonNull.int("orderId"),
+      t.field("order", {
+        type: "Order",
+        resolve: (parent, _, context: Context) => {
+          return context.prisma.match
+            .findUnique({
+              where: { id: parent.id },
+            })
+            .order();
+        },
+      });
+    t.nonNull.boolean("completed");
+    t.nonNull.boolean("delivererAccepted");
+    t.nonNull.boolean("ordererAccepted");
   },
 });
 
@@ -236,6 +321,36 @@ export const Query = queryType({
       },
     });
 
+    t.field("getUserDelivery", {
+      type: "Delivery",
+      args: {
+        userId: nonNull(intArg()),
+      },
+      resolve: (_parent, args, context: Context) => {
+        return context.prisma.delivery.findFirst({
+          where: {
+            userId: args.userId,
+            orderStatus: Status.placed,
+          },
+        });
+      },
+    });
+
+    t.field("getUserOrder", {
+      type: "Order",
+      args: {
+        userId: nonNull(intArg()),
+      },
+      resolve: (_parent, args, context: Context) => {
+        return context.prisma.order.findFirst({
+          where: {
+            userId: args.userId,
+            orderStatus: Status.placed,
+          },
+        });
+      },
+    });
+
     t.nonNull.list.field("getConversation", {
       type: "Message",
       args: {
@@ -279,6 +394,35 @@ export const Query = queryType({
         });
       },
     });
+
+    // all restaurants that currently have deliverers
+    t.nonNull.list.field("getAllActiveRestaurants", {
+      type: "Resturant",
+      resolve: (_parent, _args, context: Context) => {
+        return context.prisma.resturant.findMany({
+          where: {
+            deliveries: {
+              some: { orderStatus: { equals: Status.placed } },
+            },
+          },
+        });
+      },
+    });
+
+    t.nonNull.list.field("getActiveDeliveries", {
+      type: "Delivery",
+      args: {
+        restaurantPlaceId: nonNull(intArg()),
+      },
+      resolve: (_parent, args, context: Context) => {
+        return context.prisma.delivery.findMany({
+          where: {
+            orderStatus: Status.placed,
+            resturantPlaceId: args.restaurantPlaceId,
+          },
+        });
+      },
+    });
   },
 });
 
@@ -313,32 +457,102 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field("toggleUserDeliveryStatus", {
-      type: "User",
-      args: {
-        id: nonNull(intArg()),
-        delivering: nonNull(booleanArg()),
-      },
-      resolve: async (_parent, args) => {
-        return await context.db.updateUser(args.id, args.delivering);
-      },
-    });
-
     t.field("upsertDelivery", {
       type: "Delivery",
       args: {
         userId: nonNull(intArg()),
         orderStatus: nonNull(stringArg()),
-        resturantPlaceId: intArg(),
-        deliveryBuildingPlaceId: intArg(),
+        resturantPlaceId: nonNull(intArg()),
+        deliveryBuildingPlaceId: nonNull(intArg()),
       },
       resolve: async (_parent, args) => {
-        return await context.db.upsertDelivery(
+        const newDelivery = await context.db.upsertDelivery(
           args.userId,
           args.orderStatus,
           args.resturantPlaceId,
           args.deliveryBuildingPlaceId
         );
+
+        // Check for match, if found: create and publish the match
+        const matchingOrder = await context.db.checkForMatch(
+          newDelivery,
+          "Delivery"
+        );
+
+        if (matchingOrder) {
+          const createdMatch = await context.db.createMatch(
+            matchingOrder,
+            newDelivery
+          );
+          context.pubsub.publish("newMatch", createdMatch);
+        }
+
+        return newDelivery;
+      },
+    });
+
+    t.field("upsertOrder", {
+      type: "Order",
+      args: {
+        userId: nonNull(intArg()),
+        orderStatus: nonNull(stringArg()),
+        resturantPlaceId: nonNull(intArg()),
+        deliveryBuildingPlaceId: nonNull(intArg()),
+      },
+      resolve: async (_parent, args) => {
+        const newOrder = await context.db.upsertOrder(
+          args.userId,
+          args.orderStatus,
+          args.resturantPlaceId,
+          args.deliveryBuildingPlaceId
+        );
+
+        // Check for match, if found: create and publish the match
+        const matchingDelivery = await context.db.checkForMatch(
+          newOrder,
+          "Order"
+        );
+
+        if (matchingDelivery) {
+          const createdMatch = await context.db.createMatch(
+            newOrder,
+            matchingDelivery
+          );
+          context.pubsub.publish("newMatch", createdMatch);
+        }
+
+        return newOrder;
+      },
+    });
+
+    t.field("cancelDelivery", {
+      type: "Delivery",
+      args: { deliveryId: nonNull(intArg()) },
+      resolve: async (_parent, args) => {
+        const canceledDelivery = await context.prisma.delivery.update(
+          {
+            where: { id: args.deliveryId },
+            data: { orderStatus: "cancelled" },
+          }
+        );
+        return canceledDelivery;
+      },
+    });
+
+    t.field("cancelOrder", {
+      type: "Order",
+      args: { orderId: nonNull(intArg()) },
+      resolve: async (_parent, args) => {
+        const cancelledOrder = await context.prisma.order.update({
+          where: { id: args.orderId },
+          data: {
+            orderStatus: "cancelled",
+            matches: { deleteMany: {} },
+          },
+        });
+
+        context.pubsub.publish("cancelledOrder", cancelledOrder);
+        return cancelledOrder;
       },
     });
 
@@ -347,22 +561,41 @@ export const Mutation = mutationType({
       args: {
         name: nonNull(stringArg()),
         fullAddress: nonNull(stringArg()),
+        streetAddress: nonNull(stringArg()),
         state: nonNull(stringArg()),
         city: nonNull(stringArg()),
         zipcode: nonNull(intArg()),
         googlePlaceId: nonNull(stringArg()),
+        websiteUrl: nullable(stringArg()),
+        longitude: nonNull(floatArg()),
+        latitude: nonNull(floatArg()),
       },
       resolve: async (
         _parent,
-        { name, fullAddress, state, city, zipcode, googlePlaceId }
-      ) => {
-        return await context.db.createPlace({
+        {
           name,
           fullAddress,
+          streetAddress,
           state,
           city,
           zipcode,
           googlePlaceId,
+          websiteUrl,
+          longitude,
+          latitude,
+        }
+      ) => {
+        return await context.db.createPlace({
+          name,
+          fullAddress,
+          streetAddress,
+          state,
+          city,
+          zipcode,
+          googlePlaceId,
+          websiteUrl,
+          longitude,
+          latitude,
         });
       },
     });
@@ -387,6 +620,75 @@ export const Mutation = mutationType({
         return newMessage;
       },
     });
+
+    // For Deliverers
+    t.field("acceptMatch", {
+      type: "Match",
+      args: {
+        matchId: nonNull(intArg()),
+      },
+      resolve: async (_parent, args) => {
+        const acceptedMatch = context.prisma.match.update({
+          where: {
+            id: args.matchId,
+          },
+          data: {
+            delivererAccepted: true,
+            delivery: {
+              update: {
+                orderStatus: "matched",
+              },
+            },
+            order: {
+              update: {
+                orderStatus: "matched",
+              },
+            },
+          },
+        });
+
+        context.pubsub.publish("matchUpdate", acceptedMatch);
+        return acceptedMatch;
+      },
+    });
+
+    t.field("declineMatch", {
+      type: "Match",
+      args: {
+        matchId: nonNull(intArg()),
+      },
+      resolve: async (_parent, args) => {
+        const declinedMatch = await context.prisma.match.update({
+          where: {
+            id: args.matchId,
+          },
+          data: {
+            delivererAccepted: false,
+          },
+        });
+        context.pubsub.publish("matchUpdate", declinedMatch);
+        return declinedMatch;
+      },
+    });
+
+    t.field("completeMatch", {
+      type: "Match",
+      args: {
+        matchId: nonNull(intArg()),
+      },
+      resolve: async (_parent, args) => {
+        const completedMatch = await context.prisma.match.update({
+          where: { id: args.matchId },
+          data: {
+            completed: true,
+            delivery: { update: { orderStatus: Status.complete } },
+            order: { update: { orderStatus: Status.complete } },
+          },
+        });
+        context.pubsub.publish("matchUpdate", completedMatch);
+        return completedMatch;
+      },
+    });
   },
 });
 
@@ -404,6 +706,36 @@ export const Subscription = subscriptionType({
         return payload;
       },
     });
+
+    t.field("newMatch", {
+      type: "Match",
+      subscribe(_root, args, context: Context) {
+        return context.pubsub.asyncIterator("newMatch");
+      },
+      resolve(payload: Match) {
+        return payload;
+      },
+    });
+
+    t.field("matchUpdate", {
+      type: "Match",
+      subscribe(_root, args, context: Context) {
+        return context.pubsub.asyncIterator("matchUpdate");
+      },
+      resolve(payload: Match) {
+        return payload;
+      },
+    });
+
+    t.field("cancelledOrder", {
+      type: "Order",
+      subscribe(_root, args, context: Context) {
+        return context.pubsub.asyncIterator("cancelledOrder");
+      },
+      resolve(payload: Order) {
+        return payload;
+      },
+    });
   },
 });
 
@@ -417,9 +749,11 @@ export const schema = makeSchema({
     Resturant,
     DeliveryBuilding,
     Delivery,
+    Order,
     Subscription,
     Convo,
     Message,
+    Match,
   ],
   outputs: {
     schema: __dirname + "/../schema.graphql",

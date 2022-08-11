@@ -59,8 +59,9 @@ type Mutation {
   acceptMatch(matchId: Int!): Match
   cancelDelivery(deliveryId: Int!): Delivery
   cancelOrder(orderId: Int!): Order
+  completeMatch(matchId: Int!): Match
   createMessage(recieverId: Int!, senderId: Int!, text: String!): Message
-  createPlace(city: String!, fullAddress: String!, googlePlaceId: String!, name: String!, state: String!, streetAddress: String!, zipcode: Int!): Place
+  createPlace(city: String!, fullAddress: String!, googlePlaceId: String!, latitude: Float!, longitude: Float!, name: String!, state: String!, streetAddress: String!, websiteUrl: String, zipcode: Int!): Place
   declineMatch(matchId: Int!): Match
   login(email: String!, password: String!): User
   register(email: String!, firstName: String!, lastName: String!, password: String!): User
@@ -84,15 +85,20 @@ type Place {
   fullAddress: String!
   googlePlaceId: String!
   id: Int!
+  latitude: Float!
+  longitude: Float!
   name: String!
   state: String!
   streetAddress: String!
+  websiteUrl: String
   zipcode: Int!
 }
 
 type Query {
   allDeliveries: [Delivery]!
   allUsers: [User!]!
+  getActiveDeliveries(restaurantPlaceId: Int!): [Delivery]!
+  getAllActiveRestaurants: [Resturant]!
   getConversation(recieverId: Int!, senderId: Int!): [Message]!
   getUserConversations(currentUserId: Int!): [Convo]!
   getUserDelivery(userId: Int!): Delivery
@@ -105,6 +111,7 @@ type Resturant {
 }
 
 type Subscription {
+  cancelledOrder: Order
   matchUpdate: Match
   newMatch: Match
   newMessage(recieverId: Int!): Message

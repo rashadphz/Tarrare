@@ -1,0 +1,6 @@
+mutation CompleteMatch($matchId: Int!) {
+  completeMatch(matchId: $matchId) {
+    ...MatchInfo
+  }
+}
+
