@@ -172,6 +172,13 @@ optimizing convenience for both students.
 
 ### Screens and Figma
 
+### Both User Type Screens
+<p float="left">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184225084-14f65982-6550-4671-865d-47b9b246e881.png">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184225153-2212d3f1-32ea-4366-8ed4-bd2980dbb6c8.png">
+  <img width = "277" alt="gif" src="/transitiongif.gif"/>
+</p>
+
 #### Order Screens
 <p float="left">
   <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184220523-e4d96cb6-cf51-47ae-acc0-17edc6d3b47f.png">
