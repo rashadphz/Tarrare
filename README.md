@@ -9,10 +9,10 @@ https://user-images.githubusercontent.com/20783686/182677225-7a1676d5-fbb3-4c4e-
 
 1. [Overview](#overview)
 1. [Product Spec](#product-spec)
-1. [Figma Wireframes](https://www.figma.com/file/kPGAnC0qNWWI4V0bKFuk8Q/Tarrare-Wireframing)
 1. [Project Task Board](https://github.com/rashadphil/Tarrare/projects/1)
-1. [Schema](#schema)
 1. [Matching System Technical Details](#matching-system-technical-details)
+1. [Schema](#schema)
+1. [Screens and Figma](#screens-and-figma)
 
 ## Overview
 
@@ -170,30 +170,6 @@ optimizing convenience for both students.
   - Once an order is placed and the orderer sees the Pending Match Screen, they start a GraphQL subscription listening for an "matchUpdate" message
   - If a "matchUpdate" message is heard, it first verifies that the match corresponds to the current user. If so, it checks if the message says the deliverer accepted the match or declined. On acceptance, it presents the order matched screen.
 
-### Screens and Figma
-
-### Both User Type Screens
-<p float="left">
-  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184225084-14f65982-6550-4671-865d-47b9b246e881.png">
-  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184225153-2212d3f1-32ea-4366-8ed4-bd2980dbb6c8.png">
-  <img width = "277" alt="gif" src="/transitiongif.gif"/>
-</p>
-
-#### Order Screens
-<p float="left">
-  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184220523-e4d96cb6-cf51-47ae-acc0-17edc6d3b47f.png">
-  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184220792-dd025e7a-be83-46a0-999e-5ae2088ce5c0.png">
-  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184221132-c69d17df-835a-4846-8aea-98127a66186f.png">
-  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184221180-65ac636b-646a-4cc9-8ea6-06234a873d91.png">
-</p>
-
-#### Deliver Screens
-<p float="left">
-  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184221689-9deb4dc7-c0a9-449d-9c00-68d4c91839ae.png">
-  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184223400-7a2ea488-abba-4e5b-89b3-096e463883b8.png">
-  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184221374-5115c82b-d476-4687-960c-e793d13016ff.png">
-</p>
-
 
 ## Schema
 
@@ -233,4 +209,28 @@ optimizing convenience for both students.
 - Deliver Matched Screen
   - (Mutation) Mark the order as complete
 
+### Screens and Figma
 
+[Figma Wireframes](https://www.figma.com/file/kPGAnC0qNWWI4V0bKFuk8Q/Tarrare-Wireframing)
+
+### Both User Type Screens
+<p float="left">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184225084-14f65982-6550-4671-865d-47b9b246e881.png">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184225153-2212d3f1-32ea-4366-8ed4-bd2980dbb6c8.png">
+  <img width = "277" alt="gif" src="/transitiongif.gif"/>
+</p>
+
+#### Order Screens
+<p float="left">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184220523-e4d96cb6-cf51-47ae-acc0-17edc6d3b47f.png">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184220792-dd025e7a-be83-46a0-999e-5ae2088ce5c0.png">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184221132-c69d17df-835a-4846-8aea-98127a66186f.png">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184221180-65ac636b-646a-4cc9-8ea6-06234a873d91.png">
+</p>
+
+#### Deliver Screens
+<p float="left">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184221689-9deb4dc7-c0a9-449d-9c00-68d4c91839ae.png">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184223400-7a2ea488-abba-4e5b-89b3-096e463883b8.png">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184221374-5115c82b-d476-4687-960c-e793d13016ff.png">
+</p>
