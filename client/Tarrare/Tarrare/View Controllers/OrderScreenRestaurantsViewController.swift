@@ -11,11 +11,21 @@ import CoreLocation
 
 class OrderScreenRestaurantsViewController: UIViewController, UITableViewDelegate {
     var arrayOfRestaurants : [Resturant] = [Resturant]()
+    var currentPlace : Place? = Place.userCurrent {
+        didSet {
+            Place.userCurrent = currentPlace
+            if let place = currentPlace {
+                self.currentLocationLabel.text = place.name
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         fetchRestaurants()
+        addCurrentLocationLabelGesture()
+        setupNavbar()
         
         view.backgroundColor = .white
         restaurantTableView.dataSource = self
@@ -30,6 +40,19 @@ class OrderScreenRestaurantsViewController: UIViewController, UITableViewDelegat
         containerView.addSubview(tableInfoStackView)
         tableInfoStackView.addArrangedSubview(currentRestaurantsLabel)
         
+    }
+    
+    func setupNavbar() {
+        APIManager.shared().getCurrentPlace(completion: {place in
+            self.currentPlace = place
+        })
+
+       self.navigationController?.navigationBar.isTranslucent = true
+       self.navigationController?.navigationBar.backgroundColor = UIColor.white
+       self.navigationController?.navigationBar.shadowImage = UIImage()
+       
+       let stackView = UIStackView(arrangedSubviews: [currentLocationLabel])
+       navigationItem.titleView = stackView
     }
     
     override func viewWillLayoutSubviews() {
@@ -56,7 +79,12 @@ class OrderScreenRestaurantsViewController: UIViewController, UITableViewDelegat
         return view
     }()
     
-    // Table Info
+    private let currentLocationLabel: LocationUILabel = {
+        let label = LocationUILabel()
+        label.textAlignment = .center
+        return label
+    }()
+    
     private let tableInfoStackView: UIStackView = {
         let stackview = UIStackView()
         stackview.axis = .horizontal
@@ -105,6 +133,25 @@ class OrderScreenRestaurantsViewController: UIViewController, UITableViewDelegat
         let restaurantDeliveriesVC = RestaurantDeliveriesViewController()
         restaurantDeliveriesVC.restaurant = restaurant
         self.navigationController?.show(restaurantDeliveriesVC, sender: nil)
+    }
+    
+    // MARK: Gestures/Actions
+    func addCurrentLocationLabelGesture() {
+        let labelTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCurrentLocationLabel))
+        currentLocationLabel.isUserInteractionEnabled = true
+        currentLocationLabel.addGestureRecognizer(labelTapGesture)
+    }
+    
+    @objc func didTapCurrentLocationLabel() {
+        let selectLocationVC = SelectLocationViewController()
+        selectLocationVC.delegate = self
+        self.present(selectLocationVC, animated: true)
+    }
+}
+
+extension OrderScreenRestaurantsViewController : SelectLocationViewDelegate {
+    func sendSelectedPlace(place: Place) {
+        self.currentPlace = place
     }
 }
 
