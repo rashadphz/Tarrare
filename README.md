@@ -1,16 +1,17 @@
 # Tarrare (Student to Student Delivery)
 
+### Demo
 
 https://user-images.githubusercontent.com/20783686/182677225-7a1676d5-fbb3-4c4e-a61a-caccaef00460.mov
 
 
 ## Table of Contents
 
-1. [Overview](#Overview)
-1. [Product Spec](#Product-Spec)
-1. [Wireframes](#Wireframes)
-1. [Project Task Board](#Project-Task-Board)
-1. [Schema](#Schema)
+1. [Overview](#overview)
+1. [Product Spec](#product-spec)
+1. [Figma Wireframes](https://www.figma.com/file/kPGAnC0qNWWI4V0bKFuk8Q/Tarrare-Wireframing)
+1. [Project Task Board](https://github.com/rashadphil/Tarrare/projects/1)
+1. [Schema](#schema)
 1. [Matching System Technical Details](#matching-system-technical-details)
 
 ## Overview
@@ -155,12 +156,8 @@ optimizing convenience for both students.
 - Messages
   - Select cell to navigate to "Individual Chat Screen" for a specific
     user
-    
-### 4. Wireframes
 
-[Wireframes](https://www.figma.com/file/kPGAnC0qNWWI4V0bKFuk8Q/Tarrare-Wireframing)
-
-### 5. Matching System Technical Details
+### Matching System Technical Details
 
 - **Client Side**: Whenever an order or delivery is placed, the information is sent to the server with : the restaurant, the delivery building, and the placing user
 - **Server Side**: When the server receives and order/delivery it checks the delivery/orders table for matching restaurants and delivery buildings. If a match is found, the server publishes a "newMatch" message.
@@ -173,12 +170,23 @@ optimizing convenience for both students.
   - Once an order is placed and the orderer sees the Pending Match Screen, they start a GraphQL subscription listening for an "matchUpdate" message
   - If a "matchUpdate" message is heard, it first verifies that the match corresponds to the current user. If so, it checks if the message says the deliverer accepted the match or declined. On acceptance, it presents the order matched screen.
 
+### Screens and Figma
 
-## Project Task Board
+#### Order Screens
+<p float="left">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184220523-e4d96cb6-cf51-47ae-acc0-17edc6d3b47f.png">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184220792-dd025e7a-be83-46a0-999e-5ae2088ce5c0.png">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184221132-c69d17df-835a-4846-8aea-98127a66186f.png">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184221180-65ac636b-646a-4cc9-8ea6-06234a873d91.png">
+</p>
 
-[Project Task Board](https://github.com/rashadphil/Tarrare/projects/1)
+#### Deliver Screens
+<p float="left">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184221689-9deb4dc7-c0a9-449d-9c00-68d4c91839ae.png">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184223400-7a2ea488-abba-4e5b-89b3-096e463883b8.png">
+  <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184221374-5115c82b-d476-4687-960c-e793d13016ff.png">
+</p>
 
-### [BONUS] Digital Wireframes & Mockups
 
 ## Schema
 
