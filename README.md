@@ -234,3 +234,20 @@ optimizing convenience for both students.
   <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184223400-7a2ea488-abba-4e5b-89b3-096e463883b8.png">
   <img width="277" alt="image" src="https://user-images.githubusercontent.com/20783686/184221374-5115c82b-d476-4687-960c-e793d13016ff.png">
 </p>
+
+
+### Tech Stack
+
+#### Frontend
+<p float="left">
+  <img width="60" alt="image" src="https://github.com/get-icon/geticon/blob/master/icons/swift.svg">
+  <img width="60" alt="image" src="https://github.com/get-icon/geticon/blob/master/icons/apollostack.svg">
+</p>
+  
+#### Backend
+<p float="left">
+  <img width="60" alt="image" src="https://github.com/get-icon/geticon/blob/master/icons/graphql.svg">
+  <img width="60" alt="image" src="https://github.com/get-icon/geticon/blob/master/icons/typescript-icon.svg">
+  <img width="60" alt="image" src="https://github.com/get-icon/geticon/blob/master/icons/prisma.svg">
+  <img width="60" alt="image" src="https://github.com/get-icon/geticon/blob/master/icons/postgresql.svg">
+</p>
