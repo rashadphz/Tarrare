@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let loginVC = LoginViewController()
-        let mainTabBarController = MainTabBarController()
+        let mainTabBarController = OrderTabBarController()
         
         let initialViewController: UIViewController
         
