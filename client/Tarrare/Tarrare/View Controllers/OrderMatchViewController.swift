@@ -136,7 +136,9 @@ class OrderMatchViewController : UIViewController {
             guard let currentOrder = Order.userCurrent else { return }
             
             if match.order == currentOrder && match.completed {
-                self.dismiss(animated: true)
+                let orderTabController = OrderTabBarController()
+                orderTabController.modalPresentationStyle = .fullScreen
+                self.present(orderTabController, animated: false)
             }
         }
     }
