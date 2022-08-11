@@ -45,17 +45,18 @@ class DeliverMatchViewController : UIViewController {
         self.fetchRoute()
         self.addChatIconGesture()
         self.addDirectionsButtonGesture()
+        self.addCompleteButtonGesture()
         
         self.view.backgroundColor = .white
         self.mapView.delegate = self
         
         view.addSubview(self.mapView)
         view.addSubview(self.containerView)
+        view.addSubview(self.completeDeliveryButton)
         
         self.containerView.addArrangedSubview(self.ordererNameLabel)
         self.containerView.addArrangedSubview(self.deliveryLocationStackView)
         self.containerView.addArrangedSubview(self.buttonsStackView)
-        self.containerView.addSubview(self.completeDeliveryButton)
         
         self.deliveryLocationStackView.addArrangedSubview(self.deliveryBuildingNameLabel)
         self.deliveryLocationStackView.addArrangedSubview(self.deliveryBuildingAddressLabel)
@@ -77,7 +78,7 @@ class DeliverMatchViewController : UIViewController {
         
         self.containerView.anchor(top: self.mapView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 25, paddingLeft: sidePadding, paddingBottom: 0, paddingRight: sidePadding, width: 0, height: 0, enableInsets: false)
         
-        self.completeDeliveryButton.anchor(top: nil, left: self.containerView.leftAnchor, bottom: view.bottomAnchor, right: self.containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 40, paddingRight: 0, width: displayWidth, height: 45, enableInsets: false)
+        self.completeDeliveryButton.frame = CGRect(x: sidePadding, y: displayHeight - 90, width: displayWidth - (sidePadding * 2), height: 45.0)
     }
     
     // MARK: - Components
@@ -184,7 +185,6 @@ class DeliverMatchViewController : UIViewController {
     
     let completeDeliveryButton : UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .white
         button.backgroundColor = .black
         button.setTitle("Complete delivery", for: .normal)
@@ -229,6 +229,23 @@ class DeliverMatchViewController : UIViewController {
     
     func addDirectionsButtonGesture() {
         self.directionsButton.addTarget(self, action: #selector(didTapDirectionsButton(_:)), for: .touchUpInside)
+    }
+    
+    @objc func didTapCompleteButton(_ sender: Any) {
+        guard let match = match else { return }
+
+        Match.completeMatch(matchId: match.id, completion: {completedMatch in
+            self.match = completedMatch
+            Delivery.userCurrent = nil
+            
+            let deliverTabController = DeliverTabBarController()
+            deliverTabController.modalPresentationStyle = .fullScreen
+            self.present(deliverTabController, animated: false)
+        })
+    }
+    
+    func addCompleteButtonGesture() {
+        self.completeDeliveryButton.addTarget(self, action: #selector(didTapCompleteButton(_:)), for: .touchUpInside)
     }
 }
 

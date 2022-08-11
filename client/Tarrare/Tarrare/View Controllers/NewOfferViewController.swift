@@ -161,7 +161,10 @@ class NewOfferViewController : UIViewController {
             navController.modalPresentationStyle = .fullScreen
             deliverMatchVC.match = acceptedMatch
             
-            self.present(navController, animated: true)
+            let presentingVC = self.presentingViewController
+            self.dismiss(animated: false, completion: {
+                presentingVC?.present(navController, animated: true)
+            })
         })
     }
     
