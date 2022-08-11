@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import MapKit
 
 protocol DeliveryCellProtocol {
     func didTapRequestButton(tappedDelivery: Delivery)
@@ -19,7 +18,6 @@ class DeliveryCell : UITableViewCell {
         didSet {
             guard let delivery = delivery else { return }
             deliveryPlaceNameLabel.text = delivery.deliveryBuilding.place.name
-            self.setDistanceInformation()
         }
     }
     var delegate : DeliveryCellProtocol!
@@ -44,9 +42,7 @@ class DeliveryCell : UITableViewCell {
         self.distanceInfoStackView.addArrangedSubview(self.titleRelativeDistanceLabel)
         self.distanceInfoStackView.addArrangedSubview(self.distanceView)
         
-        self.distanceView.addArrangedSubview(self.distanceInMilesLabel)
-        self.distanceView.addArrangedSubview(self.walkingWidget)
-        self.distanceView.addArrangedSubview(self.spacer)
+        self.distanceView.addArrangedSubview(distanceInMilesLabel)
         
         self.containerStackView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 20, paddingBottom: 10, paddingRight: 10, width: 0, height: 0, enableInsets: false)
         
@@ -113,7 +109,6 @@ class DeliveryCell : UITableViewCell {
         let stackview = UIStackView()
         stackview.axis = .horizontal
         stackview.alignment = .fill
-        stackview.spacing = 10
         stackview.translatesAutoresizingMaskIntoConstraints = false
         return stackview
     }()
@@ -125,19 +120,6 @@ class DeliveryCell : UITableViewCell {
         label.text = "0.0 miles"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
-    
-    private let walkingWidget : WalkingWidget = {
-        let widget = WalkingWidget()
-        return widget
-    }()
-    
-    private let spacer : UIView = {
-        let spacer = UIView()
-        spacer.isUserInteractionEnabled = false
-        spacer.setContentHuggingPriority(.fittingSizeLevel, for: .horizontal)
-        spacer.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
-        return spacer
     }()
     
     private let requestButtonView : UIView = {
@@ -159,29 +141,6 @@ class DeliveryCell : UITableViewCell {
         return button
     }()
     
-    func setDistanceInformation() {
-        guard let userCurrentPlace = Place.userCurrent else { return }
-        guard let deliveryBuilding = delivery?.deliveryBuilding else { return }
-        
-        if userCurrentPlace == deliveryBuilding.place {
-            self.walkingWidget.walkingMinutes = -1
-            return
-        }
-        
-        MapManager.routeFromPlaces(source: userCurrentPlace, destination: deliveryBuilding.place, completion: {route in
-            
-            guard let route = route else { return }
-            
-            let distanceInMeters = Measurement(value: route.distance, unit: UnitLength.meters)
-            let distanceInMiles = distanceInMeters.converted(to: UnitLength.miles)
-            let distanceString = String(MeasurementFormatter().string(from: distanceInMiles).prefix(4))
-            
-            self.distanceInMilesLabel.text = "\(distanceString) miles"
-            self.walkingWidget.walkingMinutes = Int(route.expectedTravelTime / 60.0)
-        })
-    }
-    
-    
     // MARK: - Actions/Gestures
     
     @objc func didTapRequestButton(_ sender: UIButton) {
@@ -197,57 +156,4 @@ class DeliveryCell : UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
      fatalError("init(coder:) has not been implemented")
     }
-}
-
-class WalkingWidget : UIButton {
-    public var walkingMinutes: Int? {
-        didSet {
-            guard let time = walkingMinutes else { return }
-            if time == -1 {
-                self.backgroundColor = UIColor(hex: "#28B711")!
-                self.setTitle("Match", for: .normal)
-                let buttonImage = UIImage(systemName: "checkmark")
-                self.setImage(buttonImage, for: .normal)
-                return
-            }
-            
-            if time >= 10 {
-                self.backgroundColor = UIColor(hex: "#EB3901")!
-            } else if time >= 6 {
-                self.backgroundColor = UIColor(hex: "#D36906")!
-            } else if time != 0 {
-                self.backgroundColor = UIColor(hex: "#FBBC05")!
-            }
-            self.setTitle("\(time) min", for: .normal)
-            let buttonImage = UIImage(systemName: "figure.walk.circle")
-            self.setImage(buttonImage, for: .normal)
-        }
-    }
-    
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.setupView()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setupView()
-      }
-    
-    private func setupView() {
-        let button = self
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont(name: Constants.FontDefaults.medium, size: 16)
-        button.titleLabel?.textAlignment = .center
-        button.backgroundColor = .black
-        button.layer.cornerRadius = 12
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        button.tintColor = .white
-        button.semanticContentAttribute = .forceRightToLeft
-        button.contentEdgeInsets = UIEdgeInsets(top: 2, left: 8, bottom: 2, right: 15)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
-    }
-    
 }

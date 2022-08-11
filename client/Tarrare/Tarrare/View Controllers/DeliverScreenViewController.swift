@@ -33,11 +33,6 @@ class DeliverScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        APIManager.shared().getCurrentPlace(completion: {place in
-            Place.userCurrent = place
-            self.restaurantComponentView.place = place
-        })
-        
         
         view.addSubview(self.containerStackView)
         

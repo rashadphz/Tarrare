@@ -12,23 +12,27 @@ extension APIManager {
     
     func getCurrentPlace(completion: @escaping (Place) -> Void) {
         let placesClient = GMSPlacesClient.shared()
-        let placeFields : GMSPlaceField = [.placeID]
+        let placeFields : GMSPlaceField = [.name, .formattedAddress, .placeID, .addressComponents, .website, .coordinate]
         placesClient.findPlaceLikelihoodsFromCurrentLocation(withPlaceFields: placeFields, callback: { [weak self] (placeLikelihoods, error) in
             
-            guard self != nil else { return }
-            guard error == nil else { return }
-            
-            guard let placeId = placeLikelihoods?.first?.place.placeID else {
+            guard self != nil else {
                 return
             }
             
-            APIManager.shared().placeFromID(placeID: placeId, completion: {place in
-                completion(place)
-            })
+            guard error == nil else {
+                print("Current place error: \(error?.localizedDescription ?? "")")
+                return
+            }
+            
+            guard let place = placeLikelihoods?.first?.place else {
+                return
+            }
+            
+            completion(Place(place))
         })
     }
     
-    func placeFromID(placeID: String, sessionToken: GMSAutocompleteSessionToken? = nil, completion: @escaping (Place) -> Void) {
+    func placeFromID(placeID: String, sessionToken: GMSAutocompleteSessionToken, completion: @escaping (Place) -> Void) {
         let placesClient = GMSPlacesClient.shared()
         let placeFields : GMSPlaceField = [.name, .formattedAddress, .placeID, .addressComponents, .website, .coordinate]
         

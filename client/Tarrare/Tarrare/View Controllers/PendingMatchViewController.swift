@@ -160,10 +160,7 @@ class PendingMatchViewController : UIViewController {
                     
                     let navController = UINavigationController(rootViewController: orderMatchVC)
                     navController.modalPresentationStyle = .fullScreen
-                    let presentingVC = self.presentingViewController
-                    self.dismiss(animated: false, completion: {
-                        presentingVC?.present(navController, animated: true)
-                    })
+                    self.present(navController, animated: true)
                     
                 } else {
                     self.dismiss(animated: true)
