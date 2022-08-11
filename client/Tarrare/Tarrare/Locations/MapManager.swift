@@ -26,12 +26,9 @@ class MapManager {
         map.showAnnotations([sourceAnnotation, destinationAnnotation], animated: true)
     }
     
-    static func routeFromPlaces(source: Place, destination: Place, completion: @escaping(MKRoute?) -> Void) {
-        let sourceLocation = locationCoordFromPlace(place: source)
-        let destinationLocation = locationCoordFromPlace(place: destination)
-        
-        let sourcePlacemark = MKPlacemark(coordinate: sourceLocation)
-        let destinationPlaceMark = MKPlacemark(coordinate: destinationLocation)
+    static func routeFromCoords(source: CLLocationCoordinate2D, destination: CLLocationCoordinate2D, completion: @escaping(MKRoute?) -> Void) {
+        let sourcePlacemark = MKPlacemark(coordinate: source)
+        let destinationPlaceMark = MKPlacemark(coordinate: destination)
         
         let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
         let destinationMapItem = MKMapItem(placemark: destinationPlaceMark)
@@ -50,6 +47,16 @@ class MapManager {
             completion(route)
         })
     }
+    
+    static func routeFromPlaces(source: Place, destination: Place, completion: @escaping(MKRoute?) -> Void) {
+        let sourceLocation = locationCoordFromPlace(place: source)
+        let destinationLocation = locationCoordFromPlace(place: destination)
+        
+        routeFromCoords(source: sourceLocation, destination: destinationLocation, completion: {route in
+            completion(route)
+        })
+    }
+    
     
     static func openDirectionsInMaps(source : Place, destination : Place) {
 

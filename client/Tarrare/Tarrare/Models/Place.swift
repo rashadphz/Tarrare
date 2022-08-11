@@ -37,6 +37,14 @@ class Place: Codable {
         case longitude
     }
     
+    private static var _userCurrent: Place?
+    static var userCurrent: Place? {
+        get {return _userCurrent}
+        set (place) {
+            _userCurrent = place
+        }
+    }
+    
     func setAddressComponents(_ addressComponents: [GMSAddressComponent]?) {
         for component in addressComponents! {
             let type = component.type
@@ -89,5 +97,12 @@ class Place: Codable {
     }
     
 }
+
+extension Place : Equatable {
+    static func == (lhs: Place, rhs: Place) -> Bool {
+        return lhs.googlePlaceId == rhs.googlePlaceId
+    }
+}
+
 
 
