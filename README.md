@@ -11,7 +11,7 @@ https://user-images.githubusercontent.com/20783686/182677225-7a1676d5-fbb3-4c4e-
 1. [Wireframes](#Wireframes)
 1. [Project Task Board](#Project-Task-Board)
 1. [Schema](#Schema)
-1. [Matching System Technical Details](#Matching-System-Technical-Details)
+1. [Matching System Technical Details](#matching-system-technical-details)
 
 ## Overview
 
