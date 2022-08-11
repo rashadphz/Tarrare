@@ -238,7 +238,9 @@ class DeliverMatchViewController : UIViewController {
             self.match = completedMatch
             Delivery.userCurrent = nil
             
-            self.dismiss(animated: true)
+            let deliverTabController = DeliverTabBarController()
+            deliverTabController.modalPresentationStyle = .fullScreen
+            self.present(deliverTabController, animated: false)
         })
     }
     

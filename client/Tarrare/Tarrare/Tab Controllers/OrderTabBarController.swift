@@ -11,6 +11,11 @@ import UIKit
 class OrderTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        APIManager.shared().getCurrentPlace(completion: {place in
+            Place.userCurrent = place
+        })
+        
         view.backgroundColor = .white
         
         let orderVC = UINavigationController(rootViewController: OrderScreenRestaurantsViewController())
